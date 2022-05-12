@@ -15,24 +15,21 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useColorMode,
   useDisclosure,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
 import NavList from "./navlist";
 import NavLink from "./navlink";
 import { useAuthDispatch, useAuthState } from "../../context/auth";
-import guid from "../../utils/guid";
+import ToggleTheme from "../toggles/theme";
 
 const Navbar = () => {
   const router = useRouter();
   const dispatch = useAuthDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode, toggleColorMode } = useColorMode();
   const { user, loading } = useAuthState();
 
   const avatar =
@@ -76,9 +73,7 @@ const Navbar = () => {
           </HStack>
         </HStack>
         <Flex alignItems={"center"} gap={3}>
-          <Button onClick={toggleColorMode}>
-            {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          </Button>
+          <ToggleTheme />
           {user && (
             <Menu>
               <MenuButton
