@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response) => {
     await newUser.save();
     res.status(200).json({ message: "User Created" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
 };
 
@@ -41,10 +41,7 @@ export const login = async (req: Request, res: Response) => {
     );
     if (!isPasswordVerified) return authError(res);
 
-    const token: string = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET!
-    );
+    const token: string = jwt.sign({ username }, process.env.JWT_SECRET!);
 
     // extracting password and isAdmin to remove from JSON return
     const { password, isAdmin, ...others } = user._doc;
@@ -60,9 +57,9 @@ export const login = async (req: Request, res: Response) => {
       })
     );
 
-    return res.status(200).json({ ...others });
+    return res.json({ ...others });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json(err);
   }
 };
 
@@ -84,5 +81,7 @@ export const logout = (_: Request, res: Response) => {
 
 /** @getCurrentUser */
 export const getCurrentUser = (_: Request, res: Response) => {
-  return res.json(res.locals.user);
+  const user = res.locals.user;
+  const { isAdmin, ...others } = user._doc;
+  return res.json({ ...others });
 };

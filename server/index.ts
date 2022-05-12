@@ -3,17 +3,15 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
-import morgan from "morgan";
 
 import authRoutes from "./api/routes/auth.routes";
+import userRoutes from "./api/routes/user.routes";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 const { connect, connection } = mongoose;
 
-
 app.use(express.json());
-app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
   cors({
@@ -21,13 +19,15 @@ app.use(
     origin: process.env.ORIGIN,
     optionsSuccessStatus: 200,
   })
-)
+);
+app.use(express.static("public"));
 
 app.get("/", (_: Request, res: Response) => {
   return res.send(`Server is running`);
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 connection.on("disconnected", () => {
   console.log("Mongo Atlas has been disconnected!");
