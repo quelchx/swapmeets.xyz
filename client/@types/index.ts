@@ -9,8 +9,13 @@ import {
 export type PathType = { href: string };
 export type FieldReferenceType = MutableRefObject<HTMLInputElement>;
 export type ReactChildren = { children: ReactNode };
+
 export type DocumentResult<T> = {
   _doc: T;
+};
+
+export type AuthFormType = {
+  type: "login" | "register";
 };
 export interface RouteProps extends PathType {
   name: string;

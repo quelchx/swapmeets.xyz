@@ -1,12 +1,7 @@
 import React from "react";
 import NextLink from "next/link";
 import { Link, useColorModeValue } from "@chakra-ui/react";
-
-export type Path = { href: string };
-
-export interface NavLinkProps extends Path {
-  children: React.ReactNode;
-}
+import { NavLinkProps } from "../../@types";
 
 const NavLink = ({ href, children }: NavLinkProps) => (
   <NextLink href={href}>

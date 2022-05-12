@@ -13,14 +13,6 @@ const Routes: Array<RouteProps> = [
     href: "/",
     name: "Contact",
   },
-  {
-    href: "/login",
-    name: "Login",
-  },
-  {
-    href: "/register",
-    name: "Register",
-  },
 ];
 
 export default Routes;

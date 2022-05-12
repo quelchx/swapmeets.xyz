@@ -2,11 +2,12 @@ import React from "react";
 import type { NextPage } from "next";
 
 import { Box } from "@chakra-ui/react";
+import AuthForm from "../components/forms/auth-form";
 
 const LoginPage: NextPage = () => {
   return (
     <div>
-      <Box p={6}>Content Goes Here</Box>
+      <AuthForm type="login"/>
     </div>
   );
 };
