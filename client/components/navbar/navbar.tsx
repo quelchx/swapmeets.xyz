@@ -26,6 +26,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NavList from "./navlist";
 import NavLink from "./navlink";
 import { useAuthDispatch, useAuthState } from "../../context/auth";
+import guid from "../../utils/guid";
 
 const Navbar = () => {
   const router = useRouter();
@@ -34,13 +35,19 @@ const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, loading } = useAuthState();
 
+  const avatar =
+    "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+
   const logout = () => {
     Axios.get("/auth/logout")
       .then(() => {
         dispatch("LOGOUT");
         window.location.reload();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        router.push("/error");
+      });
   };
 
   return (
@@ -81,18 +88,12 @@ const Navbar = () => {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar
-                  size={"sm"}
-                  src={"https://avatars.dicebear.com/api/male/username.svg"}
-                />
+                <Avatar size={"sm"} src={avatar} />
               </MenuButton>
               <MenuList alignItems={"center"}>
                 <br />
                 <Center>
-                  <Avatar
-                    size={"xl"}
-                    src={"https://avatars.dicebear.com/api/male/username.svg"}
-                  />
+                  <Avatar size={"xl"} src={avatar} />
                 </Center>
                 <br />
                 <Center>

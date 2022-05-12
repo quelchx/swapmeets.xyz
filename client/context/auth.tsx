@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: ReactChildren) => {
         const res = await Axios.get("/auth/current-user");
         dispatch("LOGIN", res.data);
       } catch (err) {
-        console.log(err);
+        console.warn('User is not currently signed in, unable to fetch current user')
       } finally {
         dispatch("STOP_LOADING");
       }

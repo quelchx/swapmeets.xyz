@@ -25,6 +25,10 @@ const AuthForm = ({ type }: AuthFormType) => {
   const dispatch = useAuthDispatch();
   const { authenticated } = useAuthState();
 
+  if (authenticated) {
+    router.push("/");
+  }
+
   const authenticateUser = async (event: FormEvent) => {
     event.preventDefault();
     if (type === "register") {
