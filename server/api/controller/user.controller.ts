@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import User from "../models/User";
 import { createError } from "../utils/error";
 import { createClient } from "redis";
@@ -7,11 +7,7 @@ const client = createClient();
 client.connect();
 client.on("error", () => console.error);
 
-export const updateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -21,35 +17,29 @@ export const updateUser = async (
       { new: true }
     );
     const { isAdmin, ...other } = updatedUser!._doc;
-    res.status(200).json({ ...other });
+    return res.status(200).json({ ...other });
   } catch (err) {
-    next(err);
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
 };
 
-export const deleteUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const deleted = await User.findByIdAndDelete(id);
     if (!deleted) {
       return createError(res, "User does not exist");
     }
-    res.status(200).json({ message: "User has been deleted" });
+    return res.status(200).json({ message: "User has been deleted" });
   } catch (err) {
-    return next(err);
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
 };
 
 // using cache adds 760% increase to time efficency (43ms to hit mongo cluster in comparison to 5ms hitting cache)
-export const getAllUsers = async (
-  _: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAllUsers = async (_: Request, res: Response) => {
   try {
     const cache = await client.get("users");
     if (cache != null) {
@@ -62,14 +52,14 @@ export const getAllUsers = async (
     console.log("Could not find recent data inside the cache");
     return res.status(200).json(allUsers);
   } catch (err) {
-    return next(err);
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
 };
 
 export const getUserById = async (
   req: Request,
   res: Response,
-  next: NextFunction
 ) => {
   const { id } = req.params;
   try {
@@ -85,6 +75,7 @@ export const getUserById = async (
     console.log("Could not find recent user data inside the cache");
     return res.status(200).json(getUser);
   } catch (err) {
-    return next(err);
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
 };

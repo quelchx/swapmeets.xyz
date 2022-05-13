@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import authRoutes from "./api/routes/auth.routes";
 import userRoutes from "./api/routes/user.routes";
+import postRoutes from "./api/routes/post.routes";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -29,6 +30,7 @@ app.get("/", (_: Request, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 connection.on("disconnected", () => {
   console.log("Mongo Atlas has been disconnected!");
