@@ -22,6 +22,8 @@ const Field = <E extends React.ElementType = "input">({
         border="1px"
         borderColor="gray.400"
         p="7px"
+        color="gray.800"
+        _placeholder={{ color: "gray.400" }}
         rounded={4}
         style={{
           width: "100%",

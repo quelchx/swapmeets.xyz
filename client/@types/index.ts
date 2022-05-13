@@ -1,10 +1,13 @@
-import {
+import type { BoxProps, FlexProps } from "@chakra-ui/react";
+import type {
   ReactNode,
   ElementType,
   ChangeEvent,
   ComponentProps,
   MutableRefObject,
 } from "react";
+
+import type { IconType } from "react-icons";
 
 export type PathType = { href: string };
 export type FieldReferenceType = MutableRefObject<HTMLInputElement>;
@@ -52,4 +55,22 @@ export interface AuthState {
 export interface AuthAction {
   type: string;
   payload: any;
+}
+
+export interface SidebarProps extends BoxProps {
+  onClose: () => void;
+}
+
+export interface LinkItemProps {
+  name: string;
+  icon: IconType;
+}
+
+export interface MobileProps extends FlexProps {
+  onOpen: () => void;
+}
+
+export interface NavItemProps extends FlexProps {
+  icon: IconType;
+  children: string | number;
 }

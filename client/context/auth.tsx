@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }: ReactChildren) => {
   const dispatch = (type: string, payload?: any) =>
     defaultDispatch({ type, payload });
 
+
   useEffect(() => {
     async function loadUser() {
       try {

@@ -1,14 +1,17 @@
-import React from 'react'
-import type { NextPage } from 'next'
+import React from "react";
+import type { NextPage } from "next";
 
-import { Box } from '@chakra-ui/react'
+import { Box } from "@chakra-ui/react";
+import Sidebar from "../components/sidebar/sidebar";
 
 const HomePage: NextPage = () => {
   return (
     <div>
-      <Box p={6}>Content Goes Here</Box>
+      <Sidebar>
+        <Box p={6}>Content Goes Here</Box>
+      </Sidebar>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

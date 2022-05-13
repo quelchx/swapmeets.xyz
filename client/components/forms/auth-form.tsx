@@ -1,18 +1,41 @@
 import React, { FormEvent, useRef, useState } from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Button,
+  chakra,
+  CloseButton,
+  Flex,
+  Heading,
+  HStack,
+  Link,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 
 import { useAuthDispatch, useAuthState } from "../../context/auth";
+import Field from "./input-field";
+import { credentials, passwordCheck } from "../../utils/password-check";
 import {
   AuthFormType,
   FieldReferenceType,
   InputEventChange,
 } from "../../@types";
-import { credentials, passwordCheck } from "../../utils/password-check";
-import { Box, chakra, Flex, Heading, Link, VStack } from "@chakra-ui/react";
-import Field from "./input-field";
 
 const AuthForm = ({ type }: AuthFormType) => {
+  const router = useRouter();
+  const dispatch = useAuthDispatch();
+  const { authenticated } = useAuthState();
+
+  if (authenticated) {
+    router.push("/");
+  }
+
   const [error, setError] = useState<string>();
   const [agreement, setAgreement] = useState(false);
 
@@ -20,14 +43,11 @@ const AuthForm = ({ type }: AuthFormType) => {
   const username = useRef() as FieldReferenceType;
   const password = useRef() as FieldReferenceType;
 
-  const router = useRouter();
-
-  const dispatch = useAuthDispatch();
-  const { authenticated } = useAuthState();
-
-  if (authenticated) {
-    router.push("/");
-  }
+  const {
+    isOpen: isVisible,
+    onClose,
+    onOpen,
+  } = useDisclosure({ defaultIsOpen: true });
 
   const authenticateUser = async (event: FormEvent) => {
     event.preventDefault();
@@ -54,7 +74,6 @@ const AuthForm = ({ type }: AuthFormType) => {
 
       type === "register" ? router.push("/login") : router.back();
     } catch (err: any) {
-      console.log(err);
       const { error } = err.response.data;
       error?.includes("duplicate key")
         ? setError("Duplicate Email or Username")
@@ -109,11 +128,7 @@ const AuthForm = ({ type }: AuthFormType) => {
                       >
                         Password Credentials
                       </chakra.summary>
-                      <chakra.div
-                        lineHeight={1.25}
-                        color="gray.700"
-                        className="text-sm leading-6 pl-7 text-slate-600 "
-                      >
+                      <chakra.div lineHeight={1.25} color="gray.700" pl={8}>
                         {credentials.map((credential) => (
                           <li className="px-0.5" key={credential}>
                             {credential}
@@ -138,7 +153,17 @@ const AuthForm = ({ type }: AuthFormType) => {
                 </>
               )}
             </Box>
-            {error && <p color="red.600">{error}</p>}
+            {error && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+                <Box ml={1}>
+                  <CloseButton onClick={() => setError("")} />
+                </Box>
+              </Alert>
+            )}
+
             <chakra.form
               onSubmit={authenticateUser}
               display="flex"
