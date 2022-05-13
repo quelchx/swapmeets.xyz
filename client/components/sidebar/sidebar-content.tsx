@@ -7,14 +7,16 @@ import {
 } from "@chakra-ui/react";
 
 import { FiHome, FiTrendingUp, FiCompass, FiStar } from "react-icons/fi";
-
+import { ImFeed } from "react-icons/im";
+import { MdPostAdd } from "react-icons/md";
+import { BsPeople } from "react-icons/bs";
 import SidebarItem from "./sidebar-item";
 import { LinkItemProps, SidebarProps } from "../../@types";
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Feed", icon: FiHome },
-  { name: "Create Post", icon: FiTrendingUp },
-  { name: "Create Meetup", icon: FiStar },
+  { name: "Feed", icon: ImFeed },
+  { name: "Create Post", icon: MdPostAdd },
+  { name: "Create Meetup", icon: BsPeople },
   { name: "Explore Meetups", icon: FiCompass },
 ];
 

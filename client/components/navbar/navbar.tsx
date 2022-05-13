@@ -38,6 +38,7 @@ const Navbar = () => {
   const logout = () => {
     Axios.get("/auth/logout")
       .then(() => {
+        localStorage.removeItem("current-user");
         dispatch("LOGOUT");
         window.location.reload();
       })

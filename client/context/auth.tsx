@@ -38,17 +38,30 @@ export const AuthProvider = ({ children }: ReactChildren) => {
   const dispatch = (type: string, payload?: any) =>
     defaultDispatch({ type, payload });
 
-
   useEffect(() => {
     async function loadUser() {
+      // const storage = localStorage.getItem("current-user");
+      // if (storage) {
+      //   try {
+      //     dispatch("LOGIN", JSON.parse(storage));
+      //   } catch (err) {
+      //     console.log("Something went wrong fetching user from local storage");
+      //   } finally {
+      //     dispatch("STOP_LOADING");
+      //   }
+      // } else {
       try {
         const res = await Axios.get("/auth/current-user");
+        // localStorage.setItem("current-user", JSON.stringify(res.data));
         dispatch("LOGIN", res.data);
       } catch (err) {
-        console.warn('User is not currently signed in, unable to fetch current user')
+        console.warn(
+          "User is not currently signed in, unable to fetch current user"
+        );
       } finally {
         dispatch("STOP_LOADING");
       }
+      // }
     }
     loadUser();
   }, []);

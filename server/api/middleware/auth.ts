@@ -6,7 +6,7 @@ export default async (_: Request, res: Response, next: NextFunction) => {
   try {
     const user: UserModel | undefined = res.locals.user;
 
-    if (!user) throw new Error("Unauthenticated");
+    if (!user) throw new Error("Could not find user");
 
     return next();
   } catch (err) {

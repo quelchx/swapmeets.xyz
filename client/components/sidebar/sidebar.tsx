@@ -21,7 +21,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       <Drawer
         autoFocus={false}
         isOpen={isOpen}
-        placement="left"
+        placement="right"
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}

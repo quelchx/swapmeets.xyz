@@ -1,5 +1,5 @@
 import { useColorModeValue, Flex, IconButton } from "@chakra-ui/react";
-import { FiMenu } from "react-icons/fi";
+import { BsArrowBarLeft } from "react-icons/bs";
 import { MobileProps } from "../../@types";
 
 const MobileMenu = ({ onOpen, ...rest }: MobileProps) => {
@@ -21,7 +21,7 @@ const MobileMenu = ({ onOpen, ...rest }: MobileProps) => {
         variant="outline"
         onClick={onOpen}
         aria-label="open menu"
-        icon={<FiMenu />}
+        icon={<BsArrowBarLeft />}
       />
     </Flex>
   );

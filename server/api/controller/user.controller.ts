@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
 import { createError } from "../utils/error";
+import { createClient } from "redis";
+
+const client = createClient();
+client.connect();
+client.on("error", () => console.error);
 
 export const updateUser = async (
   req: Request,
@@ -39,16 +44,25 @@ export const deleteUser = async (
   }
 };
 
+// using cache adds 760% increase to time efficency (43ms to hit mongo cluster in comparison to 5ms hitting cache)
 export const getAllUsers = async (
   _: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const cache = await client.get("users");
+    if (cache != null) {
+      console.log("Using cache to send data");
+      return res.status(200).json(JSON.parse(cache));
+    }
+
     const allUsers = await User.find();
-    res.status(200).json(allUsers);
+    client.setEx("users", 1800, JSON.stringify(allUsers));
+    console.log("Could not find recent data inside the cache");
+    return res.status(200).json(allUsers);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -59,9 +73,18 @@ export const getUserById = async (
 ) => {
   const { id } = req.params;
   try {
+    const cache = await client.get(id);
+
+    if (cache != null) {
+      console.log("Using cache to send user data");
+      return res.status(200).json(JSON.parse(cache));
+    }
+
     const getUser = await User.findById(id);
-    res.status(200).json(getUser);
+    client.setEx(id, 1800, JSON.stringify(getUser));
+    console.log("Could not find recent user data inside the cache");
+    return res.status(200).json(getUser);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };

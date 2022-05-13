@@ -1,10 +1,12 @@
 {
-  "name": "project",
+  "name": "devmeets",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd server && npm start"
+    "start": "cd server && npm start",
+    "kill": "kill-port 5000",
+    "stop": "sudo service redis-server stop"
   },
   "keywords": [],
   "author": "",

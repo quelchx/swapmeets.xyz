@@ -6,6 +6,9 @@
 /.pnp
 .pnp.js
 
+# redis dump file
+*dump.rdb
+
 # testing
 /coverage
 
