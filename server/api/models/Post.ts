@@ -23,6 +23,38 @@ const PostSchema = new Schema<PostModel>(
       type: Number,
       default: 0,
     },
+    meeting: {
+      attending: {
+        type: Array,
+        required: false,
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+      time: {
+        type: String,
+        required: true,
+      },
+      location: {
+        city: {
+          type: String,
+          required: true,
+        },
+        country: {
+          type: String,
+          required: true,
+        },
+        address: {
+          type: String,
+          required: true,
+        },
+        place: {
+          type: String,
+          required: true,
+        },
+      },
+    },
     comments: [
       {
         body: {

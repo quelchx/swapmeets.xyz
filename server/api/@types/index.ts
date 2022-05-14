@@ -9,19 +9,23 @@ export interface UserModel extends DocumentResult<UserModel> {
   isAdmin?: boolean;
 }
 
-export interface CommentModel {
-  body: string;
-  author: string;
-  authorId: string;
-  likes?: number;
-}
-
 export interface PostModel {
   title: string;
   body: string;
   author: string;
   authorId: string;
   likes?: number;
+  meeting: {
+    date: Date;
+    time: string;
+    attending?: [];
+    location: {
+      city: string;
+      country: string;
+      place: string;
+      address: string;
+    };
+  };
   comments?: [
     {
       body: string;
