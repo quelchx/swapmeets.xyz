@@ -15,3 +15,19 @@ export interface CommentModel {
   authorId: string;
   likes?: number;
 }
+
+export interface PostModel {
+  title: string;
+  body: string;
+  author: string;
+  authorId: string;
+  likes?: number;
+  comments?: [
+    {
+      body: string;
+      author: string;
+      authorId: string;
+      likes?: number;
+    }
+  ];
+}
