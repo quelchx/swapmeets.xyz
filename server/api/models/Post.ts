@@ -1,5 +1,19 @@
 import { Schema, model } from "mongoose";
-import { PostModel } from "../@types";
+
+export interface PostModel {
+  title: string;
+  body: string;
+  author: string;
+  authorId: string;
+  likes?: number;
+  comments?: [
+    {
+      body: string;
+      author: string;
+      authorId: string;
+    }
+  ];
+}
 
 const PostSchema = new Schema<PostModel>(
   {
@@ -15,11 +29,30 @@ const PostSchema = new Schema<PostModel>(
       type: String,
       required: true,
     },
+    authorId: {
+      type: String,
+      required: true,
+    },
     likes: {
       type: Number,
       default: 0,
     },
-    comments: [{ body: String, author: String }],
+    comments: [
+      {
+        body: {
+          type: String,
+          required: true,
+        },
+        author: {
+          type: String,
+          required: true,
+        },
+        authorId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
