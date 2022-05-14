@@ -169,6 +169,42 @@ export const likePost = async (req: Request, res: Response) => {
   }
 };
 
+/** @PUT /posts/<post._id>/meeting/remove */
+export const removeUserFromMeeting = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { user } = req.body;
+
+  try {
+    const post = await Post.updateOne(
+      { _id: id },
+      {
+        $pull: { "meeting.attending": user },
+      },
+      { new: true }
+    );
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(404).json({ error: err.message });
+  }
+};
+
+export const addUserToMeeting = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { user } = req.body;
+  try {
+    const post = await Post.findByIdAndUpdate(
+      id,
+      {
+        $addToSet: { "meeting.attending": user },
+      },
+      { new: true }
+    );
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(404).json({ error: err.message });
+  }
+};
+
 /** @PUT /posts/like-comment/<post._id>?comment=<comments._id>&author=<authorId> */
 export const likePostComment = async (req: Request, res: Response) => {
   const { id } = req.params;
