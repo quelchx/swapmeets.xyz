@@ -8,3 +8,17 @@ export interface UserModel extends DocumentResult<UserModel> {
   password: string;
   isAdmin?: boolean;
 }
+
+export interface PostModel {
+  title: string;
+  body: string;
+  author: string;
+  likes?: number;
+  comments?: [{ body: string; author: string }];
+}
+
+export interface CommentModel {
+  body: string;
+  author: string;
+  likes?: number;
+}
