@@ -7,7 +7,7 @@
     "server": "nodemon --exec ts-node index.ts",
     "client": "cd ../client && npm run dev",
     "redis": "redis-server",
-    "start": "concurrently \"npm run server\" \"npm run client\"  --names server,client"
+    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run redis\"  --names server,client,redis"
   },
   "keywords": [],
   "author": "",
