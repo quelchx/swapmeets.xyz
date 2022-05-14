@@ -7,14 +7,11 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  Button,
   chakra,
   CloseButton,
   Flex,
   Heading,
-  HStack,
   Link,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -42,12 +39,6 @@ const AuthForm = ({ type }: AuthFormType) => {
   const email = useRef() as FieldReferenceType;
   const username = useRef() as FieldReferenceType;
   const password = useRef() as FieldReferenceType;
-
-  const {
-    isOpen: isVisible,
-    onClose,
-    onOpen,
-  } = useDisclosure({ defaultIsOpen: true });
 
   const authenticateUser = async (event: FormEvent) => {
     event.preventDefault();
