@@ -16,21 +16,6 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
-export const increaseLikes = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  try {
-    const post = await Post.findByIdAndUpdate(
-      id,
-      { $inc: { likes: 1 } },
-      { new: true }
-    );
-    return res.status(200).json(post);
-  } catch (err) {
-    return res.status(404).json({ error: err });
-  }
-};
-
 export const updatePost = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -129,10 +114,73 @@ export const updateCommentOnPost = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+
     return res.status(200).json(post);
   } catch (err) {
     return res
       .status(404)
       .json({ error: "Something went wrong trying to update the comment" });
+  }
+};
+
+/** @DELETE /posts/comments/<post._id>?comment=<comment._id> */
+export const deleteComment = async (req: Request, res: Response) => {
+  const { comment } = req.query;
+
+  try {
+    const post = await Post.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $pull: { comments: { _id: comment } },
+      },
+      { upsert: false, multi: true }
+    );
+
+    return res.status(200).json(post);
+  } catch (err) {
+    return res
+      .status(404)
+      .json({ error: "Something went wrong deleting this comment" });
+  }
+};
+
+/** @PUT /posts/like/<post._id> */
+export const likePost = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const post = await Post.findByIdAndUpdate(
+      id,
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(404).json({ error: err });
+  }
+};
+
+/** @PUT /posts/like-comment/<post._id>?comment=<comments._id>&author=<authorId> */
+export const likePostComment = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { comment, author } = req.query;
+  try {
+    const post = await Post.updateOne(
+      {
+        _id: id,
+        "comments._id": comment,
+        "comments.authorId": author,
+      },
+      { $inc: { "comments.$.likes": 1 } },
+      { new: true }
+    );
+
+    return res.status(200).json(post);
+  } catch (err) {
+    return res
+      .status(404)
+      .json({ error: "Something went wrong liking this post" });
   }
 };

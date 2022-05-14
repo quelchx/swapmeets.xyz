@@ -11,6 +11,7 @@ export interface PostModel {
       body: string;
       author: string;
       authorId: string;
+      likes?: number;
     }
   ];
 }
@@ -50,6 +51,10 @@ const PostSchema = new Schema<PostModel>(
         authorId: {
           type: String,
           required: true,
+        },
+        likes: {
+          type: Number,
+          default: 0,
         },
       },
     ],

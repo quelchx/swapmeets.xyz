@@ -2,9 +2,11 @@ import { Router } from "express";
 import {
   commentOnPost,
   createPost,
+  deleteComment,
   deletePost,
   getAllPosts,
-  increaseLikes,
+  likePost,
+  likePostComment,
   updateCommentOnPost,
   updatePost,
 } from "../controller/post.controller";
@@ -15,12 +17,13 @@ const router = Router();
 
 router.post("/", user, auth, createPost);
 router.put("/:id", user, auth, updatePost);
-router.put("/like/:id", user, auth, increaseLikes);
+router.put("/update-comment/:id", user, auth, updateCommentOnPost);
 
 router.delete("/:id", user, auth, deletePost);
+router.delete("/comment/:id", deleteComment);
 router.get("/", getAllPosts);
 
 router.put("/comment/:id", user, auth, commentOnPost);
-router.put("/update-comment/:id", updateCommentOnPost);
-
+router.put("/like-post/:id", user, auth, likePost);
+router.put("/like-comment/:id", user, auth, likePostComment);
 export default router;
