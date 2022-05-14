@@ -6,6 +6,7 @@ const client = createClient();
 client.connect();
 client.on("error", () => console.error);
 
+/** @POST /posts */
 export const createPost = async (req: Request, res: Response) => {
   const newPost = new Post(req.body);
   try {
@@ -16,6 +17,7 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
+/** @PUT /posts/<post._id> */
 export const updatePost = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -31,6 +33,7 @@ export const updatePost = async (req: Request, res: Response) => {
   }
 };
 
+/** @DELETE /posts/<post._id> */
 export const deletePost = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -46,6 +49,7 @@ export const deletePost = async (req: Request, res: Response) => {
   }
 };
 
+/** @GET /posts (optional) /posts?limit=<number>&title=<post.title> */
 export const getAllPosts = async (req: Request, res: Response) => {
   const { limit, ...other }: any = req.query;
   const cache = await client.get("posts");
@@ -66,6 +70,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
   }
 };
 
+/** @GET /posts/<post._id> */
 export const getPostById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const cache = await client.get(id);
@@ -82,6 +87,7 @@ export const getPostById = async (req: Request, res: Response) => {
   }
 };
 
+/** @PUT /posts/comment/<post._id> */
 export const commentOnPost = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -100,6 +106,7 @@ export const commentOnPost = async (req: Request, res: Response) => {
   }
 };
 
+/** @PUT /posts/update-comment/<post._id> */
 export const updateCommentOnPost = async (req: Request, res: Response) => {
   const { id, body, author } = req.body;
   try {

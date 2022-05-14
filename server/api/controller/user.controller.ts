@@ -7,6 +7,7 @@ const client = createClient();
 client.connect();
 client.on("error", () => console.error);
 
+/** @PUT /users/<user._id> */
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -24,6 +25,7 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+/** @DELETE /users/<user._id> */
 export const deleteUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -38,9 +40,10 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-// using cache adds 760% increase to time efficency (43ms to hit mongo cluster in comparison to 5ms hitting cache)
+/** @GET /users */
 export const getAllUsers = async (_: Request, res: Response) => {
   try {
+    // using cache adds 760% increase to time efficency (43ms to hit mongo cluster in comparison to 5ms hitting cache)
     const cache = await client.get("users");
     if (cache != null) {
       console.log("Using cache to send data");
@@ -57,6 +60,7 @@ export const getAllUsers = async (_: Request, res: Response) => {
   }
 };
 
+/** @GET /users/<user._id> */
 export const getUserById = async (
   req: Request,
   res: Response,

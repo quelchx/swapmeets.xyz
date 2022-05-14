@@ -1,20 +1,5 @@
 import { Schema, model } from "mongoose";
-
-export interface PostModel {
-  title: string;
-  body: string;
-  author: string;
-  authorId: string;
-  likes?: number;
-  comments?: [
-    {
-      body: string;
-      author: string;
-      authorId: string;
-      likes?: number;
-    }
-  ];
-}
+import { PostModel } from "../@types";
 
 const PostSchema = new Schema<PostModel>(
   {
