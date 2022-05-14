@@ -188,6 +188,7 @@ export const removeUserFromMeeting = async (req: Request, res: Response) => {
   }
 };
 
+/** @PUT /posts/<post._id>/meeting */
 export const addUserToMeeting = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { user } = req.body;
