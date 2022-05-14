@@ -74,3 +74,31 @@ export interface NavItemProps extends FlexProps {
   icon: IconType;
   children: string | number;
 }
+
+export interface PostModel {
+  _id: string;
+  title: string;
+  body: string;
+  author: string;
+  authorId: string;
+  likes?: number;
+  meeting: {
+    date: Date;
+    time: string;
+    attending?: [];
+    location: {
+      city: string;
+      country: string;
+      place: string;
+      address: string;
+    };
+  };
+  comments?: [
+    {
+      body: string;
+      author: string;
+      authorId: string;
+      likes?: number;
+    }
+  ];
+}
