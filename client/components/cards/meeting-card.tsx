@@ -51,11 +51,10 @@ const MeetingCard = ({ post }: MeetingCardProps) => {
         mx="auto"
         px={5}
         py={4}
-        width="full"
         rounded="lg"
         shadow="lg"
         bg={useColorModeValue("white", "gray.800")}
-        maxW="2xl"
+        maxW="95%"
       >
         <Flex justifyContent="space-between" alignItems="center">
           <chakra.span

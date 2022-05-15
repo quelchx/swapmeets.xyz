@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useAuthDispatch, useAuthState } from "../../context/auth";
-import Field from "./input-field";
+import Field from "./field";
 import { credentials, passwordCheck } from "../../utils/password-check";
 import {
   AuthFormType,

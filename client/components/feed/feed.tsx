@@ -6,42 +6,37 @@ import { PostModel } from "../../@types";
 import { Box, chakra, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const Feed = () => {
-  const [isLoading, setLoading] = useState(false);
   const [posts, setPosts] = useState<PostModel[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getPosts = async () => {
-      setLoading(true);
-      const response = await Axios.get("/posts");
-      const data = await response.data;
+      const { data } = await Axios.get("/posts");
       setPosts(data);
       setInterval(() => setLoading(false), 500);
     };
     getPosts();
   }, []);
 
-  const skeleton = [1, 2, 3];
-
-  if (isLoading) {
-    return (
-      <>
-        {skeleton.map((skeleton) => (
-          <Box key={skeleton} padding="6" my={2} boxShadow="lg" bg="white">
-            <SkeletonCircle size="10" />
-            <SkeletonText mt="4" noOfLines={4} spacing="4" />
-          </Box>
-        ))}
-      </>
-    );
-  }
-
   return (
     <>
       {isLoading ? (
-        <Box padding="6" boxShadow="lg" bg="white">
-          <SkeletonCircle size="10" />
-          <SkeletonText mt="4" noOfLines={4} spacing="4" />
-        </Box>
+        <>
+          {posts.map((post) => (
+            <Box
+              width="90%"
+              key={`skeleton-${post._id}`}
+              padding="6"
+              my={2}
+              boxShadow="lg"
+              bg="white"
+            >
+              <SkeletonCircle size="10" />
+              <SkeletonText mt="4" noOfLines={4} spacing="4" />
+            </Box>
+          ))}
+        </>
       ) : (
         <>
           {posts && (

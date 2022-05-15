@@ -15,9 +15,9 @@ import SidebarItem from "./sidebar-item";
 import { LinkItemProps, SidebarProps } from "../../@types";
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Feed", icon: ImFeed, href: "/feed" },
+  { name: "Feed", icon: ImFeed, href: "/" },
   { name: "Create Post", icon: MdPostAdd, href: "/create-meetup" },
-  { name: "Explore Meetups", icon: FiCompass, href: "/feed" },
+  { name: "Explore Meetups", icon: FiCompass, href: "/" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
