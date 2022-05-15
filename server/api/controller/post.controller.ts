@@ -156,11 +156,11 @@ export const deleteComment = async (req: Request, res: Response) => {
 /** @PUT /posts/like/<post._id> */
 export const likePost = async (req: Request, res: Response) => {
   const { id } = req.params;
-
+  const { user } = req.body;
   try {
     const post = await Post.findByIdAndUpdate(
       id,
-      { $inc: { likes: 1 } },
+      { $addToSet: { likes: user } },
       { new: true }
     );
     return res.status(200).json(post);

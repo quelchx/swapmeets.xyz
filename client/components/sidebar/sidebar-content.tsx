@@ -6,18 +6,18 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-import { FiHome, FiTrendingUp, FiCompass, FiStar } from "react-icons/fi";
+import { FiCompass } from "react-icons/fi";
 import { ImFeed } from "react-icons/im";
 import { MdPostAdd } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
+
 import SidebarItem from "./sidebar-item";
 import { LinkItemProps, SidebarProps } from "../../@types";
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Feed", icon: ImFeed },
-  { name: "Create Post", icon: MdPostAdd },
-  { name: "Create Meetup", icon: BsPeople },
-  { name: "Explore Meetups", icon: FiCompass },
+  { name: "Feed", icon: ImFeed, href: "/feed" },
+  { name: "Create Post", icon: MdPostAdd, href: "/create-meetup" },
+  { name: "Explore Meetups", icon: FiCompass, href: "/feed" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -37,7 +37,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <SidebarItem key={link.name} icon={link.icon}>
+        <SidebarItem href={link.href} key={link.name} icon={link.icon}>
           {link.name}
         </SidebarItem>
       ))}

@@ -6,6 +6,7 @@ import { NavLinkProps } from "../../@types";
 const NavLink = ({ href, children }: NavLinkProps) => (
   <NextLink href={href}>
     <Link
+      as="div"
       px={2}
       py={1}
       rounded={"md"}

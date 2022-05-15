@@ -5,12 +5,13 @@ import { Box, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 import Sidebar from "../components/sidebar/sidebar";
 import { SearchIcon } from "@chakra-ui/icons";
-import MeetingCard from "../components/cards/meeting-card";
 import Feed from "../components/feed/feed";
+import Head from "../components/head/head";
 
 const HomePage: NextPage = () => {
   return (
-    <div>
+    <>
+      <Head title="Home Page" />
       <Sidebar>
         <Box p={6}>
           <InputGroup>
@@ -23,7 +24,7 @@ const HomePage: NextPage = () => {
           <Feed />
         </Box>
       </Sidebar>
-    </div>
+    </>
   );
 };
 

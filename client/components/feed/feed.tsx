@@ -3,20 +3,19 @@ import Axios from "axios";
 
 import MeetingCard from "../cards/meeting-card";
 import { PostModel } from "../../@types";
-import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Box, chakra, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const Feed = () => {
   const [isLoading, setLoading] = useState(false);
-  const [posts, setPosts] = useState<Array<PostModel>>();
+  const [posts, setPosts] = useState<PostModel[]>([]);
 
   useEffect(() => {
     const getPosts = async () => {
       setLoading(true);
       const response = await Axios.get("/posts");
-      if (response.status === 200) {
-        setPosts(response.data);
-      }
-      setLoading(false);
+      const data = await response.data;
+      setPosts(data);
+      setInterval(() => setLoading(false), 500);
     };
     getPosts();
   }, []);
@@ -37,7 +36,7 @@ const Feed = () => {
   }
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <Box padding="6" boxShadow="lg" bg="white">
           <SkeletonCircle size="10" />
@@ -46,15 +45,15 @@ const Feed = () => {
       ) : (
         <>
           {posts && (
-            <>
+            <chakra.div mt={4}>
               {posts.map((post) => (
-                <MeetingCard post={post} />
+                <MeetingCard key={post._id} post={post} />
               ))}
-            </>
+            </chakra.div>
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

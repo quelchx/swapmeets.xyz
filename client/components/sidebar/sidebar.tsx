@@ -10,7 +10,7 @@ import {
 import MobileMenu from "./mobile-menu";
 import SidebarContent from "./sidebar-content";
 
-export default function Sidebar({ children }: { children: ReactNode }) {
+const Sidebar = ({ children }: { children: ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
@@ -31,7 +31,6 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileMenu
         position="fixed"
         bottom="0"
@@ -44,4 +43,6 @@ export default function Sidebar({ children }: { children: ReactNode }) {
       </Box>
     </Box>
   );
-}
+};
+
+export default Sidebar;

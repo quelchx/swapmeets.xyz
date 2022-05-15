@@ -1,14 +1,10 @@
 {
-  "name": "devmeets",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "cd server && npm start",
-    "kill": "kill-port 5000",
-    "stop": "sudo service redis-server stop"
+    "kill": "kill-port 5000 && kill-port 6379",
+    "redis-stop": "sudo service redis-server stop",
+    "stop": "npm run redis-stop && npm run kill"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Eric Quelch",
+  "license": "MIT"
 }

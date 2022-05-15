@@ -12,16 +12,17 @@ const PostSchema = new Schema<PostModel>(
       required: true,
     },
     author: {
-      type: String,
-      required: true,
-    },
-    authorId: {
-      type: String,
-      required: true,
+      id: {
+        type: String,
+        required: true,
+      },
+      username: {
+        type: String,
+        required: true,
+      },
     },
     likes: {
-      type: Number,
-      default: 0,
+      type: Array,
     },
     meeting: {
       attending: {
@@ -62,16 +63,21 @@ const PostSchema = new Schema<PostModel>(
           required: true,
         },
         author: {
-          type: String,
-          required: true,
-        },
-        authorId: {
-          type: String,
-          required: true,
+          id: {
+            type: String,
+            required: true,
+          },
+          username: {
+            type: String,
+            required: true,
+          },
         },
         likes: {
-          type: Number,
-          default: 0,
+          type: Array,
+        },
+        created: {
+          type: Date,
+          default: new Date(Date.now()),
         },
       },
     ],

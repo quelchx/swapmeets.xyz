@@ -67,8 +67,7 @@ const Navbar = () => {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems={"center"}>
-          <Box>Logo</Box>
-          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
+          <HStack justifyContent={"space-between"} as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             <NavList />
             {!loading &&
               (user ? (
@@ -121,7 +120,7 @@ const Navbar = () => {
           <Stack as={"nav"} spacing={4}>
             <NavList />
             {!loading &&
-              (!user ? (
+              (user ? (
                 <></>
               ) : (
                 <>

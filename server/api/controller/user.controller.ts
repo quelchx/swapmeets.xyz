@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import User from "../models/User";
-import { createError } from "../utils/error";
 import { createClient } from "redis";
 
 const client = createClient();
@@ -31,7 +30,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const deleted = await User.findByIdAndDelete(id);
     if (!deleted) {
-      return createError(res, "User does not exist");
+      return res.status(404).json({ message: "User does not exist" });
     }
     return res.status(200).json({ message: "User has been deleted" });
   } catch (err) {
@@ -61,10 +60,7 @@ export const getAllUsers = async (_: Request, res: Response) => {
 };
 
 /** @GET /users/<user._id> */
-export const getUserById = async (
-  req: Request,
-  res: Response,
-) => {
+export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const cache = await client.get(id);

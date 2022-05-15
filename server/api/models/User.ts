@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 import { UserModel } from "../@types";
 
-const UserSchema = new mongoose.Schema<UserModel>(
+const UserSchema = new Schema<UserModel>(
   {
     username: {
       type: String,
@@ -21,8 +21,30 @@ const UserSchema = new mongoose.Schema<UserModel>(
       type: Boolean,
       default: false,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+    },
+    socials: {
+      facebook: {
+        type: String,
+      },
+      instagram: {
+        type: String,
+      },
+      twitter: {
+        type: String,
+      },
+      snapchat: {
+        type: String,
+      },
+      tiktok: {
+        type: String,
+      },
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model<UserModel>("User", UserSchema);
+export default model<UserModel>("User", UserSchema);

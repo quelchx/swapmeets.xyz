@@ -64,26 +64,23 @@ export interface SidebarProps extends BoxProps {
 export interface LinkItemProps {
   name: string;
   icon: IconType;
+  href: string;
 }
 
 export interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
-
-export interface NavItemProps extends FlexProps {
-  icon: IconType;
-  children: string | number;
-}
-
 export interface PostModel {
   _id: string;
   title: string;
   body: string;
-  author: string;
-  authorId: string;
-  likes?: number;
+  author: {
+    id: string;
+    username: string;
+  };
+  likes?: [];
   meeting: {
-    date: Date;
+    date: string;
     time: string;
     attending?: [];
     location: {
