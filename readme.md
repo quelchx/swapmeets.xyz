@@ -1,7 +1,7 @@
-# Dev Meets
+# Swap Meets
 
 **Application is currently undergoing construction.**
 
-This is a project web application intended for other developers like myself to plan meetups. 
+This application is a meetup planning website for car enthusiast to plan car meets, swap meets and more. 
 
 Project is currently undergoing development and testing. 
