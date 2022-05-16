@@ -6,8 +6,12 @@ const ToggleTheme = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Button onClick={toggleColorMode}>
-      {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+    <Button bg={"inherit"} onClick={toggleColorMode}>
+      {colorMode === "light" ? (
+        <MoonIcon color={"orange.300"} />
+      ) : (
+        <SunIcon color={"orange.300"} />
+      )}
     </Button>
   );
 };

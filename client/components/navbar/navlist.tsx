@@ -1,21 +1,15 @@
 import React from "react";
-import NavLink from "./navlink";
-
 import { useRouter } from "next/router";
 import { Link, useColorModeValue } from "@chakra-ui/react";
-import { RouteProps } from "../../@types";
 
-const Routes: Array<RouteProps> = [
-  { href: "/", name: "Home" },
-  { href: "/about", name: "About" },
-  { href: "/contact", name: "Contact" },
-];
+import NavLink from "./navlink";
+import NavbarRoutes from "../../routes/navbar.routes";
 
 const NavList = () => {
   const router = useRouter();
   return (
     <>
-      {Routes.map((route) => (
+      {NavbarRoutes.map((route) => (
         <NavLink href={route.href} key={`desktop-${route.name}`}>
           <Link
             color={
@@ -25,7 +19,7 @@ const NavList = () => {
             }
             _hover={{ textDecoration: "none" }}
           >
-            {route.name}
+            {route?.name}
           </Link>
         </NavLink>
       ))}

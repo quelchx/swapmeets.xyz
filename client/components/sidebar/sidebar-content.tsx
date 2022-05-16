@@ -1,24 +1,14 @@
 import {
-  useColorModeValue,
-  Text,
   Box,
-  CloseButton,
   Flex,
+  Text,
+  CloseButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
-import { FiCompass } from "react-icons/fi";
-import { ImFeed } from "react-icons/im";
-import { MdPostAdd } from "react-icons/md";
-import { BsPeople } from "react-icons/bs";
-
 import SidebarItem from "./sidebar-item";
-import { LinkItemProps, SidebarProps } from "../../@types";
-
-const LinkItems: Array<LinkItemProps> = [
-  { name: "Feed", icon: ImFeed, href: "/" },
-  { name: "Create Post", icon: MdPostAdd, href: "/create-meetup" },
-  { name: "Explore Meetups", icon: FiCompass, href: "/" },
-];
+import SidebarRoutes from "../../routes/sidebar.routes";
+import { SidebarProps } from "../../@types";
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
@@ -36,7 +26,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
+      {SidebarRoutes.map((link) => (
         <SidebarItem href={link.href} key={link.name} icon={link.icon}>
           {link.name}
         </SidebarItem>

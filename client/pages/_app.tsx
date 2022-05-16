@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Head />
         <Navbar />
         <Sidebar>
+          {/* @ts-ignore */}
           <Component {...pageProps} />
         </Sidebar>
       </AuthProvider>

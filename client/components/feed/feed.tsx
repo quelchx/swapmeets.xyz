@@ -3,7 +3,14 @@ import Axios from "axios";
 
 import MeetingCard from "../cards/meeting-card";
 import { PostModel } from "../../@types";
-import { Box, chakra, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  chakra,
+  SkeletonCircle,
+  SkeletonText,
+  Spinner,
+} from "@chakra-ui/react";
 
 const Feed = () => {
   const [posts, setPosts] = useState<PostModel[]>([]);
@@ -14,7 +21,7 @@ const Feed = () => {
     const getPosts = async () => {
       const { data } = await Axios.get("/posts");
       setPosts(data);
-      setInterval(() => setLoading(false), 500);
+      setInterval(() => setLoading(false), 1200);
     };
     getPosts();
   }, []);
@@ -22,21 +29,15 @@ const Feed = () => {
   return (
     <>
       {isLoading ? (
-        <>
-          {posts.map((post) => (
-            <Box
-              width="90%"
-              key={`skeleton-${post._id}`}
-              padding="6"
-              my={2}
-              boxShadow="lg"
-              bg="white"
-            >
-              <SkeletonCircle size="10" />
-              <SkeletonText mt="4" noOfLines={4} spacing="4" />
-            </Box>
-          ))}
-        </>
+        <Box display="grid" placeItems="center" height="75vh">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Box>
       ) : (
         <>
           {posts && (

@@ -1,6 +1,6 @@
 import React from "react";
 import type { NextPage } from "next";
-import AuthForm from "../components/forms/auth-form";
+import AuthForm from "../components/auth/auth-form";
 
 const RegisterPage: NextPage = () => {
 

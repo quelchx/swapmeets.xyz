@@ -10,6 +10,7 @@ import {
   Link,
   useColorModeValue,
   HStack,
+  Button,
 } from "@chakra-ui/react";
 import {
   MdComment,
@@ -23,12 +24,15 @@ dayjs.extend(relativeTime);
 
 import { PostModel } from "../../@types";
 import { useAuthState } from "../../context/auth";
+import ThumbIcon from "../icons/thumb-icon";
+import AttendingIcon from "../icons/attending-icon";
+import CommentsIcon from "../icons/comments-icon";
 
-interface MeetingCardProps {
+export type PostProps = {
   post: PostModel;
-}
+};
 
-const MeetingCard = ({ post }: MeetingCardProps) => {
+const MeetingCard = ({ post }: PostProps) => {
   const router = useRouter();
   const { user } = useAuthState();
 
@@ -36,10 +40,7 @@ const MeetingCard = ({ post }: MeetingCardProps) => {
 
   const handleLikePost: any = async (post: string, user: string) => {
     try {
-      const res = await Axios.put(`/posts/${post}/like`, { user: user });
-      if (res.status === 200) {
-        router.reload();
-      }
+      await Axios.put(`/posts/${post}/like`, { user: user });
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +55,7 @@ const MeetingCard = ({ post }: MeetingCardProps) => {
         rounded="lg"
         shadow="lg"
         bg={useColorModeValue("white", "gray.800")}
-        maxW="95%"
+        minW="100%"
       >
         <Flex justifyContent="space-between" alignItems="center">
           <chakra.span
@@ -99,31 +100,19 @@ const MeetingCard = ({ post }: MeetingCardProps) => {
 
         <Flex justifyContent="space-between" alignItems="center" mt={4}>
           <HStack spacing={4}>
-            <NextLink href={post._id}>
-              <Link
-                color={useColorModeValue("brand.600", "brand.400")}
-                _hover={{ textDecor: "underline" }}
-              >
+            <NextLink href={`/meetup/${post.slug}`}>
+              <Button as={Button} colorScheme={"blue"}>
                 Details
-              </Link>
+              </Button>
             </NextLink>
             <HStack spacing={1} gap={1}>
-              <HStack
-                cursor="pointer"
-                onClick={() => handleLikePost(post._id, user.username)}
-                spacing={1}
-              >
-                <chakra.span pt={0.5}>{post.likes.length}</chakra.span>
-                <MdOutlineThumbUpOffAlt />
-              </HStack>
-              <HStack spacing={1}>
-                <chakra.span pt={0.5}>{attending.length}</chakra.span>
-                <MdEmojiPeople />
-              </HStack>
-              <HStack spacing={1}>
-                <chakra.span pt={0.5}>{post.comments.length}</chakra.span>
-                <MdComment />
-              </HStack>
+              <ThumbIcon
+                user={user}
+                handleClick={() => handleLikePost(post._id, user.username)}
+                value={post.likes.length}
+              />
+              <AttendingIcon attending={attending.length} />
+              <CommentsIcon comments={post.comments.length} />
             </HStack>
           </HStack>
           <Flex alignItems="center">

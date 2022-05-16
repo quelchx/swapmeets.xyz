@@ -1,0 +1,27 @@
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+  background-color: inherit;
+
+  padding: 3.5px;
+}
+
+.react-datepicker__input-container {
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+.react-datepicker__header {
+  background-color: #24292e !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: #fff !important;
+}
+
+.react-datepicker button {
+  margin-top: 5px;
+}
