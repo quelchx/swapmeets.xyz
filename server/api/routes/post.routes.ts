@@ -6,6 +6,8 @@ import {
   deleteComment,
   deletePost,
   getAllPosts,
+  getPostById,
+  getPostBySlug,
   likePost,
   likePostComment,
   removeUserFromMeeting,
@@ -18,6 +20,9 @@ import user from "../middleware/user";
 const router = Router();
 
 router.get("/", getAllPosts);
+router.get("/:id", getPostById);
+router.get("/post/:id", getPostBySlug);
+
 router.post("/", user, auth, createPost);
 router.delete("/:id", user, auth, deletePost);
 router.put("/:id", user, auth, updatePost);

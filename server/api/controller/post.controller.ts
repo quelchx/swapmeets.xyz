@@ -87,6 +87,16 @@ export const getPostById = async (req: Request, res: Response) => {
   }
 };
 
+export const getPostBySlug = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const post = await Post.findOne({ "post.slug": id });
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(404).json({ error: err });
+  }
+};
+
 /** @PUT /posts/comment/<post._id> */
 export const commentOnPost = async (req: Request, res: Response) => {
   const { id } = req.params;

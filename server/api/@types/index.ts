@@ -35,7 +35,8 @@ export type Socials = {
   tiktok: string;
 };
 
-export interface UserModel extends  DocumentResult<UserModel> {
+export interface UserModel extends DocumentResult<UserModel> {
+  _id?: string;
   username: string;
   email: string;
   password: string;
@@ -51,4 +52,5 @@ export interface PostModel extends DocumentResult<PostModel> {
   likes?: number;
   meeting: Meeting;
   comments?: Array<Comment>;
+  slug: string;
 }

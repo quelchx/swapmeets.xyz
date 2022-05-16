@@ -81,6 +81,10 @@ const PostSchema = new Schema<PostModel>(
         },
       },
     ],
+    slug: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
