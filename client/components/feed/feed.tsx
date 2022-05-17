@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
-
-import MeetingCard from "../cards/meeting-card";
 import { PostModel } from "../../@types";
-import {
-  Box,
-  Center,
-  chakra,
-  SkeletonCircle,
-  SkeletonText,
-  Spinner,
-} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, chakra, Spinner } from "@chakra-ui/react";
+
+import Axios from "axios";
+import MeetingCard from "../cards/meeting-card";
 
 const Feed = () => {
   const [posts, setPosts] = useState<PostModel[]>([]);
@@ -21,10 +14,10 @@ const Feed = () => {
     const getPosts = async () => {
       const { data } = await Axios.get("/posts");
       setPosts(data);
-      setInterval(() => setLoading(false), 1200);
+      setLoading(false);
     };
     getPosts();
-  }, []);
+  }, [!isLoading]);
 
   return (
     <>
