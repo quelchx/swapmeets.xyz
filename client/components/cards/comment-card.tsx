@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import {
   chakra,
@@ -7,22 +7,33 @@ import {
   useColorModeValue,
   Link,
   HStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import Axios from "axios";
 import convertDate from "../../helpers/convert-date";
 import ThumbIcon from "../icons/thumb-icon";
 import ConfigureCommentButton from "../buttons/configure-comment";
+import { Author, UserModel } from "../../@types";
+import EditCommentModal from "../modal/edit-comment-modal";
 
 /** will assign better typing in the future */
-const CommentCard = ({ comment, user, id }: any) => {
-  const router = useRouter();
+type CommentCardProps = {
+  comment: {
+    _id: string;
+    body: string;
+    author: Author;
+    likes?: [];
+    created?: Date | string;
+  };
+  user: UserModel;
+  id: string;
+  post: any;
+};
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, []);
+const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
+  const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const likeComment = async () => {
     try {
@@ -30,6 +41,16 @@ const CommentCard = ({ comment, user, id }: any) => {
         user: user.username,
         comment: comment._id,
       });
+      router.reload();
+    } catch (err) {
+      router.push("/error");
+    }
+  };
+
+  const deleteComment = async () => {
+    try {
+      await Axios.delete(`/posts/comment/delete/${id}?comment=${comment._id}`);
+      router.reload();
     } catch (err) {
       router.push("/error");
     }
@@ -37,6 +58,13 @@ const CommentCard = ({ comment, user, id }: any) => {
 
   return (
     <Flex w="full" alignItems="center" justifyContent="center">
+      <EditCommentModal
+        comment={comment}
+        post={post}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+      />
       <Box
         mx="auto"
         px={8}
@@ -52,34 +80,41 @@ const CommentCard = ({ comment, user, id }: any) => {
             fontSize="sm"
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Posted {convertDate(comment.created)}
+            Written {convertDate(comment.created)}
           </chakra.span>
           {user && (
             <>
               {user._id === comment.author.id && (
                 <HStack>
-                  <ConfigureCommentButton label="Edit" color="blue.600" />
-                  <ConfigureCommentButton label="Delete" color="red.600" />
+                  <Box onClick={onOpen}>
+                    <ConfigureCommentButton label="Edit" color="blue.600" />
+                  </Box>
+                  <Box onClick={deleteComment}>
+                    <ConfigureCommentButton label="Delete" color="red.600" />
+                  </Box>
                 </HStack>
               )}
             </>
           )}
         </Flex>
 
-        <Box mt={2}>
+        <Box my={2}>
           <chakra.p mt={2} color={useColorModeValue("gray.600", "gray.300")}>
             {comment.body}
           </chakra.p>
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center">
-          <Link
-            color={useColorModeValue("gray.700", "gray.200")}
-            fontWeight="700"
-            cursor="pointer"
-          >
-            @{comment.author.username}
-          </Link>
+          <HStack>
+            <chakra.p>Posted by: </chakra.p>
+            <Link
+              color={useColorModeValue("gray.700", "gray.200")}
+              fontWeight="700"
+              cursor="pointer"
+            >
+              @{comment.author.username}
+            </Link>
+          </HStack>
           <Flex alignItems="center">
             <HStack spacing={1} gap={1}>
               <ThumbIcon
