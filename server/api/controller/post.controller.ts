@@ -52,19 +52,19 @@ export const deletePost = async (req: Request, res: Response) => {
 /** @GET /posts (optional) /posts?limit=<number>&title=<post.title> */
 export const getAllPosts = async (req: Request, res: Response) => {
   const { limit, ...other }: any = req.query;
-  const cache = await client.get("posts");
+  // const cache = await client.get("posts");
 
   try {
-    if (cache != null) {
-      return res.status(200).json(JSON.parse(cache));
-    } else {
+    // if (cache != null) {
+    //   return res.status(200).json(JSON.parse(cache));
+    // } else {
       const posts = await Post.find({
         ...other,
       }).limit(parseInt(limit));
       // one minute cache time limit -- posts update, but to limit calls to mongo atlas, cache is in place to hold data
-      client.setEx("posts", 60, JSON.stringify(posts));
+      // client.setEx("posts", 60, JSON.stringify(posts));
       return res.status(200).json(posts);
-    }
+    // }
   } catch (err) {
     return res.status(404).json({ error: err });
   }
@@ -73,15 +73,15 @@ export const getAllPosts = async (req: Request, res: Response) => {
 /** @GET /posts/<post._id> */
 export const getPostById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const cache = await client.get(id);
+  // const cache = await client.get(id);
   try {
-    if (cache != null) {
-      return res.status(200).json(JSON.parse(cache));
-    } else {
-      const post = await Post.findById(id);
-      client.setEx(id, 60, JSON.stringify(post));
-      return res.status(200).json(post);
-    }
+    // if (cache != null) {
+    //   return res.status(200).json(JSON.parse(cache));
+    // } else {
+    const post = await Post.findById(id);
+    // client.setEx(id, 60, JSON.stringify(post));
+    return res.status(200).json(post);
+    // }
   } catch (err) {
     return res.status(404).json({ error: err });
   }
@@ -123,8 +123,8 @@ export const updateCommentOnPost = async (req: Request, res: Response) => {
     const post = await Post.updateOne(
       {
         _id: req.params.id,
-        "comments._id": id,
-        "comments.authorId": author,
+        "comments.$._id": id,
+        "comments.author.id": author,
       },
       {
         $set: { "comments.$.body": body },
@@ -140,7 +140,7 @@ export const updateCommentOnPost = async (req: Request, res: Response) => {
   }
 };
 
-/** @DELETE /posts/comments/<post._id>?comment=<comment._id> */
+/** @DELETE /posts/comments/<post._id>?comment=<comment_id> */
 export const deleteComment = async (req: Request, res: Response) => {
   const { comment } = req.query;
 
@@ -225,7 +225,6 @@ export const likePostComment = async (req: Request, res: Response) => {
       {
         _id: id,
         "comments._id": comment,
-      
       },
       { $addToSet: { "comments.$.likes": req.body.user } },
       { new: true }
