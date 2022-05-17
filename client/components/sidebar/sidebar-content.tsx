@@ -21,9 +21,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+        <Text fontSize="2xl" fontWeight="bold">
+          Swap Meets
         </Text>
+
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {SidebarRoutes.map((link) => (
