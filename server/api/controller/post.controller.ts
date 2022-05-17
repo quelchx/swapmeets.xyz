@@ -216,18 +216,18 @@ export const addUserToMeeting = async (req: Request, res: Response) => {
   }
 };
 
-/** @PUT /posts/like-comment/<post._id>?comment=<comments._id>&author=<authorId> */
+/** @PUT /posts/<post._id>/like-comment */
 export const likePostComment = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { comment, author } = req.query;
+  const { comment } = req.body;
   try {
     const post = await Post.updateOne(
       {
         _id: id,
         "comments._id": comment,
-        "comments.authorId": author,
+      
       },
-      { $inc: { "comments.$.likes": 1 } },
+      { $addToSet: { "comments.$.likes": req.body.user } },
       { new: true }
     );
 
