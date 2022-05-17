@@ -30,9 +30,10 @@ router.put("/:id", user, auth, updatePost);
 router.put("/:id/like", user, auth, likePost);
 
 router.put("/:id/comment", user, auth, commentOnPost);
-router.put("/:id/update-comment", user, auth, updateCommentOnPost);
 router.put("/:id/like-comment", user, auth, likePostComment);
-router.delete("/:id/delete-comment", user, auth, deleteComment);
+
+router.put("/comment/update/:id", user, auth, updateCommentOnPost);
+router.delete("/comment/delete/:id", user, auth, deleteComment);
 
 router.put("/:id/attend-meeting", addUserToMeeting);
 router.put("/:id/remove-from-meeting", removeUserFromMeeting);
