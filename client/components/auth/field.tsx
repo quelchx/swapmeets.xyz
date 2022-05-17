@@ -1,6 +1,5 @@
-import { chakra, VStack } from "@chakra-ui/react";
-import React from "react";
 import { FieldProps } from "../../@types";
+import { chakra } from "@chakra-ui/react";
 
 const Field = <E extends React.ElementType = "input">({
   as,

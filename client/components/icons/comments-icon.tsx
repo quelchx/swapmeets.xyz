@@ -1,12 +1,7 @@
 import { chakra, HStack } from "@chakra-ui/react";
-import React from "react";
 import { MdComment } from "react-icons/md";
 
-type CommentsIconProps = {
-  comments: number;
-};
-
-const CommentsIcon = ({ comments }: CommentsIconProps) => {
+const CommentsIcon = ({ comments }: { comments: number }) => {
   return (
     <HStack cursor="pointer" spacing={1}>
       <MdComment />

@@ -1,3 +1,4 @@
+/** @types are up for changes and not setup efficently */
 import type { BoxProps, FlexProps } from "@chakra-ui/react";
 import type {
   ReactNode,
@@ -15,6 +16,23 @@ export type ReactChildren = { children: ReactNode };
 
 export type DocumentResult<T> = {
   _doc?: T;
+};
+
+export type HeadState = {
+  title: string;
+  description: string;
+  image: string;
+  type: "website";
+};
+
+export type ThumbIconProps = {
+  user: UserModel;
+  value: number;
+  handleClick: () => any;
+};
+
+export type HeadProps = {
+  [data: string]: any;
 };
 
 export type Author = {
@@ -37,15 +55,45 @@ export type Meeting = {
 };
 
 export type Comment = {
+  _id: string;
   body: string;
   author: Author;
   likes?: [];
+  created?: Date | string;
+};
+
+export type Data = {
+  data: {
+    _id?: string;
+    title: string;
+    body: string;
+    author: Author;
+    likes?: [];
+    meeting: Meeting;
+    comments?: Array<Comment>;
+    slug: string;
+  };
 };
 
 export type LinkItemProps = {
   name: string;
   icon: IconType;
   href: string;
+};
+
+export type Post = {
+  _id?: string;
+  title: string;
+  body: string;
+  author: Author;
+  likes?: [];
+  meeting: Meeting;
+  comments?: Array<Comment>;
+  slug: string;
+};
+
+export type PostProps = {
+  post: Post;
 };
 
 export type AuthFormType = {
@@ -117,4 +165,10 @@ export interface FieldInitialProps<E extends ElementType> {
   as?: E;
   children?: ReactNode;
   innerRef?: FieldReferenceType;
+}
+
+export interface NavItemProps extends FlexProps {
+  href: string;
+  icon: IconType;
+  children: string | number;
 }

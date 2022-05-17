@@ -1,20 +1,8 @@
-import React, { ReactNode } from "react";
+import { HeadProps, HeadState } from "../../@types";
+
 import NextHead from "next/head";
-import { useRouter } from "next/router";
-
-type HeadState = {
-  title: string;
-  description: string;
-  image: string;
-  type: "website";
-};
-
-type HeadProps = {
-  [data: string]: any;
-};
 
 const Head = ({ ...other }: HeadProps) => {
-  const router = useRouter();
   const initalState: HeadState = {
     title: "Meetups",
     description: "",

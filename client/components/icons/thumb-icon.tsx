@@ -1,13 +1,6 @@
+import { ThumbIconProps } from "../../@types";
 import { chakra, HStack } from "@chakra-ui/react";
-import React from "react";
 import { MdOutlineThumbUpOffAlt } from "react-icons/md";
-import { UserModel } from "../../@types";
-
-type ThumbIconProps = {
-  user: UserModel;
-  value: number;
-  handleClick: () => any;
-};
 
 const ThumbIcon = ({ user, value, handleClick }: ThumbIconProps) => {
   return (
@@ -17,7 +10,7 @@ const ThumbIcon = ({ user, value, handleClick }: ThumbIconProps) => {
       onClick={handleClick}
       spacing={1}
     >
-      <MdOutlineThumbUpOffAlt  />
+      <MdOutlineThumbUpOffAlt />
       <chakra.span pt={0.5}>{value}</chakra.span>
     </HStack>
   );

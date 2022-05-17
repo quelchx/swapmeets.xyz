@@ -1,11 +1,9 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
-import Axios from "axios";
-import { useRouter } from "next/router";
-import DatePicker from "react-datepicker";
-import slugify from "slugify";
 import "react-datepicker/dist/react-datepicker.css";
 import type { NextPage } from "next";
-
+import type { FieldReferenceType } from "../../@types";
+import { useAuthState } from "../../context/auth";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import {
   Text,
   Box,
@@ -19,9 +17,11 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import { FieldReferenceType } from "../../@types";
-import { useAuthState } from "../../context/auth";
+
+import Axios from "axios";
 import InputSection from "../../components/form/input-section";
+import DatePicker from "react-datepicker";
+import slugify from "slugify";
 
 const CreateMeetupPage: NextPage = () => {
   const [startDate, setStartDate] = useState(new Date());

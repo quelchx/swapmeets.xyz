@@ -1,3 +1,4 @@
+import { SidebarProps } from "../../@types";
 import {
   Box,
   Flex,
@@ -8,7 +9,6 @@ import {
 
 import SidebarItem from "./sidebar-item";
 import SidebarRoutes from "../../routes/sidebar.routes";
-import { SidebarProps } from "../../@types";
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (

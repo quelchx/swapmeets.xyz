@@ -1,5 +1,4 @@
 import { chakra, HStack } from "@chakra-ui/react";
-import React from "react";
 import { MdEmojiPeople } from "react-icons/md";
 
 type AttendingIconProps = {

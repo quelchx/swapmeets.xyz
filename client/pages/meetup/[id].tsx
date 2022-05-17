@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import type { PostModel, Data } from "../../@types";
 import type { NextPage } from "next";
-import Axios from "axios";
+import { useAuthState } from "../../context/auth";
 import {
   Box,
   Button,
@@ -12,17 +12,16 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { Author, Meeting, Comment, PostModel } from "../../@types";
-import { FaCity } from "react-icons/fa";
 import {
   BiBuildingHouse,
   BiLocationPlus,
   BiStreetView,
   BiTimeFive,
 } from "react-icons/bi";
+import { FaCity } from "react-icons/fa";
 
+import Axios from "axios";
 import ThumbIcon from "../../components/icons/thumb-icon";
-import { useAuthState } from "../../context/auth";
 import AttendingIcon from "../../components/icons/attending-icon";
 import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
@@ -51,21 +50,10 @@ export const getStaticProps = async (context: any) => {
   };
 };
 
-type Post = {
-  data: {
-    _id?: string;
-    title: string;
-    body: string;
-    author: Author;
-    likes?: [];
-    meeting: Meeting;
-    comments?: Array<Comment>;
-    slug: string;
-  };
-};
-
-const MeetupPostPage: NextPage<Post> = ({ data }) => {
+const MeetupPostPage: NextPage<Data> = ({ data }) => {
+  console.log(data);
   const { user, authenticated } = useAuthState();
+
   return (
     <Flex direction="column" p={6}>
       <Heading pb={3}>{data.title}</Heading>
@@ -110,13 +98,18 @@ const MeetupPostPage: NextPage<Post> = ({ data }) => {
       </HStack>
       <VStack align={"flex-start"} gap={2} mt={4}>
         <Heading size={"md"}>Comments</Heading>
-        <CommentCard post={data} />
+        {data.comments.map((comment: any) => (
+          <CommentCard
+            user={user}
+            id={data._id}
+            key={comment._id}
+            comment={comment}
+          />
+        ))}
       </VStack>
-      <Divider my={5}/>
+      <Divider my={5} />
       <VStack align="flex-start">
-        <Heading size={"lg"}>
-          Leave a comment
-        </Heading>
+        <Heading size={"lg"}>Leave a comment</Heading>
         <Textarea placeholder="Write a comment" minHeight="180px" />
         <Button colorScheme={"blue"}>Submit</Button>
       </VStack>

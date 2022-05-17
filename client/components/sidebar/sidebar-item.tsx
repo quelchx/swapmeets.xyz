@@ -1,12 +1,7 @@
-import NextLink from "next/link";
+import { NavItemProps } from "../../@types";
 import { Flex, FlexProps, Icon, Link } from "@chakra-ui/react";
-import { IconType } from "react-icons";
 
-export interface NavItemProps extends FlexProps {
-  href: string;
-  icon: IconType;
-  children: string | number;
-}
+import NextLink from "next/link";
 
 const SidebarItem = ({ icon, children, href, ...rest }: NavItemProps) => {
   return (

@@ -1,7 +1,7 @@
+import { ReactNode } from "react";
 import { FormControl, FormLabel } from "@chakra-ui/react";
-import React, { ReactNode } from "react";
 
-interface InputSectionProps {
+type InputSectionProps = {
   label: string;
   width?: string | number;
   children: ReactNode;

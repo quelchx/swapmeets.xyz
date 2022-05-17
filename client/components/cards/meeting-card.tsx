@@ -1,7 +1,7 @@
-import React from "react";
-import NextLink from "next/link";
+import { useEffect } from "react";
+import { useAuthState } from "../../context/auth";
 import { useRouter } from "next/router";
-import Axios from "axios";
+import { PostProps } from "../../@types";
 import {
   chakra,
   Box,
@@ -12,25 +12,13 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import {
-  MdComment,
-  MdEmojiPeople,
-  MdOutlineThumbUpOffAlt,
-} from "react-icons/md";
 
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
-
-import { PostModel } from "../../@types";
-import { useAuthState } from "../../context/auth";
+import NextLink from "next/link";
+import Axios from "axios";
 import ThumbIcon from "../icons/thumb-icon";
-import AttendingIcon from "../icons/attending-icon";
 import CommentsIcon from "../icons/comments-icon";
-
-export type PostProps = {
-  post: PostModel;
-};
+import AttendingIcon from "../icons/attending-icon";
+import convertDate from "../../helpers/convert-date";
 
 const MeetingCard = ({ post }: PostProps) => {
   const router = useRouter();
@@ -38,11 +26,17 @@ const MeetingCard = ({ post }: PostProps) => {
 
   const { location, date, time, attending } = post.meeting;
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
+
   const handleLikePost: any = async (post: string, user: string) => {
     try {
       await Axios.put(`/posts/${post}/like`, { user: user });
     } catch (error) {
-      console.log(error);
+      router.push("/error");
     }
   };
 
@@ -94,7 +88,7 @@ const MeetingCard = ({ post }: PostProps) => {
             {post.body}
           </chakra.p>
           <small>
-            <strong>{dayjs(date).fromNow()}</strong> @{time}
+            <strong>{convertDate(date)}</strong> @{time}
           </small>
         </Box>
 

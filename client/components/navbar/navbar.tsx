@@ -1,6 +1,6 @@
-import React from "react";
-import Axios from "axios";
+import { useAuthDispatch, useAuthState } from "../../context/auth";
 import { useRouter } from "next/router";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -19,11 +19,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-
+import Axios from "axios";
 import NavList from "./navlist";
 import NavLink from "./navlink";
-import { useAuthDispatch, useAuthState } from "../../context/auth";
 import ToggleTheme from "../toggles/theme";
 
 const Navbar = () => {
@@ -67,7 +65,12 @@ const Navbar = () => {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems={"center"}>
-          <HStack justifyContent={"space-between"} as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
+          <HStack
+            justifyContent={"space-between"}
+            as={"nav"}
+            spacing={4}
+            display={{ base: "none", md: "flex" }}
+          >
             <NavList />
             {!loading &&
               (user ? (

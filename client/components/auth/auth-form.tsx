@@ -1,6 +1,12 @@
-import React, { FormEvent, useRef, useState } from "react";
-import Axios from "axios";
+import {
+  AuthFormType,
+  FieldReferenceType,
+  InputEventChange,
+} from "../../@types";
+import { useAuthDispatch, useAuthState } from "../../context/auth";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { credentials, passwordCheck } from "../../utils/password-check";
 import {
   Alert,
   AlertDescription,
@@ -15,14 +21,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useAuthDispatch, useAuthState } from "../../context/auth";
+import Axios from "axios";
 import Field from "./field";
-import { credentials, passwordCheck } from "../../utils/password-check";
-import {
-  AuthFormType,
-  FieldReferenceType,
-  InputEventChange,
-} from "../../@types";
 
 const AuthForm = ({ type }: AuthFormType) => {
   const router = useRouter();
