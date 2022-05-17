@@ -1,8 +1,11 @@
-import type { PostModel, Data } from "../../@types";
-import type { NextPage } from "next";
+import type { PostModel, Data, IconComponent } from "../../@types";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useAuthState } from "../../context/auth";
+import React, { FormEvent, ReactNode, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import {
   Box,
+  Text,
   Button,
   chakra,
   Divider,
@@ -10,6 +13,7 @@ import {
   Heading,
   HStack,
   Textarea,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import {
@@ -25,8 +29,9 @@ import ThumbIcon from "../../components/icons/thumb-icon";
 import AttendingIcon from "../../components/icons/attending-icon";
 import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
+import NextLink from "next/link";
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const res = await Axios.get("/posts");
   const data = await res.data;
   const paths = data.map((post: PostModel) => {
@@ -39,7 +44,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async (context: any) => {
+export const getStaticProps: GetStaticProps = async (context: any) => {
   const id = context.params.id;
   const res = await Axios.get(`/posts/post/${id}`);
   const data = await res.data;
@@ -50,70 +55,124 @@ export const getStaticProps = async (context: any) => {
   };
 };
 
+export const MeetingHeadlineItem = ({ icon, text }: IconComponent) => {
+  const Icon = () => icon;
+  return (
+    <HStack>
+      <Icon />
+      <Text fontSize={13}>{text}</Text>
+    </HStack>
+  );
+};
+
 const MeetupPostPage: NextPage<Data> = ({ data }) => {
-  console.log(data);
-  const { user, authenticated } = useAuthState();
+  const message = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+  const { user } = useAuthState();
+
+  const router = useRouter();
+  const commentOnPost = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      await Axios.put(`/posts/${data._id}/comment`, {
+        body: message.current.value,
+        author: {
+          id: user._id,
+          username: user.username,
+        },
+      });
+      router.reload();
+    } catch (err) {
+      router.push("/error");
+    }
+  };
 
   return (
-    <Flex direction="column" p={6}>
-      <Heading pb={3}>{data.title}</Heading>
-      <HStack spacing={6}>
-        <HStack>
-          <FaCity />
-          <Box> {data.meeting.location.city}</Box>
-        </HStack>
-        <HStack>
-          <BiLocationPlus />
-          <Box>{data.meeting.location.country}</Box>
-        </HStack>
-        <HStack>
-          <BiStreetView />
-          <Box>{data.meeting.location.address}</Box>
-        </HStack>
-        <HStack>
-          <BiBuildingHouse />
-          <Box>{data.meeting.location.place}</Box>
-        </HStack>
-        <HStack>
-          <BiTimeFive />
-          <Box>{data.meeting.time} hours</Box>
-        </HStack>
-      </HStack>
-      <Box mt={5}>
-        <Heading pb={3} size={"lg"}>
-          Details
-        </Heading>
-        <chakra.p as={Heading} size={"sm"}>
-          {data.body}
-        </chakra.p>
-      </Box>
-      <HStack pt={5}>
-        <ThumbIcon
-          user={user}
-          handleClick={() => {}}
-          value={data.likes.length}
-        />
-        <AttendingIcon attending={data.meeting.attending.length} />
-        <CommentsIcon comments={data.comments.length} />
-      </HStack>
-      <VStack align={"flex-start"} gap={2} mt={4}>
-        <Heading size={"md"}>Comments</Heading>
-        {data.comments.map((comment: any) => (
-          <CommentCard
-            user={user}
-            id={data._id}
-            key={comment._id}
-            comment={comment}
+    <>
+      <Flex w="100%" direction="column" p={6}>
+        <Heading pb={3}>{data.title}</Heading>
+        <Flex
+          gap={{ base: 1, md: 4 }}
+          direction={{ base: "column", md: "row" }}
+          minW="100%"
+        >
+          <MeetingHeadlineItem
+            icon={<FaCity />}
+            text={data.meeting.location.city}
           />
-        ))}
-      </VStack>
-      <Divider my={5} />
-      <VStack align="flex-start">
-        <Heading size={"lg"}>Leave a comment</Heading>
-        <Textarea placeholder="Write a comment" minHeight="180px" />
-        <Button colorScheme={"blue"}>Submit</Button>
-      </VStack>
-    </Flex>
+          <MeetingHeadlineItem
+            icon={<BiLocationPlus />}
+            text={data.meeting.location.country}
+          />
+          <MeetingHeadlineItem
+            icon={<BiStreetView />}
+            text={data.meeting.location.address}
+          />
+          <MeetingHeadlineItem
+            icon={<BiBuildingHouse />}
+            text={data.meeting.location.place}
+          />
+          <MeetingHeadlineItem icon={<BiTimeFive />} text={data.meeting.time} />
+        </Flex>
+        <Box mt={5}>
+          <Heading pb={3} size={"lg"}>
+            Details
+          </Heading>
+          <chakra.p as={Heading} size={"sm"}>
+            {data.body}
+          </chakra.p>
+        </Box>
+        <HStack pt={5}>
+          <ThumbIcon
+            user={user}
+            handleClick={() => {}}
+            value={data.likes.length}
+          />
+          <AttendingIcon attending={data.meeting.attending.length} />
+          <CommentsIcon comments={data.comments.length} />
+        </HStack>
+        <VStack align={"flex-start"} gap={2} mt={4}>
+          <Heading size={"md"}>Comments</Heading>
+          {data.comments.map((comment: any) => (
+            <Box w="100%" key={comment._id}>
+              <CommentCard
+                post={data}
+                user={user}
+                id={data._id}
+                comment={comment}
+              />
+            </Box>
+          ))}
+        </VStack>
+        <Divider my={5} />
+        {user ? (
+          <VStack align="flex-start">
+            <Heading size={"lg"}>Leave a comment</Heading>
+            <Box pt={2} width={"100%"}>
+              <form onSubmit={commentOnPost}>
+                <Textarea
+                  ref={message}
+                  placeholder="Write a comment"
+                  minHeight="180px"
+                />
+                <Box mt={3}>
+                  <Button
+                    type="submit"
+                    w={{ base: "full", sm: "90px" }}
+                    colorScheme={"blue"}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              </form>
+            </Box>
+          </VStack>
+        ) : (
+          <Box _hover={{ color: "blue.500" }} cursor={"pointer"}>
+            <NextLink href="/login">Login to leave a comment</NextLink>
+          </Box>
+        )}
+      </Flex>
+    </>
   );
 };
 
