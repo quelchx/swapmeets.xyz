@@ -26,12 +26,6 @@ const MeetingCard = ({ post }: PostProps) => {
 
   const { location, date, time, attending } = post.meeting;
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, []);
-
   const handleLikePost: any = async (post: string, user: string) => {
     try {
       await Axios.put(`/posts/${post}/like`, { user: user });
