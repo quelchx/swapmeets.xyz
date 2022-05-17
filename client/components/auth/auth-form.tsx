@@ -21,6 +21,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import NextLink from "next/link";
 import Axios from "axios";
 import Field from "./field";
 
@@ -74,7 +75,11 @@ const AuthForm = ({ type }: AuthFormType) => {
 
   return (
     <Box display="flex">
-      <Box bg={"blue.600"} minHeight="95vh" minWidth={{ sm: "0", md: "15%" }} />
+      <Box
+        bg={"blue.600"}
+        minHeight="100vh"
+        minWidth={{ sm: "0", md: "15%" }}
+      />
       <Flex alignItems="center" mx={4} mb={20}>
         <VStack mx={3} pl={{ sm: 8, md: 0 }} spacing={3}>
           <Box pb={1} gap={2}>
@@ -85,7 +90,7 @@ const AuthForm = ({ type }: AuthFormType) => {
                 <>Login to your account</>
               )}
             </Heading>
-            <Box lineHeight={1.25} color="gray.700">
+            <Box lineHeight={1.25} my={2}>
               {type === "register" ? (
                 <>
                   <chakra.p py={2}>
@@ -143,6 +148,15 @@ const AuthForm = ({ type }: AuthFormType) => {
                   </Link>
                 </>
               )}
+              <Box cursor="pointer" my={0.5}>
+                <NextLink href="/">
+                  <chakra.small
+                    _hover={{ color: "blue.500", textDecoration: "underline" }}
+                  >
+                    Go Back Home
+                  </chakra.small>
+                </NextLink>
+              </Box>
             </Box>
             {error && (
               <Alert status="error">
