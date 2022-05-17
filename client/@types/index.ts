@@ -118,6 +118,11 @@ export type AuthAction = {
   payload: any;
 };
 
+export type IconComponent = {
+  icon: JSX.Element;
+  text: string;
+};
+
 export interface UserModel extends DocumentResult<UserModel> {
   _id?: string;
   username: string;
