@@ -70,10 +70,10 @@ export const getUserById = async (req: Request, res: Response) => {
       return res.status(200).json(JSON.parse(cache));
     }
 
-    const getUser = await User.findById(id);
-    client.setEx(id, 1800, JSON.stringify(getUser));
-    console.log("Could not find recent user data inside the cache");
-    return res.status(200).json(getUser);
+    const getUser: any = await User.findById(id);
+    const { isAdmin, ...others } = getUser._doc;
+    client.setEx(id, 1800, JSON.stringify({ ...others }));
+    return res.status(200).json({ ...others });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: err });
