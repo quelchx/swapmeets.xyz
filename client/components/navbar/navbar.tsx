@@ -23,6 +23,7 @@ import Axios from "axios";
 import NavList from "./navlist";
 import NavLink from "./navlink";
 import ToggleTheme from "../toggles/theme";
+import NextLink from "next/link";
 
 const Navbar = () => {
   const router = useRouter();
@@ -109,8 +110,9 @@ const Navbar = () => {
                   <small>{user.email}</small>
                 </Center>
                 <MenuDivider />
-                <MenuItem>Posts</MenuItem>
-                <MenuItem>Profile</MenuItem>
+                <NextLink href={`/user/${user._id}`}>
+                  <MenuItem>Profile</MenuItem>
+                </NextLink>
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
