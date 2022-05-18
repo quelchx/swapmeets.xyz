@@ -40,11 +40,12 @@ export interface UserModel extends DocumentResult<UserModel> {
   username: string;
   email: string;
   password: string;
-  isAdmin?: boolean;
-  avatar?: string;
+  bio?: string;
   socials?: Socials;
   city?: string;
   country?: string;
+  isAdmin?: boolean;
+  // avatar?: any;
 }
 
 export interface PostModel extends DocumentResult<PostModel> {

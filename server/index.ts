@@ -3,6 +3,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
+import morgan from "morgan";
+import bodyParser from "body-parser";
 
 import authRoutes from "./api/routes/auth.routes";
 import userRoutes from "./api/routes/user.routes";
@@ -14,6 +16,9 @@ const { connect, connection } = mongoose;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(
   cors({
     credentials: true,
@@ -21,7 +26,6 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-
 app.use(express.static("public"));
 
 app.get("/", (_: Request, res: Response) => {

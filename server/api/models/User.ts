@@ -17,15 +17,17 @@ const UserSchema = new Schema<UserModel>(
       type: String,
       required: true,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
-    avatar: {
+    // isAdmin: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    bio: {
       type: String,
-      default:
-        "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
     },
+    // avatar: {
+    //   data: Buffer,
+    //   contentType: String,
+    // },
     city: {
       type: String,
     },

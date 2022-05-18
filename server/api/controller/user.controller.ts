@@ -9,14 +9,14 @@ client.on("error", () => console.error);
 /** @PUT /users/<user._id> */
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-
+ 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { $set: req.body },
       { new: true }
     );
-    const { isAdmin, ...other } = updatedUser!._doc;
+    const { isAdmin, password, ...other } = updatedUser!._doc;
     return res.status(200).json({ ...other });
   } catch (err) {
     console.log(err);
