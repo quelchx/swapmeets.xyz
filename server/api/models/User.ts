@@ -17,17 +17,10 @@ const UserSchema = new Schema<UserModel>(
       type: String,
       required: true,
     },
-    // isAdmin: {
-    //   type: Boolean,
-    //   default: false,
-    // },
     bio: {
       type: String,
+      required: false,
     },
-    // avatar: {
-    //   data: Buffer,
-    //   contentType: String,
-    // },
     city: {
       type: String,
     },

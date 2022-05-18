@@ -26,6 +26,8 @@ import MeetingCard from "../../components/cards/meeting-card";
 import { FaCity, FaLocationArrow } from "react-icons/fa";
 import GenericIcon from "../../components/icons/generic-icon";
 import { MdEvent, MdWorkOutline } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
@@ -42,12 +44,20 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 
 const UserPage: NextPage<any> = ({ data, meetings }) => {
   const { user } = useAuthState();
-  console.log(data);
+  const { twitter, instagram, snapchat, facebook } = data.socials;
+  const router = useRouter();
   return (
     <>
       <Flex direction={"column"}>
         {/* user heading */}
-        <Flex p={4} justifyContent="space-between" rounded={"lg"}>
+        <Flex
+          p={4}
+          direction={{ base: "column", sm: "row" }}
+          justifyContent={{ base: "center", sm: "space-between" }}
+          rounded={"lg"}
+          gap={{ base: 4, md: 0 }}
+          alignItems={"center"}
+        >
           <Flex
             direction={{ base: "column", sm: "row" }}
             alignItems={"center"}
@@ -63,27 +73,32 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
               </VStack>
             </HStack>
           </Flex>
-          <Flex direction={"column"}>
+          <Flex
+            justifyContent={"center"}
+            gap={2}
+            alignItems="flex-start"
+            direction={"column"}
+          >
             <HStack gap={1}>
-              <GenericIcon icon={<BsTwitter />} text={data.socials.twitter} />
-              <GenericIcon icon={<BsFacebook />} text={data.socials.facebook} />
+              <GenericIcon
+                icon={<BsTwitter />}
+                text={twitter ? twitter : "@" + data.username}
+              />
+              <GenericIcon
+                icon={<BsFacebook />}
+                text={facebook ? facebook : "@" + data.username}
+              />
             </HStack>
-            <HStack gap={3}>
-              <GenericIcon icon={<BsSnapchat />} text="snapchat" />
-              <GenericIcon icon={<BsInstagram />} text="instagram" />
+            <HStack gap={1}>
+              <GenericIcon
+                icon={<BsSnapchat />}
+                text={snapchat ? snapchat : "@" + data.username}
+              />
+              <GenericIcon
+                icon={<BsInstagram />}
+                text={instagram ? instagram : "@" + data.username}
+              />
             </HStack>
-            {/* if user show this otherwise hide */}
-            {user && (
-              <>
-                {user._id === data._id && (
-                  <HStack pt={3} alignSelf="flex-end">
-                    <Button size={"sm"} colorScheme={"blue"}>
-                      <NextLink href={`/user/${user._id}/edit`}>Edit</NextLink>
-                    </Button>
-                  </HStack>
-                )}
-              </>
-            )}
           </Flex>
         </Flex>
         <Box>
@@ -92,24 +107,35 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
             gap={4}
             gridTemplateColumns={{
               base: "repeat(1, 1fr)",
-              lg: "repeat(2, 1fr)",
+              lg: "repeat(1, 1fr)",
             }}
           >
             <Flex direction={"column"} px="6" py={2} rounded={"md"}>
-              <Heading>About Username</Heading>
-              <Flex gap={8}>
+              <Heading>About {data.username}</Heading>
+              <Flex py={2} gap={4}>
                 <Box>
-                  <GenericIcon icon={<FaCity />} text="City" />
+                  <GenericIcon
+                    icon={<FaCity />}
+                    text={data.city ? data.city : "City"}
+                  />
                 </Box>
                 <Box>
-                  <GenericIcon icon={<FaLocationArrow />} text="Country" />
+                  <GenericIcon
+                    icon={<FaLocationArrow />}
+                    text={data.country ? data.country : "Country"}
+                  />
                 </Box>
                 <Box>
                   <GenericIcon icon={<MdEvent />} text={meetings.length} />
                 </Box>
-                <Box>
-                  <GenericIcon icon={<MdWorkOutline />} text="Work" />
-                </Box>
+                {user?.username === data.username && (
+                  <Box
+                    onClick={() => router.push(`/user/${user._id}/edit`)}
+                    cursor="pointer"
+                  >
+                    <GenericIcon icon={<FiEdit />} text="Edit Profile" />
+                  </Box>
+                )}
               </Flex>
               <Box py={3}>
                 <chakra.p>{data.bio}</chakra.p>
