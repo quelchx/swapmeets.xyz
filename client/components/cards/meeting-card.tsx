@@ -29,6 +29,7 @@ const MeetingCard = ({ post }: PostProps) => {
   const handleLikePost: any = async (post: string, user: string) => {
     try {
       await Axios.put(`/posts/${post}/like`, { user: user });
+      router.reload();
     } catch (error) {
       router.push("/error");
     }
