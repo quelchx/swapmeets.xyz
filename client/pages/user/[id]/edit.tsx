@@ -14,7 +14,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import InputSection from "../../../components/form/input-section";
-import { FormEvent } from "react";
+import { FormEvent, useRef } from "react";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await Axios.get("/users");
@@ -38,7 +38,21 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
   };
 };
 
+type InputReference = React.MutableRefObject<HTMLInputElement>;
+type TextareaReference = React.MutableRefObject<HTMLTextAreaElement>;
+
 const EditUser: NextPage<any> = ({ data }) => {
+  const username = useRef() as InputReference;
+  const email = useRef() as InputReference;
+  const bio = useRef() as TextareaReference;
+  const facebook = useRef() as InputReference;
+  const tiktok = useRef() as InputReference;
+  const twitter = useRef() as InputReference;
+  const snapchat = useRef() as InputReference;
+  const instagram = useRef() as InputReference;
+  const city = useRef() as InputReference;
+  const country = useRef() as InputReference;
+
   const editUser = async (event: FormEvent) => {
     event.preventDefault();
   };
@@ -51,10 +65,20 @@ const EditUser: NextPage<any> = ({ data }) => {
           <Flex gap={4} direction={"column"}>
             <Flex gap={3} direction={{ base: "column", md: "row" }} w={"full"}>
               <InputSection width="40%" label="Username">
-                <Input type="text" placeholder={data.username} />
+                <Input
+                  value={data.username}
+                  ref={username}
+                  type="text"
+                  placeholder={data.username}
+                />
               </InputSection>
               <InputSection width="60%" label="Email">
-                <Input type="email" placeholder={data.email} />
+                <Input
+                  value={data.email}
+                  ref={email}
+                  type="email"
+                  placeholder={data.email}
+                />
               </InputSection>
             </Flex>
             <InputSection label="Avatar">
@@ -71,6 +95,7 @@ const EditUser: NextPage<any> = ({ data }) => {
             <InputSection label="About You">
               <Textarea
                 minH={180}
+                ref={bio}
                 placeholder={
                   data.user?.details
                     ? data.user?.details
@@ -82,10 +107,10 @@ const EditUser: NextPage<any> = ({ data }) => {
             <Heading size={"lg"}>Location</Heading>
             <Flex gap={3} direction={{ base: "column", md: "row" }}>
               <InputSection width="60%" label="City">
-                <Input type="text" placeholder="City" />
+                <Input ref={city} type="text" placeholder="City" />
               </InputSection>
               <InputSection width="40%" label="Country">
-                <Input type="text" placeholder="Country" />
+                <Input ref={country} type="text" placeholder="Country" />
               </InputSection>
             </Flex>
             <Divider my={4} />
@@ -96,12 +121,16 @@ const EditUser: NextPage<any> = ({ data }) => {
             >
               <InputSection width="50%" label="Twitter">
                 <Input
+                  ref={twitter}
+                  value={data.socials.twitter}
                   type="text"
                   placeholder={"twitter.com/" + data.username}
                 />
               </InputSection>
               <InputSection width="50%" label="Facebook">
                 <Input
+                  ref={facebook}
+                  value={data.socials.facebook}
                   type="text"
                   placeholder={"facebook.com/" + data.username}
                 />
@@ -112,13 +141,28 @@ const EditUser: NextPage<any> = ({ data }) => {
               direction={{ base: "column", sm: "row" }}
             >
               <InputSection width="33%" label="Instagram">
-                <Input type="text" placeholder={"@" + data.username} />
+                <Input
+                  ref={instagram}
+                  value={data.socials.instagram}
+                  type="text"
+                  placeholder={"@" + data.username}
+                />
               </InputSection>
               <InputSection width="33%" label="Snapchat">
-                <Input type="text" placeholder={"@" + data.username} />
+                <Input
+                  ref={snapchat}
+                  value={data.socials.snapchat}
+                  type="text"
+                  placeholder={"@" + data.username}
+                />
               </InputSection>
               <InputSection width="33%" label="TikTok">
-                <Input type="text" placeholder={"@" + data.username} />
+                <Input
+                  ref={tiktok}
+                  value={data.socials.tiktok}
+                  type="text"
+                  placeholder={"@" + data.username}
+                />
               </InputSection>
             </Flex>
             <Flex
