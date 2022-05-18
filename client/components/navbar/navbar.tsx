@@ -31,13 +31,9 @@ const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, loading } = useAuthState();
 
-  const avatar =
-    "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
-
   const logout = () => {
     Axios.get("/auth/logout")
       .then(() => {
-        localStorage.removeItem("current-user");
         dispatch("LOGOUT");
         window.location.reload();
       })
@@ -95,12 +91,12 @@ const Navbar = () => {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar size={"sm"} src={avatar} />
+                <Avatar size={"sm"} name={user.username} />
               </MenuButton>
               <MenuList alignItems={"center"}>
                 <br />
                 <Center>
-                  <Avatar size={"xl"} src={avatar} />
+                  <Avatar size={"xl"} name={user.username}/>
                 </Center>
                 <br />
                 <Center>

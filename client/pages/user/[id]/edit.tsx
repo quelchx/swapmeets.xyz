@@ -2,20 +2,18 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Axios from "axios";
 import { UserModel } from "../../../@types";
 import {
-  Avatar,
   Box,
   Button,
-  chakra,
+  Checkbox,
   Divider,
   Flex,
   Heading,
-  HStack,
   Input,
   Textarea,
 } from "@chakra-ui/react";
 import InputSection from "../../../components/form/input-section";
-import { FormEvent, useRef } from "react";
-
+import { FormEvent, useRef, useState } from "react";
+import { useRouter } from "next/router";
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await Axios.get("/users");
   const paths = data.map((user: UserModel) => {
@@ -34,7 +32,7 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
 
   return {
     props: { data },
-    revalidate: 120,
+    revalidate: 10,
   };
 };
 
@@ -52,9 +50,30 @@ const EditUser: NextPage<any> = ({ data }) => {
   const instagram = useRef() as InputReference;
   const city = useRef() as InputReference;
   const country = useRef() as InputReference;
+  const router = useRouter();
+  const [consent, setConsent] = useState(false);
 
   const editUser = async (event: FormEvent) => {
     event.preventDefault();
+    try {
+      await Axios.put("/users/" + data._id, {
+        username: username.current.value,
+        email: email.current.value,
+        bio: bio.current.value,
+        socials: {
+          twitter: twitter.current.value,
+          facebook: facebook.current.value,
+          snapchat: snapchat.current.value,
+          instagram: instagram.current.value,
+          tiktok: tiktok.current.value,
+        },
+        city: city.current.value,
+        country: country.current.value,
+      });
+      router.push("/user/" + data._id);
+    } catch (err) {
+      return router.push("/error");
+    }
   };
 
   return (
@@ -66,7 +85,7 @@ const EditUser: NextPage<any> = ({ data }) => {
             <Flex gap={3} direction={{ base: "column", md: "row" }} w={"full"}>
               <InputSection width="40%" label="Username">
                 <Input
-                  value={data.username}
+                  defaultValue={data.username}
                   ref={username}
                   type="text"
                   placeholder={data.username}
@@ -74,32 +93,20 @@ const EditUser: NextPage<any> = ({ data }) => {
               </InputSection>
               <InputSection width="60%" label="Email">
                 <Input
-                  value={data.email}
+                  defaultValue={data.email}
                   ref={email}
                   type="email"
                   placeholder={data.email}
                 />
               </InputSection>
             </Flex>
-            <InputSection label="Avatar">
-              <HStack gap={4}>
-                <Avatar size={"lg"} src={data.avatar} />
-                <Button colorScheme={"blue"} className="file-upload">
-                  <chakra.label cursor="pointer">
-                    Upload Image
-                    <Input type="file" />
-                  </chakra.label>
-                </Button>
-              </HStack>
-            </InputSection>
             <InputSection label="About You">
               <Textarea
                 minH={180}
                 ref={bio}
+                defaultValue={data.bio}
                 placeholder={
-                  data.user?.details
-                    ? data.user?.details
-                    : "Tell everyone about yourself"
+                  data.bio ? data.bio : "Tell everyone about yourself"
                 }
               />
             </InputSection>
@@ -107,10 +114,20 @@ const EditUser: NextPage<any> = ({ data }) => {
             <Heading size={"lg"}>Location</Heading>
             <Flex gap={3} direction={{ base: "column", md: "row" }}>
               <InputSection width="60%" label="City">
-                <Input ref={city} type="text" placeholder="City" />
+                <Input
+                  ref={city}
+                  defaultValue={data.city}
+                  type="text"
+                  placeholder="City"
+                />
               </InputSection>
               <InputSection width="40%" label="Country">
-                <Input ref={country} type="text" placeholder="Country" />
+                <Input
+                  defaultValue={data.country}
+                  ref={country}
+                  type="text"
+                  placeholder="Country"
+                />
               </InputSection>
             </Flex>
             <Divider my={4} />
@@ -122,7 +139,7 @@ const EditUser: NextPage<any> = ({ data }) => {
               <InputSection width="50%" label="Twitter">
                 <Input
                   ref={twitter}
-                  value={data.socials.twitter}
+                  defaultValue={data.socials.twitter}
                   type="text"
                   placeholder={"twitter.com/" + data.username}
                 />
@@ -130,7 +147,7 @@ const EditUser: NextPage<any> = ({ data }) => {
               <InputSection width="50%" label="Facebook">
                 <Input
                   ref={facebook}
-                  value={data.socials.facebook}
+                  defaultValue={data.socials.facebook}
                   type="text"
                   placeholder={"facebook.com/" + data.username}
                 />
@@ -143,7 +160,7 @@ const EditUser: NextPage<any> = ({ data }) => {
               <InputSection width="33%" label="Instagram">
                 <Input
                   ref={instagram}
-                  value={data.socials.instagram}
+                  defaultValue={data.socials.instagram}
                   type="text"
                   placeholder={"@" + data.username}
                 />
@@ -151,7 +168,7 @@ const EditUser: NextPage<any> = ({ data }) => {
               <InputSection width="33%" label="Snapchat">
                 <Input
                   ref={snapchat}
-                  value={data.socials.snapchat}
+                  defaultValue={data.socials.snapchat}
                   type="text"
                   placeholder={"@" + data.username}
                 />
@@ -159,17 +176,13 @@ const EditUser: NextPage<any> = ({ data }) => {
               <InputSection width="33%" label="TikTok">
                 <Input
                   ref={tiktok}
-                  value={data.socials.tiktok}
+                  defaultValue={data.socials.tiktok}
                   type="text"
                   placeholder={"@" + data.username}
                 />
               </InputSection>
             </Flex>
-            <Flex
-              direction={{ base: "column", sm: "row" }}
-              gap={{ base: 2, sm: 4 }}
-              justifyContent={"flex-start"}
-            >
+            <Flex gap={3} direction={{ base: "column", md: "row" }}>
               <Button
                 type="submit"
                 minW={{ base: "full", sm: "100px" }}
@@ -177,14 +190,21 @@ const EditUser: NextPage<any> = ({ data }) => {
               >
                 Save
               </Button>
-              <Button
-                disabled={true}
-                minW={{ base: "full", sm: "100px" }}
-                colorScheme={"red"}
-              >
-                Delete Account
+              <Button disabled={!consent} colorScheme={"red"}>
+                Delete
               </Button>
             </Flex>
+            <Box>
+              <Checkbox
+                onChange={(e: any) => {
+                  setConsent(e.target.checked);
+                }}
+                isChecked={consent}
+                colorScheme={"green"}
+              >
+                I agree to delete my account
+              </Checkbox>
+            </Box>
           </Flex>
         </Box>
       </form>

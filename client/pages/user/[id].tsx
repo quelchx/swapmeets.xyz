@@ -68,7 +68,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
           >
             <HStack gap={1}>
               <Box>
-                <Avatar size="xl" name={data.username} src={data.avatar} />
+                <Avatar size="xl" name={data.username}  />
               </Box>
               <VStack fontWeight="bold" alignItems={"flex-start"} spacing={-1}>
                 <Heading size={"md"}>{data.username}</Heading>
@@ -89,8 +89,8 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
             {user && (
               <>
                 {user._id === data._id && (
-                  <HStack pt={2} alignSelf="flex-end">
-                    <Button>
+                  <HStack pt={3} alignSelf="flex-end">
+                    <Button size={'sm'} colorScheme={'blue'}>
                       <NextLink href={`/user/${user._id}/edit`}>Edit</NextLink>
                     </Button>
                   </HStack>
