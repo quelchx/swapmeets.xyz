@@ -1,17 +1,26 @@
-import type { IconComponent, UserModel } from "../../@types";
+import type { UserModel } from "../../@types";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import React, { ReactNode } from "react";
 import Axios from "axios";
-import ProfileCard from "../../components/cards/profile-card";
 import {
+  Avatar,
   Box,
-  chakra,
-  Heading,
   HStack,
-  SimpleGrid,
+  Text,
+  chakra,
+  Flex,
   VStack,
+  Divider,
+  Grid,
+  Heading,
+  Button,
 } from "@chakra-ui/react";
 import { BsFacebook, BsInstagram, BsSnapchat, BsTwitter } from "react-icons/bs";
+import { useAuthState } from "../../context/auth";
+import MeetingCard from "../../components/cards/meeting-card";
+import { FaCity, FaLocationArrow } from "react-icons/fa";
+import GenericIcon from "../../components/icons/generic-icon";
+import { MdEvent, MdWorkOutline } from "react-icons/md";
+import NextLink from "next/link";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await Axios.get("/users");
@@ -28,62 +37,111 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context: any) => {
   const id = context.params.id;
-  const res = await Axios.get(`/users/user/${id}`);
-  const data: UserModel = await res.data;
+
+  // current user
+  const { data } = await Axios.get(`/users/user/${id}`);
+  // const data: UserModel = await user.data;
+
+  // all of the users posted meets
+  const { data: meetings } = await Axios.get("/posts?author.id=" + data._id);
+
   return {
     props: {
       data,
+      meetings,
     },
   };
 };
 
-const SocialIcon = ({ icon, text }: IconComponent) => {
-  const Icon = () => icon;
+const UserPage: NextPage<any> = ({ data, meetings }) => {
+  const { user } = useAuthState();
   return (
-    <HStack gap={1} justify="flex-start" alignItems={"center"} width="100%">
-      <Box pt={0.5}>
-        <Icon />
-      </Box>
-      <Box>
-        <chakra.p fontFamily={"monospace"} fontSize={14} pt={0.5}>
-          {text}
-        </chakra.p>
-      </Box>
-    </HStack>
-  );
-};
-
-const UserPage: NextPage<any> = ({ data }) => {
-  const { twitter, tiktok, instagram, facebook, snapchat } = data.socials;
-  return (
-    <HStack gap={4} alignItems="flex-start">
-      <ProfileCard data={data} />
-      <VStack alignItems={"flex-start"} p={4}>
-        <Box borderBottomColor={"gray.400"} borderBottom="1px" mb={2}>
-          <Heading>About {data.username}</Heading>
+    <>
+      <Flex direction={"column"}>
+        {/* user heading */}
+        <Flex p={4} justifyContent="space-between" rounded={"lg"}>
+          <Flex
+            direction={{ base: "column", sm: "row" }}
+            alignItems={"center"}
+            gap={{ base: 0, sm: 4 }}
+          >
+            <HStack gap={1}>
+              <Box>
+                <Avatar size="xl" name={data.username} src={data.avatar} />
+              </Box>
+              <VStack fontWeight="bold" alignItems={"flex-start"} spacing={-1}>
+                <Heading size={"md"}>{data.username}</Heading>
+                <Text fontSize={"xs"}>{data.email}</Text>
+              </VStack>
+            </HStack>
+          </Flex>
+          <Flex direction={"column"}>
+            <HStack gap={1}>
+              <GenericIcon icon={<BsTwitter />} text={"twitter"} />
+              <GenericIcon icon={<BsFacebook />} text={"facebook"} />
+            </HStack>
+            <HStack gap={3}>
+              <GenericIcon icon={<BsSnapchat />} text="snapchat" />
+              <GenericIcon icon={<BsInstagram />} text="instagram" />
+            </HStack>
+            {/* if user show this otherwise hide */}
+            {user && (
+              <>
+                {user._id === data._id && (
+                  <HStack pt={2} alignSelf="flex-end">
+                    <Button>
+                      <NextLink href={`/user/${user._id}/edit`}>Edit</NextLink>
+                    </Button>
+                  </HStack>
+                )}
+              </>
+            )}
+          </Flex>
+        </Flex>
+        <Box>
+          <Divider my={4} w="full" />
+          <Grid
+            gap={4}
+            gridTemplateColumns={{
+              base: "repeat(1, 1fr)",
+              lg: "repeat(2, 1fr)",
+            }}
+          >
+            <Flex direction={"column"} px="6" py={2} rounded={"md"}>
+              <Heading>About Username</Heading>
+              <Flex gap={8}>
+                <Box>
+                  <GenericIcon icon={<FaCity />} text="City" />
+                </Box>
+                <Box>
+                  <GenericIcon icon={<FaLocationArrow />} text="Country" />
+                </Box>
+                <Box>
+                  <GenericIcon icon={<MdEvent />} text={meetings.length} />
+                </Box>
+                <Box>
+                  <GenericIcon icon={<MdWorkOutline />} text="Work" />
+                </Box>
+              </Flex>
+              <Box py={3}>
+                <chakra.p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Tempora illum, dolorem debitis porro error adipisci tempore
+                  maxime, eaque alias sapiente quibusdam molestias iste atque
+                  soluta repudiandae pariatur harum voluptate omnis.
+                </chakra.p>
+              </Box>
+            </Flex>
+            <VStack px="6" py={2} spacing={4} alignItems={"flex-start"}>
+              <Heading>Your Posts</Heading>
+              {meetings.map((post: any) => (
+                <MeetingCard key={post._id} post={post} />
+              ))}
+            </VStack>
+          </Grid>
         </Box>
-        <VStack alignItems={"flex-start"} gap={2}>
-          <HStack gap={6} alignItems="flex-start">
-            <SocialIcon
-              icon={<BsInstagram size={20} />}
-              text={instagram ? instagram : `@` + data.username}
-            />
-            <SocialIcon
-              icon={<BsSnapchat size={20} />}
-              text={snapchat ? snapchat : `@` + data.username}
-            />
-          </HStack>
-          <SocialIcon
-            icon={<BsTwitter size={20} />}
-            text={twitter ? twitter : "http://twitter.com/you"}
-          />
-          <SocialIcon
-            icon={<BsFacebook size={20} />}
-            text={facebook ? facebook : "http://facebook.com/you"}
-          />
-        </VStack>
-      </VStack>
-    </HStack>
+      </Flex>
+    </>
   );
 };
 
