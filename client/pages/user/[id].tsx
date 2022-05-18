@@ -1,5 +1,11 @@
 import type { UserModel } from "../../@types";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
+import NextLink from "next/link";
 import Axios from "axios";
 import {
   Avatar,
@@ -20,29 +26,10 @@ import MeetingCard from "../../components/cards/meeting-card";
 import { FaCity, FaLocationArrow } from "react-icons/fa";
 import GenericIcon from "../../components/icons/generic-icon";
 import { MdEvent, MdWorkOutline } from "react-icons/md";
-import NextLink from "next/link";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await Axios.get("/users");
-  const data = await res.data;
-  const paths = data.map((user: UserModel) => {
-    return { params: { id: user._id } };
-  });
-
-  return {
-    paths,
-    fallback: "blocking",
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
-
-  // current user
   const { data } = await Axios.get(`/users/user/${id}`);
-  // const data: UserModel = await user.data;
-
-  // all of the users posted meets
   const { data: meetings } = await Axios.get("/posts?author.id=" + data._id);
 
   return {
@@ -50,12 +37,12 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
       data,
       meetings,
     },
-    revalidate: 120,
   };
 };
 
 const UserPage: NextPage<any> = ({ data, meetings }) => {
   const { user } = useAuthState();
+  console.log(data);
   return (
     <>
       <Flex direction={"column"}>
@@ -68,7 +55,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
           >
             <HStack gap={1}>
               <Box>
-                <Avatar size="xl" name={data.username}  />
+                <Avatar size="xl" name={data.username} />
               </Box>
               <VStack fontWeight="bold" alignItems={"flex-start"} spacing={-1}>
                 <Heading size={"md"}>{data.username}</Heading>
@@ -78,8 +65,8 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
           </Flex>
           <Flex direction={"column"}>
             <HStack gap={1}>
-              <GenericIcon icon={<BsTwitter />} text={"twitter"} />
-              <GenericIcon icon={<BsFacebook />} text={"facebook"} />
+              <GenericIcon icon={<BsTwitter />} text={data.socials.twitter} />
+              <GenericIcon icon={<BsFacebook />} text={data.socials.facebook} />
             </HStack>
             <HStack gap={3}>
               <GenericIcon icon={<BsSnapchat />} text="snapchat" />
@@ -90,7 +77,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
               <>
                 {user._id === data._id && (
                   <HStack pt={3} alignSelf="flex-end">
-                    <Button size={'sm'} colorScheme={'blue'}>
+                    <Button size={"sm"} colorScheme={"blue"}>
                       <NextLink href={`/user/${user._id}/edit`}>Edit</NextLink>
                     </Button>
                   </HStack>
@@ -125,12 +112,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
                 </Box>
               </Flex>
               <Box py={3}>
-                <chakra.p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Tempora illum, dolorem debitis porro error adipisci tempore
-                  maxime, eaque alias sapiente quibusdam molestias iste atque
-                  soluta repudiandae pariatur harum voluptate omnis.
-                </chakra.p>
+                <chakra.p>{data.bio}</chakra.p>
               </Box>
             </Flex>
             <VStack px="6" py={2} spacing={4} alignItems={"flex-start"}>

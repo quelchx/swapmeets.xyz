@@ -1,4 +1,9 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import Axios from "axios";
 import { UserModel } from "../../../@types";
 import {
@@ -12,27 +17,16 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import InputSection from "../../../components/form/input-section";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await Axios.get("/users");
-  const paths = data.map((user: UserModel) => {
-    return { params: { id: user._id } };
-  });
+import { useAuthState } from "../../../context/auth";
 
-  return {
-    paths,
-    fallback: "blocking",
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
   const { data } = await Axios.get("/users/user/" + id);
 
   return {
     props: { data },
-    revalidate: 10,
   };
 };
 
@@ -40,6 +34,15 @@ type InputReference = React.MutableRefObject<HTMLInputElement>;
 type TextareaReference = React.MutableRefObject<HTMLTextAreaElement>;
 
 const EditUser: NextPage<any> = ({ data }) => {
+  const { user } = useAuthState();
+  const router = useRouter();
+
+  useEffect((): any => {
+    if (user._id !== data._id) {
+      return router.push("/login");
+    }
+  }, []);
+
   const username = useRef() as InputReference;
   const email = useRef() as InputReference;
   const bio = useRef() as TextareaReference;
@@ -50,7 +53,7 @@ const EditUser: NextPage<any> = ({ data }) => {
   const instagram = useRef() as InputReference;
   const city = useRef() as InputReference;
   const country = useRef() as InputReference;
-  const router = useRouter();
+
   const [consent, setConsent] = useState(false);
 
   const editUser = async (event: FormEvent) => {
