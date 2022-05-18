@@ -17,7 +17,7 @@ const Feed = () => {
       setLoading(false);
     };
     getPosts();
-  }, [!isLoading]);
+  }, []);
 
   return (
     <>
