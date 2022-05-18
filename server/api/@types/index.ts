@@ -43,6 +43,8 @@ export interface UserModel extends DocumentResult<UserModel> {
   isAdmin?: boolean;
   avatar?: string;
   socials?: Socials;
+  city?: string;
+  country?: string;
 }
 
 export interface PostModel extends DocumentResult<PostModel> {
