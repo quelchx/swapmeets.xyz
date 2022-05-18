@@ -9,7 +9,7 @@ const GenericIcon = ({ icon, text }: IconComponent) => {
         <Icon />
       </Box>
       <Box>
-        <chakra.p fontFamily={"monospace"} fontSize={14} pt={0.5}>
+        <chakra.p fontFamily={"monospace"} fontSize={10} pt={0.5}>
           {text}
         </chakra.p>
       </Box>
