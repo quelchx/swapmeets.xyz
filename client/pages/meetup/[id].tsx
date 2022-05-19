@@ -1,7 +1,6 @@
 import type { PostModel, Data, IconComponent } from "../../@types";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { useAuthState } from "../../context/auth";
-import React, { FormEvent, ReactNode, useRef, useState } from "react";
+import React, { FormEvent, useRef } from "react";
 import { useRouter } from "next/router";
 import {
   Box,
@@ -13,16 +12,18 @@ import {
   Heading,
   HStack,
   Textarea,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+
 import {
   BiBuildingHouse,
   BiLocationPlus,
   BiStreetView,
   BiTimeFive,
 } from "react-icons/bi";
+
 import { FaCity } from "react-icons/fa";
+import { useAuthState } from "../../context/auth";
 
 import Axios from "axios";
 import ThumbIcon from "../../components/icons/thumb-icon";
@@ -30,6 +31,7 @@ import AttendingIcon from "../../components/icons/attending-icon";
 import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
 import NextLink from "next/link";
+import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await Axios.get("/posts");
@@ -70,6 +72,7 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
   const { user } = useAuthState();
 
   const router = useRouter();
+
   const commentOnPost = async (event: FormEvent) => {
     event.preventDefault();
     try {
@@ -121,15 +124,30 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
             {data.body}
           </chakra.p>
         </Box>
-        <HStack pt={5}>
-          <ThumbIcon
-            user={user}
-            handleClick={() => {}}
-            value={data.likes.length}
-          />
-          <AttendingIcon attending={data.meeting.attending.length} />
-          <CommentsIcon comments={data.comments.length} />
-        </HStack>
+        {user ? (
+          <HStack pt={5}>
+            <ThumbIcon
+              handleClick={() =>
+                handleLikePost(data._id, user.username, router)
+              }
+              value={data.likes.length}
+            />
+            <Box
+              onClick={() =>
+                attendEventHandler(data._id, user.username, router)
+              }
+            >
+              <AttendingIcon attending={data.meeting.attending.length} />
+            </Box>
+            <CommentsIcon comments={data.comments.length} />
+          </HStack>
+        ) : (
+          <NextLink href="/login">
+            <chakra.small cursor="pointer" mt={2}>
+              Login to comment or attend meeting
+            </chakra.small>
+          </NextLink>
+        )}
         <VStack align={"flex-start"} gap={2} mt={4}>
           <Heading size={"md"}>Comments</Heading>
           {data.comments.map((comment: any) => (

@@ -1,27 +1,26 @@
-import type {
-  GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
-  NextPage,
-} from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Axios from "axios";
 import {
   Box,
   Button,
-  chakra,
   Checkbox,
   Divider,
   Flex,
   Heading,
   Input,
-  Text,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
+
 import InputSection from "../../../components/form/input-section";
+
 import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "../../../context/auth";
-import NextLink from "next/link";
+
+import Error from "../../../components/error/error";
+import DeleteUserModal from "../../../components/modal/delete-user-modal";
+
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
   const { data } = await Axios.get("/users/user/" + id);
@@ -35,10 +34,7 @@ type InputReference = React.MutableRefObject<HTMLInputElement>;
 type TextareaReference = React.MutableRefObject<HTMLTextAreaElement>;
 
 const EditUser: NextPage<any> = ({ data }) => {
-  const { user } = useAuthState();
-  const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
-
+  const [consent, setConsent] = useState(false);
   const username = useRef() as InputReference;
   const email = useRef() as InputReference;
   const bio = useRef() as TextareaReference;
@@ -50,7 +46,9 @@ const EditUser: NextPage<any> = ({ data }) => {
   const city = useRef() as InputReference;
   const country = useRef() as InputReference;
 
-  const [consent, setConsent] = useState(false);
+  const router = useRouter();
+  const { user, authenticated } = useAuthState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const editUser = async (event: FormEvent) => {
     event.preventDefault();
@@ -75,42 +73,13 @@ const EditUser: NextPage<any> = ({ data }) => {
     }
   };
 
-  if (user === null) {
-    return (
-      <chakra.div display="grid" placeItems="center" height="80vh">
-        <Box textAlign="center" py={10} px={6}>
-          <Heading
-            display="inline-block"
-            as="h2"
-            size="2xl"
-            bgGradient="linear(to-r, red.400, red.600)"
-            backgroundClip="text"
-          >
-            Error
-          </Heading>
-          <Text fontSize="18px" mt={3} mb={2}>
-            Something went wrong
-          </Text>
-          <Text color={"gray.500"} mb={6}>
-            To report this error please refer to the contact page and let us
-            know what happened
-          </Text>
-
-          <Button
-            colorScheme="red"
-            bgGradient="linear(to-r, red.400, red.500, red.600)"
-            color="white"
-            variant="solid"
-          >
-            <NextLink href="/">Go To Home</NextLink>
-          </Button>
-        </Box>
-      </chakra.div>
-    );
+  if (!authenticated && user == null) {
+    return <Error />;
   }
+
   return (
     <>
-      {user && (
+      {authenticated && (
         <>
           {user._id === data._id && (
             <Box p={6}>
@@ -230,7 +199,11 @@ const EditUser: NextPage<any> = ({ data }) => {
                       >
                         Save
                       </Button>
-                      <Button disabled={!consent} colorScheme={"red"}>
+                      <Button
+                        onClick={onOpen}
+                        disabled={!consent}
+                        colorScheme={"red"}
+                      >
                         Delete
                       </Button>
                     </Flex>
@@ -248,6 +221,7 @@ const EditUser: NextPage<any> = ({ data }) => {
                   </Flex>
                 </Box>
               </form>
+              <DeleteUserModal user={user} isOpen={isOpen} onClose={onClose} />
             </Box>
           )}
         </>

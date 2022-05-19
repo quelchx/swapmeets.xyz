@@ -25,12 +25,6 @@ export type HeadState = {
   type: "website";
 };
 
-export type ThumbIconProps = {
-  user: UserModel;
-  value: number;
-  handleClick: () => any;
-};
-
 export type HeadProps = {
   [data: string]: any;
 };
@@ -59,7 +53,7 @@ export type Comment = {
   body: string;
   author: Author;
   likes?: [];
-  created?: Date | string;
+  createdAt: Date
 };
 
 export type Data = {
@@ -90,6 +84,7 @@ export type Post = {
   meeting: Meeting;
   comments?: Array<Comment>;
   slug: string;
+  createdAt: Date;
 };
 
 export type PostProps = {

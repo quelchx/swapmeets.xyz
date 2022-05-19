@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import {
   chakra,
@@ -24,7 +23,7 @@ type CommentCardProps = {
     body: string;
     author: Author;
     likes?: [];
-    created?: Date | string;
+    createdAt?: Date;
   };
   user: UserModel;
   id: string;
@@ -80,7 +79,7 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
             fontSize="sm"
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Written {convertDate(comment.created)}
+            Written {convertDate(comment.createdAt)}
           </chakra.span>
           {user && (
             <>

@@ -1,16 +1,8 @@
-import {
-  Box,
-  chakra,
-  Divider,
-  Heading,
-  HStack,
-  VStack,
-  Text,
-} from "@chakra-ui/react";
-import React from "react";
-import { BsFacebook, BsInstagram, BsSnapchat, BsTwitter } from "react-icons/bs";
-import { IconComponent } from "../../@types";
 import GenericIcon from "./generic-icon";
+
+import { Box, Divider, Heading, HStack, VStack, Text } from "@chakra-ui/react";
+import { BsFacebook, BsInstagram, BsSnapchat, BsTwitter } from "react-icons/bs";
+
 
 const ProfileIcons = ({ data }: any) => {
   const { twitter, tiktok, instagram, facebook, snapchat } = data.socials;
@@ -21,7 +13,6 @@ const ProfileIcons = ({ data }: any) => {
         <Heading>About {data.username}</Heading>
       </Box>
       <VStack alignItems={"flex-start"} gap={2}>
-        {/* social icons */}
         <HStack gap={3} alignItems="flex-start">
           <GenericIcon
             icon={<BsInstagram size={20} />}

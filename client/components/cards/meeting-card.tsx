@@ -1,39 +1,28 @@
-import { useEffect } from "react";
 import { useAuthState } from "../../context/auth";
 import { useRouter } from "next/router";
 import { PostProps } from "../../@types";
 import {
   chakra,
   Box,
-  Image,
   Flex,
   Link,
   useColorModeValue,
   HStack,
   Button,
+  Avatar,
 } from "@chakra-ui/react";
 
 import NextLink from "next/link";
-import Axios from "axios";
 import ThumbIcon from "../icons/thumb-icon";
 import CommentsIcon from "../icons/comments-icon";
 import AttendingIcon from "../icons/attending-icon";
 import convertDate from "../../helpers/convert-date";
+import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
 
 const MeetingCard = ({ post }: PostProps) => {
   const router = useRouter();
   const { user } = useAuthState();
-
   const { location, date, time, attending } = post.meeting;
-
-  const handleLikePost: any = async (post: string, user: string) => {
-    try {
-      await Axios.put(`/posts/${post}/like`, { user: user });
-      router.reload();
-    } catch (error) {
-      router.push("/error");
-    }
-  };
 
   return (
     <Flex w="full" my={2} alignItems="center" justifyContent="center">
@@ -82,9 +71,15 @@ const MeetingCard = ({ post }: PostProps) => {
           <chakra.p mt={2} color={useColorModeValue("gray.600", "gray.300")}>
             {post.body}
           </chakra.p>
-          <small>
-            <strong>{convertDate(date)}</strong> @{time}
-          </small>
+          <chakra.p fontSize={12} my={1}>
+            Posted {convertDate(post.createdAt)}
+          </chakra.p>
+          <HStack mt={2}>
+            <small>
+              <strong>Event {convertDate(date)}</strong>
+            </small>
+            <small>@{time}</small>
+          </HStack>
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center" mt={4}>
@@ -94,34 +89,49 @@ const MeetingCard = ({ post }: PostProps) => {
                 Details
               </Button>
             </NextLink>
-            <HStack spacing={1} gap={1}>
-              <ThumbIcon
-                user={user}
-                handleClick={() => handleLikePost(post._id, user.username)}
-                value={post.likes.length}
-              />
-              <AttendingIcon attending={attending.length} />
-              <CommentsIcon comments={post.comments.length} />
-            </HStack>
+            {user ? (
+              <HStack spacing={1} gap={1}>
+                <ThumbIcon
+                  handleClick={() =>
+                    handleLikePost(post._id, user.username, router)
+                  }
+                  value={post.likes.length}
+                />
+                <Box
+                  onClick={() =>
+                    attendEventHandler(post._id, user.username, router)
+                  }
+                >
+                  <AttendingIcon attending={attending.length} />
+                </Box>
+                <CommentsIcon comments={post.comments.length} />
+              </HStack>
+            ) : (
+              <NextLink href="/login">
+                <chakra.small cursor="pointer" mt={2}>
+                  Login To Comment
+                </chakra.small>
+              </NextLink>
+            )}
           </HStack>
           <Flex alignItems="center">
-            <Link
-              color={useColorModeValue("gray.700", "gray.200")}
-              fontWeight="700"
-              cursor="pointer"
-            >
-              {post.author.username}
-            </Link>
-            <Image
-              mx={4}
-              w={10}
-              h={10}
+            <Avatar
+              mr={2}
+              size="sm"
               rounded="full"
-              fit="cover"
               display={{ base: "none", sm: "block" }}
-              src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=40&q=80"
-              alt="avatar"
+              name={post.author.username}
             />
+            <NextLink href={`/user/${post.author.id}`}>
+              <Link
+                as="div"
+                color={useColorModeValue("gray.700", "gray.200")}
+                fontWeight="700"
+                cursor="pointer"
+              >
+                {post.author.username}
+              </Link>
+            </NextLink>
           </Flex>
         </Flex>
       </Box>
