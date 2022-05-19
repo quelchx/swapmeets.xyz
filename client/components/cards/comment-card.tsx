@@ -8,7 +8,7 @@ import {
   HStack,
   useDisclosure,
 } from "@chakra-ui/react";
-
+import NextLink from "next/link";
 import Axios from "axios";
 import convertDate from "../../helpers/convert-date";
 import ThumbIcon from "../icons/thumb-icon";
@@ -104,24 +104,32 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center">
-          <HStack>
+          <HStack spacing={0.5}>
             <chakra.p>Posted by: </chakra.p>
-            <Link
-              color={useColorModeValue("gray.700", "gray.200")}
-              fontWeight="700"
-              cursor="pointer"
-            >
-              @{comment.author.username}
-            </Link>
+            <NextLink href={`/user/${comment.author.id}`}>
+              <Link
+                as="div"
+                color={useColorModeValue("gray.700", "gray.200")}
+                fontWeight="700"
+                cursor="pointer"
+              >
+                @{comment.author.username}
+              </Link>
+            </NextLink>
           </HStack>
           <Flex alignItems="center">
-            <HStack spacing={1} gap={1}>
-              <ThumbIcon
-                user={user}
-                handleClick={likeComment}
-                value={comment.likes.length}
-              />
-            </HStack>
+            {user ? (
+              <HStack spacing={1} gap={1}>
+                <ThumbIcon
+                  handleClick={likeComment}
+                  value={comment.likes.length}
+                />
+              </HStack>
+            ) : (
+              <Box _hover={{ color: "blue.600" }} as="small" cursor="pointer">
+                <NextLink href="/login">Login to like comment</NextLink>
+              </Box>
+            )}
           </Flex>
         </Flex>
       </Box>

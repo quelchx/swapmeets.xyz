@@ -28,7 +28,7 @@ const Error = () => {
           color="white"
           variant="solid"
         >
-          <NextLink href="/">Go To Home</NextLink>
+          <NextLink href="/feed">Go To Home</NextLink>
         </Button>
       </Box>
     </chakra.div>

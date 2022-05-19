@@ -4,7 +4,7 @@ import { MdPostAdd } from "react-icons/md";
 import { LinkItemProps } from "../@types";
 
 const SidebarRoutes: Array<LinkItemProps> = [
-  { name: "Feed", icon: ImFeed, href: "/" },
+  { name: "Feed", icon: ImFeed, href: "/feed" },
   { name: "Create Post", icon: MdPostAdd, href: "/meetup/create" },
   // { name: "Explore Meetups", icon: FiCompass, href: "/meetup/explore" },
 ];
