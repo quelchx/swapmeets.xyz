@@ -25,7 +25,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
+        size="xs"
       >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
@@ -35,6 +35,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
         position="fixed"
         bottom="0"
         right={0}
+        zIndex={30}
         display={{ base: "flex", md: "none" }}
         onOpen={onOpen}
       />

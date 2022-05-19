@@ -84,7 +84,7 @@ export type Post = {
   meeting: Meeting;
   comments?: Array<Comment>;
   slug: string;
-  createdAt: Date;
+  createdAt?: Date;
 };
 
 export type PostProps = {

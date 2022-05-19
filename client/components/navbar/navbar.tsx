@@ -24,6 +24,8 @@ import NavList from "./navlist";
 import NavLink from "./navlink";
 import ToggleTheme from "../toggles/theme";
 import NextLink from "next/link";
+import { MdAccountCircle, MdLogin } from "react-icons/md";
+import AuthRoutes from "../auth/auth-routes";
 
 const Navbar = () => {
   const router = useRouter();
@@ -69,15 +71,7 @@ const Navbar = () => {
             display={{ base: "none", md: "flex" }}
           >
             <NavList />
-            {!loading &&
-              (user ? (
-                <></>
-              ) : (
-                <>
-                  <NavLink href="/login">Login</NavLink>
-                  <NavLink href="/register">Sign Up</NavLink>
-                </>
-              ))}
+            {!loading && (user ? <></> : <AuthRoutes />)}
           </HStack>
         </HStack>
         <Flex alignItems={"center"} gap={3}>
@@ -96,7 +90,7 @@ const Navbar = () => {
               <MenuList alignItems={"center"}>
                 <br />
                 <Center>
-                  <Avatar size={"xl"} name={user.username}/>
+                  <Avatar size={"xl"} name={user.username} />
                 </Center>
                 <br />
                 <Center>
@@ -118,17 +112,9 @@ const Navbar = () => {
 
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
+          <Stack as={"nav"} direction="column-reverse" spacing={4}>
             <NavList />
-            {!loading &&
-              (user ? (
-                <></>
-              ) : (
-                <>
-                  <NavLink href="/login">Login</NavLink>
-                  <NavLink href="/register">Sign Up</NavLink>
-                </>
-              ))}
+            {!loading && (user ? <></> : <AuthRoutes />)}
           </Stack>
         </Box>
       ) : null}

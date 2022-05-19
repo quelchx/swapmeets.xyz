@@ -1,12 +1,14 @@
 import { FiCompass } from "react-icons/fi";
-import { ImFeed } from "react-icons/im";
-import { MdPostAdd } from "react-icons/md";
+import { ImFeed, ImInfo } from "react-icons/im";
+import { MdOutlineContactSupport, MdPostAdd } from "react-icons/md";
 import { LinkItemProps } from "../@types";
 
 const SidebarRoutes: Array<LinkItemProps> = [
   { name: "Feed", icon: ImFeed, href: "/feed" },
   { name: "Create Post", icon: MdPostAdd, href: "/meetup/create" },
-  // { name: "Explore Meetups", icon: FiCompass, href: "/meetup/explore" },
+  { name: "Explore Meetups", icon: FiCompass, href: "/explore" },
+  { name: "About", icon: ImInfo, href: "/about" },
+  { name: "Contact", icon: MdOutlineContactSupport, href: "/contact" },
 ];
 
 export default SidebarRoutes;
