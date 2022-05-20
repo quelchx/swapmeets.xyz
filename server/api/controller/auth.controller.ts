@@ -3,22 +3,31 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import User from "../models/User";
 import { Request, Response } from "express";
-
+import Axios from "axios";
 const authError = (res: Response) => {
   return res.status(404).json({ error: "Credentails do not match" });
 };
 
 /** @POST /auth/register  */
 export const register = async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, token } = req.body;
+
+  const secret = process.env.PRIVATE_RECAPTCHA_KEY;
+
   const salt = bcrypt.genSaltSync();
   const hash = bcrypt.hashSync(password, salt);
 
   try {
+    const { data } = await Axios(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+      { method: "POST" }
+    );
+
     const newUser = new User({
       username,
       email,
       password: hash,
+      verified: data.success,
     });
 
     await newUser.save();

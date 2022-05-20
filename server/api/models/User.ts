@@ -17,6 +17,9 @@ const UserSchema = new Schema<UserModel>(
       type: String,
       required: true,
     },
+    verified: {
+      type: Boolean,
+    },
     bio: {
       type: String,
       required: false,

@@ -45,7 +45,7 @@ export interface UserModel extends DocumentResult<UserModel> {
   city?: string;
   country?: string;
   isAdmin?: boolean;
-  // avatar?: any;
+  verified?: boolean;
 }
 
 export interface PostModel extends DocumentResult<PostModel> {
