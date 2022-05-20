@@ -21,7 +21,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex
-        h={{ base: "20", sm: "0" }}
+        h={{ sm: "10", md: 0 }}
         alignItems="center"
         mx="6"
         justifyContent="flex-start"
