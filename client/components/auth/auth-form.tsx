@@ -235,7 +235,10 @@ const AuthForm = ({ type }: AuthFormType) => {
                   </chakra.div>
                   <small>
                     For more information about the terms and conditions please
-                    click here
+                    click{" "}
+                    <a href="./conditions.md" target="_blank" rel="noreferrer">
+                      here
+                    </a>
                   </small>
                 </>
               )}
