@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
 .react-datepicker-wrapper,
 .react-datepicker__input-container,
 .react-datepicker__input-container input {
@@ -34,4 +40,8 @@
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
+}
+
+.g-recaptcha {
+  width: 100%;
 }

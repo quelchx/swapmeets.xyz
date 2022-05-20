@@ -9,15 +9,19 @@ import {
   Heading,
   Text,
   VStack,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
 import NextLink from "next/link";
+import Head from "../components/head/head";
 
 const AboutPage: NextPage = () => {
   return (
     <>
+      <Head
+        title="About Swap Meets"
+        description="Learn a little about Swap Meets"
+      />
       <Box pos="relative" overflow="hidden">
         <Box maxW="7xl" mx="auto">
           <Box pos="relative" pb={4} w="full" border="solid 1px transparent">

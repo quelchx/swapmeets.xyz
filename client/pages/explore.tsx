@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import MeetingCard from "../components/cards/meeting-card";
 import type { NextPage } from "next";
 import { BsLightningFill } from "react-icons/bs";
+import Head from "../components/head/head";
 
 const ExplorePage: NextPage = () => {
   const [value, setValue] = React.useState("All");
@@ -59,6 +60,10 @@ const ExplorePage: NextPage = () => {
 
   return (
     <>
+      <Head
+        title="Explore Meetups"
+        description="Search Swap Meets based on location, country and place"
+      />
       {!isLoading ? (
         <>
           <form onSubmit={searchPosts}>
