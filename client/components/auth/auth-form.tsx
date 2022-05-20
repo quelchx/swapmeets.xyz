@@ -128,7 +128,7 @@ const AuthForm = ({ type }: AuthFormType) => {
                       >
                         Password Credentials
                       </chakra.summary>
-                      <chakra.div lineHeight={1.25} color="gray.700" pl={8}>
+                      <chakra.div lineHeight={1.25} pl={8}>
                         {credentials.map((credential) => (
                           <li className="px-0.5" key={credential}>
                             {credential}
@@ -236,7 +236,7 @@ const AuthForm = ({ type }: AuthFormType) => {
                   <small>
                     For more information about the terms and conditions please
                     click{" "}
-                    <a href="./conditions.md" target="_blank" rel="noreferrer">
+                    <a href="./terms-and-conditions.md" target="_blank" rel="noreferrer">
                       here
                     </a>
                   </small>
