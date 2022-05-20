@@ -4,7 +4,7 @@ import {
   InputEventChange,
 } from "../../@types";
 import { useAuthDispatch, useAuthState } from "../../context/auth";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { credentials, passwordCheck } from "../../utils/password-check";
 import {
@@ -25,6 +25,7 @@ import {
 import NextLink from "next/link";
 import Axios from "axios";
 import Field from "./field";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const AuthForm = ({ type }: AuthFormType) => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const AuthForm = ({ type }: AuthFormType) => {
 
   const [error, setError] = useState<string>();
   const [agreement, setAgreement] = useState(false);
-
+  const captcha = useRef() as any;
   const email = useRef() as FieldReferenceType;
   const username = useRef() as FieldReferenceType;
   const password = useRef() as FieldReferenceType;
@@ -57,7 +58,8 @@ const AuthForm = ({ type }: AuthFormType) => {
             email: email.current.value,
             username: username.current.value,
             password: password.current.value,
-          })
+            token: await captcha.current.executeAsync(),
+          }).then(() => captcha.current.reset())
         : await Axios.post("/auth/login", {
             username: username.current.value,
             password: password.current.value,
@@ -151,7 +153,7 @@ const AuthForm = ({ type }: AuthFormType) => {
                 </>
               )}
               <Box cursor="pointer" my={0.5}>
-                <NextLink href="/">
+                <NextLink href="/feed">
                   <chakra.small
                     _hover={{ color: "blue.500", textDecoration: "underline" }}
                   >
@@ -207,20 +209,37 @@ const AuthForm = ({ type }: AuthFormType) => {
                 <label htmlFor="Password">Password</label>
               </Field>
               {type === "register" && (
-                <chakra.div display="flex" alignItems="center" gap={2}>
-                  <Field
-                    checked={agreement}
-                    onChange={(e: InputEventChange) =>
-                      setAgreement(e.target.checked)
-                    }
-                    type="checkbox"
-                    style={{
-                      alignItems: "start",
-                    }}
-                  />
-                  <p>I agree to the terms and conditions</p>
-                </chakra.div>
+                <>
+                  <chakra.div
+                    w={"full"}
+                    display="flex"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Field
+                      checked={agreement}
+                      onChange={(e: InputEventChange) =>
+                        setAgreement(e.target.checked)
+                      }
+                      type="checkbox"
+                      style={{
+                        alignItems: "start",
+                      }}
+                    />
+                    <p>I agree to the terms and conditions</p>
+                    <ReCAPTCHA
+                      size="invisible"
+                      ref={captcha}
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
+                    />
+                  </chakra.div>
+                  <small>
+                    For more information about the terms and conditions please
+                    click here
+                  </small>
+                </>
               )}
+
               <chakra.div pt={2}>
                 <chakra.button
                   type="submit"
