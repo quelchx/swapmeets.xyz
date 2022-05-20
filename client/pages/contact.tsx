@@ -60,7 +60,7 @@ const ContactPage: NextPage = () => {
               Lets Talk
             </Heading>
           </Box>
-          <Stack >
+          <Stack>
             <p>
               If you have a question, concern or simply want to say hello, feel
               free to use this page to get in touch with Swap Meets. We are
@@ -126,6 +126,7 @@ const ContactPage: NextPage = () => {
                 >
                   <FormLabel htmlFor="Name">Name</FormLabel>
                   <Input
+                    borderColor={"gray.500"}
                     name="name"
                     id="name"
                     required
@@ -140,6 +141,7 @@ const ContactPage: NextPage = () => {
                 >
                   <FormLabel htmlFor="Email">Email</FormLabel>
                   <Input
+                    borderColor={"gray.500"}
                     required
                     name="email"
                     id="email"
@@ -150,7 +152,14 @@ const ContactPage: NextPage = () => {
               </Flex>
               <Box pt={4}>
                 <FormLabel htmlFor="message">Message</FormLabel>
-                <Textarea name="message" id="message" required minH="180px" />
+                <Textarea
+                  borderColor={"gray.500"}
+                  placeholder="Send a message"
+                  name="message"
+                  id="message"
+                  required
+                  minH="180px"
+                />
               </Box>
               <HStack
                 gap={4}
@@ -159,7 +168,13 @@ const ContactPage: NextPage = () => {
                 pt={2}
               >
                 <Box>
-                  <Checkbox onChange={handleChange}>Im not a robot</Checkbox>
+                  <Checkbox
+                    borderColor={"gray.500"}
+                    colorScheme={"green"}
+                    onChange={handleChange}
+                  >
+                    Im not a robot
+                  </Checkbox>
                 </Box>
                 <Button
                   disabled={isDisabled}

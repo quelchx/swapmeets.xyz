@@ -112,7 +112,7 @@ const AboutPage: NextPage = () => {
             w="full"
             rounded="lg"
             shadow="2xl"
-            src="https://kutty.netlify.app/hero.jpg"
+            src="./images/showcase.png"
             alt="About"
           />
         </Box>
@@ -130,6 +130,13 @@ const AboutPage: NextPage = () => {
           This website was made by one person for people like myself, who have
           interests and want to meet up with people, talk about our shared
           interests and swap and sell things I have laying around.
+        </Text>
+        <Text fontSize={26}>
+          Swap Meets is evolving and it wouldn't be what it is without you. Help
+          Swap Meets grow by using this application. It's free and open source,
+          maintained by one person for the people. Over time this website will
+          improve as the user basis grow! Help me out by using this website.
+          Thank you in advance everyone!
         </Text>
       </VStack>
     </>

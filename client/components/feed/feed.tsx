@@ -1,6 +1,13 @@
 import { PostModel } from "../../@types";
 import { useEffect, useState } from "react";
-import { Box, chakra, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  chakra,
+  Heading,
+  HStack,
+  Spinner,
+  VStack,
+} from "@chakra-ui/react";
 
 import Axios from "axios";
 import MeetingCard from "../cards/meeting-card";
@@ -14,7 +21,7 @@ const Feed = () => {
     const getPosts = async () => {
       const { data } = await Axios.get("/posts");
       setPosts(data);
-      setLoading(false);
+      setInterval(() => setLoading(false), 500);
     };
     getPosts();
   }, []);
@@ -22,19 +29,22 @@ const Feed = () => {
   return (
     <>
       {isLoading ? (
-        <Box display="grid" placeItems="center" height="75vh">
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
+        <Box display="grid" placeItems="center" height="55vh">
+          <VStack>
+            <Heading py={2}>Fetching Latest Meetups</Heading>
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          </VStack>
         </Box>
       ) : (
         <>
           {posts && (
-            <chakra.div mt={4}>
+            <chakra.div p={2} mt={4}>
               {posts.map((post) => (
                 <MeetingCard key={post._id} post={post} />
               ))}
