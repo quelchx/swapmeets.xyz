@@ -1,15 +1,11 @@
 import { useRouter } from "next/router";
 import {
-  Avatar,
-  Button,
-  Center,
   chakra,
   Flex,
   HStack,
   Link,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   useColorModeValue,

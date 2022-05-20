@@ -21,10 +21,8 @@ import {
 
 import Axios from "axios";
 import NavList from "./navlist";
-import NavLink from "./navlink";
 import ToggleTheme from "../toggles/theme";
 import NextLink from "next/link";
-import { MdAccountCircle, MdLogin } from "react-icons/md";
 import AuthRoutes from "../auth/auth-routes";
 
 const Navbar = () => {
