@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   Flex,
   Icon,
+  Heading,
 } from "@chakra-ui/react";
 import React, { FormEvent, useRef, useState } from "react";
 import Axios from "axios";
@@ -54,8 +55,7 @@ const ExplorePage: NextPage = () => {
         router.push("/error");
       }
     }
-    // TODO: REMOVE DURING PROD
-    setInterval(() => setLoading(false), 500);
+    setLoading(false);
   };
 
   return (
@@ -64,6 +64,12 @@ const ExplorePage: NextPage = () => {
         title="Explore Meetups"
         description="Search Swap Meets based on location, country and place"
       />
+      <Box p={2}>
+        <Heading>Search Meetups</Heading>
+        <chakra.p pt={3}>
+          Explore Swap Meets based on city, country, place or tags
+        </chakra.p>
+      </Box>
       {!isLoading ? (
         <>
           <form onSubmit={searchPosts}>
@@ -80,7 +86,7 @@ const ExplorePage: NextPage = () => {
                   placeholder="Search For Meetings"
                 />
                 <Box ml={2}>
-                  <Button type="submit">Search</Button>
+                  <Button colorScheme={'blue'} type="submit">Search</Button>
                 </Box>
               </InputGroup>
               <Flex
@@ -90,7 +96,7 @@ const ExplorePage: NextPage = () => {
               >
                 <chakra.p>Search by:</chakra.p>
                 <HStack>
-                  <RadioGroup onChange={setValue} value={value}>
+                  <RadioGroup colorScheme={'green'} onChange={setValue} value={value}>
                     <Stack spacing={3} direction="row">
                       <Radio value="All">All</Radio>
                       <Radio value="city">City</Radio>

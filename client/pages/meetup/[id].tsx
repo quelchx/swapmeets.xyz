@@ -32,6 +32,7 @@ import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
 import NextLink from "next/link";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
+import Head from "../../components/head/head";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await Axios.get("/posts");
@@ -91,6 +92,7 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
 
   return (
     <>
+      <Head title={data.title} description={data.body} />
       <Flex w="100%" direction="column" p={6}>
         <Heading pb={3}>{data.title}</Heading>
         <Flex

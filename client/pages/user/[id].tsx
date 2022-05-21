@@ -28,6 +28,8 @@ import GenericIcon from "../../components/icons/generic-icon";
 import { MdEvent, MdWorkOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { useRouter } from "next/router";
+import Head from "../../components/head/head";
+import capitalize from "../../helpers/captitalize";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
@@ -48,6 +50,10 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
   const router = useRouter();
   return (
     <>
+      <Head
+        title={user.username}
+        description={user.username + " Swap Meets Profile"}
+      />
       <Flex direction={"column"}>
         {/* user heading */}
         <Flex
@@ -142,7 +148,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
               </Box>
             </Flex>
             <VStack px="6" py={2} spacing={4} alignItems={"flex-start"}>
-              <Heading>Your Posts</Heading>
+              <Heading>{capitalize(user.username)} Posts</Heading>
               {meetings.map((post: any) => (
                 <MeetingCard key={post._id} post={post} />
               ))}

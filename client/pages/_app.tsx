@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { AuthProvider } from "../context/auth";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, Flex, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import Navbar from "../components/navbar/navbar";

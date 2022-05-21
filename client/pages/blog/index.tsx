@@ -15,6 +15,7 @@ import BlogCard from "../../components/cards/blog-card";
 import BlogHero from "../../components/hero/blog-hero";
 import matter from "gray-matter";
 import { ReactNode } from "react";
+import Head from "../../components/head/head";
 
 export const getStaticProps: GetStaticProps = async () => {
   const files = fs.readdirSync(path.join("content"));
@@ -34,45 +35,50 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 const BlogPage: NextPage = ({ posts }: any) => {
-  console.log(posts);
   return (
-    <Box p={6}>
-      <Heading>Stories by Swap Meets</Heading>
-      <chakra.p py={3} fontSize={22}>
-        Check in to find out what has been going on with Swap Meets. Stay up to
-        date with the latest events by reading our blogs.
-      </chakra.p>
-      <BlogHero />
-      <Divider py={2} />
-      <Grid
-        mt={4}
-        gap={3}
-        templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
-      >
-        <>
-          {posts && (
-            <>
-              {posts.map((post: any) => {
-                const { image, title, excerpt, date, tag } = post.data;
-                const { slug } = post;
-                return (
-                  <GridItem key={slug}>
-                    <BlogCard
-                      tag={tag}
-                      image={image}
-                      title={title}
-                      excerpt={excerpt}
-                      date={date}
-                      slug={slug}
-                    />
-                  </GridItem>
-                );
-              })}
-            </>
-          )}
-        </>
-      </Grid>
-    </Box>
+    <>
+      <Head
+        title="Swap Meets Blog"
+        description="Read up on what has been occuring at Swap Meets"
+      />
+      <Box p={6}>
+        <Heading>Stories by Swap Meets</Heading>
+        <chakra.p py={3} fontSize={22}>
+          Check in to find out what has been going on with Swap Meets. Stay up
+          to date with the latest events by reading our blogs.
+        </chakra.p>
+        <BlogHero />
+        <Divider py={2} />
+        <Grid
+          mt={4}
+          gap={3}
+          templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+        >
+          <>
+            {posts && (
+              <>
+                {posts.map((post: any) => {
+                  const { image, title, excerpt, date, tag } = post.data;
+                  const { slug } = post;
+                  return (
+                    <GridItem key={slug}>
+                      <BlogCard
+                        tag={tag}
+                        image={image}
+                        title={title}
+                        excerpt={excerpt}
+                        date={date}
+                        slug={slug}
+                      />
+                    </GridItem>
+                  );
+                })}
+              </>
+            )}
+          </>
+        </Grid>
+      </Box>
+    </>
   );
 };
 

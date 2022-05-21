@@ -53,7 +53,7 @@ export type Comment = {
   body: string;
   author: Author;
   likes?: [];
-  createdAt: Date
+  createdAt: Date;
 };
 
 export type Data = {
@@ -126,6 +126,7 @@ export interface UserModel extends DocumentResult<UserModel> {
   isAdmin?: boolean;
   avatar?: string;
   socials?: SocialProps;
+  bio?: string;
 }
 
 export interface AuthState {
