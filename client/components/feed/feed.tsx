@@ -21,7 +21,7 @@ const Feed = () => {
     const getPosts = async () => {
       const { data } = await Axios.get("/posts");
       setPosts(data);
-      setInterval(() => setLoading(false), 500);
+      setLoading(false)
     };
     getPosts();
   }, []);

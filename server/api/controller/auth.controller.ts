@@ -89,6 +89,10 @@ export const logout = (_: Request, res: Response) => {
 /** @GET /auth/current-user */
 export const getCurrentUser = (_: Request, res: Response) => {
   const user = res.locals.user;
-  const { isAdmin, ...others } = user._doc;
-  return res.json({ ...others });
+  try {
+    const { isAdmin, ...others } = user._doc;
+    return res.status(200).json({ ...others });
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
 };

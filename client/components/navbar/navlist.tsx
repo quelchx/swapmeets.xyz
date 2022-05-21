@@ -14,6 +14,7 @@ import {
 import NavLink from "./navlink";
 import NavbarRoutes from "../../routes/navbar.routes";
 import { MdSwapHorizontalCircle } from "react-icons/md";
+import React from "react";
 
 const NavList = () => {
   const router = useRouter();
@@ -55,4 +56,4 @@ const NavList = () => {
   );
 };
 
-export default NavList;
+export default React.memo(NavList);

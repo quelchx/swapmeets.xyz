@@ -39,9 +39,8 @@ const BlogPage: NextPage = ({ posts }: any) => {
     <Box p={6}>
       <Heading>Stories by Swap Meets</Heading>
       <chakra.p py={3} fontSize={22}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic aliquam
-        vero dolores, sapiente in, earum fugiat iusto officia distinctio esse
-        quas asperiores ab modi expedita! Illo omnis aut commodi eos.
+        Check in to find out what has been going on with Swap Meets. Stay up to
+        date with the latest events by reading our blogs.
       </chakra.p>
       <BlogHero />
       <Divider py={2} />

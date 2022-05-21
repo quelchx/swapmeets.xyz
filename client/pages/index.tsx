@@ -19,10 +19,12 @@ const HomePage: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (authenticated) {
-      router.push("/feed");
-    }
-  }, [authenticated]);
+    return () => {
+      if (authenticated) {
+        router.push("/feed");
+      }
+    };
+  }, []);
 
   return (
     <>

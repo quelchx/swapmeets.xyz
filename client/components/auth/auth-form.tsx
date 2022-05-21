@@ -67,7 +67,7 @@ const AuthForm = ({ type }: AuthFormType) => {
             dispatch("LOGIN", res.data);
           });
 
-      type === "register" ? router.push("/login") : router.back();
+      type === "register" ? router.push("/login") : router.push("/feed");
     } catch (err: any) {
       const { error } = err.response.data;
       error?.includes("duplicate key")
@@ -236,7 +236,11 @@ const AuthForm = ({ type }: AuthFormType) => {
                   <small>
                     For more information about the terms and conditions please
                     click{" "}
-                    <a href="./terms-and-conditions.md" target="_blank" rel="noreferrer">
+                    <a
+                      href="./terms-and-conditions.md"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       here
                     </a>
                   </small>

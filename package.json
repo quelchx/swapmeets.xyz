@@ -6,8 +6,5 @@
     "stop": "npm run redis-stop && npm run kill"
   },
   "author": "Eric Quelch",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/react-google-recaptcha": "^2.1.5"
-  }
+  "license": "MIT"
 }

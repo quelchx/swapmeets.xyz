@@ -7,7 +7,7 @@ import convertDate from "../../helpers/convert-date";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-``;
+
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = fs.readdirSync(path.join("content"));
@@ -32,8 +32,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return { props: { data, slug, content } };
 };
 
+// not worrying about types for this page
 const BlogPostPage: NextPage = ({ data, content }: any) => {
-  console.log(data, content);
   return (
     <Box p={6}>
       <Heading>{data.title}</Heading>

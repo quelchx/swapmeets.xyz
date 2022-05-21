@@ -31,16 +31,14 @@ const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, loading } = useAuthState();
 
-  const logout = () => {
-    Axios.get("/auth/logout")
-      .then(() => {
-        dispatch("LOGOUT");
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push("/error");
-      });
+  const logout = async () => {
+    try {
+      await Axios.get("/auth/logout");
+      dispatch("LOGOUT");
+      router.reload();
+    } catch (err) {
+      router.push("/error");
+    }
   };
 
   return (

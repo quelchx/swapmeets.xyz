@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon build/index.js",
-    "client": "cd ../client && npm run dev",
+    "prod": "nodemon build/index.js",
+    "server": "nodemon --exec ts-node index.ts",
+    "client": "cd ../client && yarn dev",
     "redis": "redis-server",
-    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run redis\"  --names server,client,redis"
+    "start": "concurrently \"yarn server\" \"yarn client\" \"yarn redis\"  --names server,client,redis"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +46,7 @@
     "@types/redis": "^4.0.11",
     "concurrently": "^7.1.0",
     "nodemon": "^2.0.16",
-    "ts-node": "^10.7.0"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   }
 }
