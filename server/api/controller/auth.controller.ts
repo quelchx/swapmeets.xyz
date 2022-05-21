@@ -51,8 +51,6 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordVerified) return authError(res);
 
     const token: string = jwt.sign({ username }, process.env.JWT_SECRET!);
-
-    // extracting password and isAdmin to remove from JSON return
     const { password, isAdmin, ...others } = user._doc;
 
     res.set(

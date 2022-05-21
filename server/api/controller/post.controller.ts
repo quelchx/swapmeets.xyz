@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { createClient } from "redis";
+// import { createClient } from "redis";
 import Post from "../models/Post";
 
-const client = createClient();
-client.connect();
-client.on("error", () => console.error);
+// const client = createClient();
+// client.connect();
+// client.on("error", () => console.error);
 
 /** @POST /posts */
 export const createPost = async (req: Request, res: Response) => {
