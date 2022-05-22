@@ -20,12 +20,12 @@ type DeleteModalProps = {
   user: UserModel;
 };
 
-const DeleteUserModal = ({ isOpen, onClose, user }: DeleteModalProps) => {
+const DeleteUserModal: React.FC<DeleteModalProps> = (props) => {
   const router = useRouter();
   const dispatch = useAuthDispatch();
   const deleteUser = async () => {
     try {
-      await Axios.delete("/users/" + user._id);
+      await Axios.delete("/users/" + props.user._id);
       dispatch("LOGOUT");
       router.push("/");
     } catch (err) {
@@ -34,7 +34,7 @@ const DeleteUserModal = ({ isOpen, onClose, user }: DeleteModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={props.isOpen} onClose={props.onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Modal Title</ModalHeader>
@@ -47,7 +47,7 @@ const DeleteUserModal = ({ isOpen, onClose, user }: DeleteModalProps) => {
           <Button onClick={deleteUser} colorScheme="red" mr={3}>
             Delete
           </Button>
-          <Button onClick={onClose} variant="outline">
+          <Button onClick={props.onClose} variant="outline">
             Exit
           </Button>
         </ModalFooter>

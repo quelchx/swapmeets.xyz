@@ -60,10 +60,9 @@ const Search = () => {
           <form onSubmit={searchPosts}>
             <VStack alignItems={"flex-start"} p={6}>
               <InputGroup maxW="100%">
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<SearchIcon color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="gray.300" />
+                </InputLeftElement>
                 <Input
                   ref={search}
                   w="full"

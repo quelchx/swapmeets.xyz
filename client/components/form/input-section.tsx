@@ -5,13 +5,13 @@ type InputSectionProps = {
   label: string;
   width?: string | number;
   children: ReactNode;
-}
+};
 
-const InputSection = ({ label, children, width }: InputSectionProps) => {
+const InputSection: React.FC<InputSectionProps> = (props) => {
   return (
-    <FormControl minW={width}>
-      <FormLabel>{label}</FormLabel>
-      {children}
+    <FormControl minW={props.width}>
+      <FormLabel>{props.label}</FormLabel>
+      {props.children}
     </FormControl>
   );
 };

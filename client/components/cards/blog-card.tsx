@@ -7,17 +7,18 @@ import {
   Image,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { ReactNode } from "react";
 
-type BlogArticleProps = {
+interface BlogArticleProps {
   title: string;
-  date: string | Date;
+  date: any;
   excerpt: string;
   image: string;
   slug: string;
-  tag: string
-};
+  tag: string;
+}
 
-const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) => {
+const BlogCard: React.FC<BlogArticleProps> = (props) => {
   return (
     <Flex w="full" alignItems="center" justifyContent="center">
       <Box
@@ -32,7 +33,7 @@ const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) 
           w="full"
           h={64}
           fit="cover"
-          src={image}
+          src={props.image}
           alt="Article"
         />
 
@@ -43,9 +44,9 @@ const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) 
               textTransform="uppercase"
               color={useColorModeValue("brand.600", "brand.400")}
             >
-              {tag}
+              {props.tag}
             </chakra.span>
-            <NextLink href={`/blog/${slug}`}>
+            <NextLink href={`/blog/${props.slug}`}>
               <Link
                 as="div"
                 display="block"
@@ -55,7 +56,7 @@ const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) 
                 mt={2}
                 _hover={{ color: "gray.600", textDecor: "underline" }}
               >
-                {title}
+                {props.title}
               </Link>
             </NextLink>
             <chakra.p
@@ -63,7 +64,7 @@ const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) 
               fontSize="sm"
               color={useColorModeValue("gray.600", "gray.400")}
             >
-              {excerpt}
+              {props.excerpt}
             </chakra.p>
           </Box>
 
@@ -90,7 +91,7 @@ const BlogCard = ({ title, date, excerpt, image, slug, tag }: BlogArticleProps) 
                 fontSize="sm"
                 color={useColorModeValue("gray.600", "gray.300")}
               >
-                {date}
+                {props.date}
               </chakra.span>
             </Flex>
           </Box>

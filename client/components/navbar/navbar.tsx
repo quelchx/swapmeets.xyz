@@ -1,5 +1,8 @@
-import { useAuthDispatch, useAuthState } from "../../context/auth";
+import React, { memo } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { useAuthDispatch, useAuthState } from "../../context/auth";
+
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -19,21 +22,21 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import Axios from "axios";
-import NavList from "./navlist";
-import ToggleTheme from "../toggles/theme";
 import NextLink from "next/link";
-import AuthRoutes from "../auth/auth-routes";
+import NavList from "./navlist";
+import ToggleTheme from "../toggle/theme";
+import AuthRoutes from "./auth-routes";
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const router = useRouter();
   const dispatch = useAuthDispatch();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, loading } = useAuthState();
 
-  const logout = async () => {
+  const logoutUser = async () => {
     try {
-      await Axios.get("/auth/logout");
+      await axios.get("/auth/logout");
       dispatch("LOGOUT");
       router.reload();
     } catch (err) {
@@ -99,7 +102,7 @@ const Navbar = () => {
                 <NextLink href={`/user/${user._id}`}>
                   <MenuItem>Profile</MenuItem>
                 </NextLink>
-                <MenuItem onClick={logout}>Logout</MenuItem>
+                <MenuItem onClick={logoutUser}>Logout</MenuItem>
               </MenuList>
             </Menu>
           )}
@@ -109,7 +112,9 @@ const Navbar = () => {
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} direction="column-reverse" spacing={4}>
-            <NavList />
+            <Box>
+              <NavList />
+            </Box>
             {!loading && (user ? <></> : <AuthRoutes />)}
           </Stack>
         </Box>
@@ -118,4 +123,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

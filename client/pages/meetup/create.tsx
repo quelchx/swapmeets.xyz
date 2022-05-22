@@ -1,6 +1,5 @@
 import "react-datepicker/dist/react-datepicker.css";
 import type { NextPage } from "next";
-import type { FieldReferenceType } from "../../@types";
 import { useAuthState } from "../../context/auth";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
@@ -9,7 +8,6 @@ import {
   Box,
   Heading,
   FormControl,
-  FormLabel,
   Divider,
   Input,
   VStack,
@@ -22,27 +20,29 @@ import Axios from "axios";
 import InputSection from "../../components/form/input-section";
 import DatePicker from "react-datepicker";
 import slugify from "slugify";
-import Head from "../../components/head/head";
+
+type InputRef = React.MutableRefObject<HTMLInputElement>;
 
 const CreateMeetupPage: NextPage = () => {
   const [startDate, setStartDate] = useState(new Date());
 
-  const title = useRef() as FieldReferenceType;
+  const title = useRef() as InputRef;
+  const city = useRef() as InputRef;
+  const country = useRef() as InputRef;
+  const address = useRef() as InputRef;
+  const place = useRef() as InputRef;
+  const time = useRef() as InputRef;
+
   const body = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const city = useRef() as FieldReferenceType;
-  const country = useRef() as FieldReferenceType;
-  const address = useRef() as FieldReferenceType;
-  const place = useRef() as FieldReferenceType;
-  const time = useRef() as FieldReferenceType;
 
   const router = useRouter();
-  const { user } = useAuthState();
+  const { authenticated, user } = useAuthState();
 
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, []);
+    return () => {
+      if (!authenticated) router.push("/login");
+    };
+  }, [authenticated, router]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -67,9 +67,9 @@ const CreateMeetupPage: NextPage = () => {
     });
 
     if (res.status !== 200) {
-      return router.push("/error");
+      router.push("/error");
     } else {
-      return router.push(
+      router.push(
         `/meetup/${slugify(
           `${user._id}-${title.current.value}-${city.current.value}`
         )}`
@@ -81,12 +81,6 @@ const CreateMeetupPage: NextPage = () => {
     <>
       {user && (
         <>
-          <Head
-            title={"Create a Meetup"}
-            description={
-              "Sign in to quickly create a meetup and bring people together"
-            }
-          />
           <Box p={4}>
             <Heading>Create A Meetup</Heading>
             <Text py={2}>Please fill out these fields to create a meetup</Text>

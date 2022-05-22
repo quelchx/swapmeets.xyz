@@ -14,8 +14,6 @@ import {
 import BlogCard from "../../components/cards/blog-card";
 import BlogHero from "../../components/hero/blog-hero";
 import matter from "gray-matter";
-import { ReactNode } from "react";
-import Head from "../../components/head/head";
 
 export const getStaticProps: GetStaticProps = async () => {
   const files = fs.readdirSync(path.join("content"));
@@ -37,10 +35,6 @@ export const getStaticProps: GetStaticProps = async () => {
 const BlogPage: NextPage = ({ posts }: any) => {
   return (
     <>
-      <Head
-        title="Swap Meets Blog"
-        description="Read up on what has been occuring at Swap Meets"
-      />
       <Box p={6}>
         <Heading>Stories by Swap Meets</Heading>
         <chakra.p py={3} fontSize={22}>

@@ -5,11 +5,11 @@ type AttendingIconProps = {
   attending: number;
 };
 
-const AttendingIcon = ({ attending }: AttendingIconProps) => {
+const AttendingIcon: React.FC<AttendingIconProps> = (props) => {
   return (
     <HStack cursor="pointer" spacing={1}>
       <MdEmojiPeople />
-      <chakra.span pt={0.5}>{attending}</chakra.span>
+      <chakra.span pt={0.5}>{props.attending}</chakra.span>
     </HStack>
   );
 };

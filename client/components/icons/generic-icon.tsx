@@ -1,8 +1,11 @@
 import { Box, chakra, HStack } from "@chakra-ui/react";
-import { IconComponent } from "../../@types";
 
-const GenericIcon = ({ icon, text }: IconComponent) => {
-  const Icon = () => icon;
+export type IconComponent = {
+  text: string;
+  icon: JSX.Element;
+};
+const GenericIcon: React.FC<IconComponent> = (props) => {
+  const Icon = () => props.icon;
   return (
     <HStack gap={1} justify="flex-start" alignItems={"center"} width="100%">
       <Box pt={0.5}>
@@ -10,7 +13,7 @@ const GenericIcon = ({ icon, text }: IconComponent) => {
       </Box>
       <Box>
         <chakra.p fontFamily={"monospace"} fontSize={10} pt={0.5}>
-          {text}
+          {props.text}
         </chakra.p>
       </Box>
     </HStack>

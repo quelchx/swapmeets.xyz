@@ -20,7 +20,6 @@ import { useAuthState } from "../../../context/auth";
 
 import Error from "../../../components/error/error";
 import DeleteUserModal from "../../../components/modal/delete-user-modal";
-import Head from "../../../components/head/head";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
@@ -84,7 +83,6 @@ const EditUser: NextPage<any> = ({ data }) => {
         <>
           {user._id === data._id && (
             <>
-              <Head title={"Edit " + user.username} />
               <Box p={6}>
                 <Heading>Edit Your Profile</Heading>
                 <form onSubmit={editUser}>

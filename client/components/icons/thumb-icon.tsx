@@ -6,11 +6,11 @@ type ThumbIconProps = {
   handleClick: () => any;
 };
 
-const ThumbIcon = ({ value, handleClick }: ThumbIconProps) => {
+const ThumbIcon: React.FC<ThumbIconProps> = (props) => {
   return (
-    <HStack cursor="pointer" onClick={handleClick} spacing={1}>
+    <HStack cursor="pointer" onClick={props.handleClick} spacing={1}>
       <MdOutlineThumbUpOffAlt />
-      <chakra.span pt={0.5}>{value}</chakra.span>
+      <chakra.span pt={0.5}>{props.value}</chakra.span>
     </HStack>
   );
 };

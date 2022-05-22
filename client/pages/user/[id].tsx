@@ -1,11 +1,7 @@
-import type { UserModel } from "../../@types";
 import type {
   GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
   NextPage,
 } from "next";
-import NextLink from "next/link";
 import Axios from "axios";
 import {
   Avatar,
@@ -25,10 +21,9 @@ import { useAuthState } from "../../context/auth";
 import MeetingCard from "../../components/cards/meeting-card";
 import { FaCity, FaLocationArrow } from "react-icons/fa";
 import GenericIcon from "../../components/icons/generic-icon";
-import { MdEvent, MdWorkOutline } from "react-icons/md";
+import { MdEvent} from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { useRouter } from "next/router";
-import Head from "../../components/head/head";
 import capitalize from "../../helpers/captitalize";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
@@ -50,10 +45,6 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
   const router = useRouter();
   return (
     <>
-      <Head
-        title={user.username}
-        description={user.username + " Swap Meets Profile"}
-      />
       <Flex direction={"column"}>
         {/* user heading */}
         <Flex

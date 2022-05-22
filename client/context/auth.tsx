@@ -1,22 +1,24 @@
 /** @tsconfig strictNullChecks: false -- warnings were occuring due to user being temporary null */
 import Axios from "axios";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
-import { AuthAction, AuthState, ReactChildren } from "../@types";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { UserModel } from "../@types";
+
+export interface AuthState {
+  user: UserModel | null;
+  loading: boolean;
+  authenticated: boolean;
+}
 
 const StateContext = createContext<AuthState>({
-  authenticated: false,
   user: null,
   loading: true,
+  authenticated: false,
 });
 
-const DispatchContext = createContext(null);
+export type AuthAction = {
+  payload: any;
+  type: string;
+};
 
 const reducer = (state: AuthState, { type, payload }: AuthAction) => {
   switch (type) {
@@ -35,14 +37,18 @@ const reducer = (state: AuthState, { type, payload }: AuthAction) => {
   }
 };
 
-export const AuthProvider = ({ children }: ReactChildren) => {
+const DispatchContext = createContext(null);
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   const [state, defaultDispatch] = useReducer(reducer, {
     user: null,
     authenticated: false,
     loading: true,
   });
-
-  const [isMounted, setMounted] = useState(false);
 
   const dispatch = (type: string, payload?: any) =>
     defaultDispatch({ type, payload });
@@ -68,7 +74,9 @@ export const AuthProvider = ({ children }: ReactChildren) => {
 
   return (
     <DispatchContext.Provider value={dispatch}>
-      <StateContext.Provider value={state}>{children}</StateContext.Provider>
+      <StateContext.Provider value={state}>
+        {props.children}
+      </StateContext.Provider>
     </DispatchContext.Provider>
   );
 };

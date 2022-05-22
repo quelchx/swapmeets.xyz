@@ -5,10 +5,10 @@ type ConfigureCommentProps = {
   color: string;
 };
 
-const ConfigureCommentButton = ({ label, color }: ConfigureCommentProps) => {
+const ConfigureCommentButton: React.FC<ConfigureCommentProps> = (props) => {
   return (
-    <Box _hover={{ color: color }} cursor="pointer">
-      <small>{label}</small>
+    <Box _hover={{ color: props.color }} cursor="pointer">
+      <small>{props.label}</small>
     </Box>
   );
 };

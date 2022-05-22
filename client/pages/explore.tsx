@@ -24,16 +24,15 @@ import { useRouter } from "next/router";
 import MeetingCard from "../components/cards/meeting-card";
 import type { NextPage } from "next";
 import { BsLightningFill } from "react-icons/bs";
-import Head from "../components/head/head";
 
-const ExplorePage: NextPage = () => {
+const Explore: NextPage = () => {
   const [value, setValue] = React.useState("All");
   const [meetings, setMeetings] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
   const router = useRouter();
   const search = useRef() as React.MutableRefObject<HTMLInputElement>;
-
+  const bg = useColorModeValue("white", "gray.800");
   const searchPosts = async (event: FormEvent) => {
     event.preventDefault();
     setLoading(true);
@@ -60,10 +59,6 @@ const ExplorePage: NextPage = () => {
 
   return (
     <>
-      <Head
-        title="Explore Meetups"
-        description="Search Swap Meets based on location, country and place"
-      />
       <Box p={2}>
         <Heading>Search Meetups</Heading>
         <chakra.p pt={3}>
@@ -75,10 +70,9 @@ const ExplorePage: NextPage = () => {
           <form onSubmit={searchPosts}>
             <VStack alignItems={"flex-start"} p={6}>
               <InputGroup maxW="100%">
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<SearchIcon color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none">
+                  <SearchIcon color="gray.300" />
+                </InputLeftElement>
                 <Input
                   ref={search}
                   w="full"
@@ -86,7 +80,9 @@ const ExplorePage: NextPage = () => {
                   placeholder="Search For Meetings"
                 />
                 <Box ml={2}>
-                  <Button colorScheme={'blue'} type="submit">Search</Button>
+                  <Button colorScheme={"blue"} type="submit">
+                    Search
+                  </Button>
                 </Box>
               </InputGroup>
               <Flex
@@ -96,7 +92,11 @@ const ExplorePage: NextPage = () => {
               >
                 <chakra.p>Search by:</chakra.p>
                 <HStack>
-                  <RadioGroup colorScheme={'green'} onChange={setValue} value={value}>
+                  <RadioGroup
+                    colorScheme={"green"}
+                    onChange={setValue}
+                    value={value}
+                  >
                     <Stack spacing={3} direction="row">
                       <Radio value="All">All</Radio>
                       <Radio value="city">City</Radio>
@@ -117,7 +117,7 @@ const ExplorePage: NextPage = () => {
                   maxW="sm"
                   w="full"
                   mx="auto"
-                  bg={useColorModeValue("white", "gray.800")}
+                  bg={bg}
                   shadow="md"
                   rounded="lg"
                   overflow="hidden"
@@ -133,16 +133,10 @@ const ExplorePage: NextPage = () => {
 
                   <Box mx={-3} py={2} px={4}>
                     <Box mx={3}>
-                      <chakra.span
-                        color={useColorModeValue("blue.500", "blue.400")}
-                        fontWeight="bold"
-                      >
+                      <chakra.span color={"blue.500"} fontWeight="bold">
                         No Results
                       </chakra.span>
-                      <chakra.p
-                        color={useColorModeValue("gray.600", "gray.200")}
-                        fontSize="sm"
-                      >
+                      <chakra.p color={"gray.500"} fontSize="sm">
                         Start Searching
                       </chakra.p>
                     </Box>
@@ -177,4 +171,4 @@ const ExplorePage: NextPage = () => {
   );
 };
 
-export default ExplorePage;
+export default Explore;

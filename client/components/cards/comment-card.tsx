@@ -13,32 +13,35 @@ import Axios from "axios";
 import convertDate from "../../helpers/convert-date";
 import ThumbIcon from "../icons/thumb-icon";
 import ConfigureCommentButton from "../buttons/configure-comment";
-import { Author, UserModel } from "../../@types";
 import EditCommentModal from "../modal/edit-comment-modal";
+import { UserModel } from "../../@types";
 
 /** will assign better typing in the future */
 type CommentCardProps = {
-  comment: {
-    _id: string;
-    body: string;
-    author: Author;
-    likes?: [];
-    createdAt?: Date;
-  };
   user: UserModel;
   id: string;
   post: any;
+  comment: {
+    _id: string;
+    body: string;
+    author: {
+      id: string;
+      username: string;
+    };
+    likes?: [];
+    createdAt?: Date;
+  };
 };
 
-const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
+const CommentCard: React.FC<CommentCardProps> = (props) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const likeComment = async () => {
     try {
-      await Axios.put(`/posts/${id}/like-comment`, {
-        user: user.username,
-        comment: comment._id,
+      await Axios.put(`/posts/${props.id}/like-comment`, {
+        user: props.user.username,
+        comment: props.comment._id,
       });
       router.reload();
     } catch (err) {
@@ -48,7 +51,7 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
 
   const deleteComment = async () => {
     try {
-      await Axios.delete(`/posts/comment/delete/${id}?comment=${comment._id}`);
+      await Axios.delete(`/posts/comment/delete/${props.id}?comment=${props.comment._id}`);
       router.reload();
     } catch (err) {
       router.push("/error");
@@ -58,10 +61,9 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
   return (
     <Flex w="full" alignItems="center" justifyContent="center">
       <EditCommentModal
-        comment={comment}
-        post={post}
+        comment={props.comment}
+        post={props.post}
         isOpen={isOpen}
-        onOpen={onOpen}
         onClose={onClose}
       />
       <Box
@@ -79,11 +81,11 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
             fontSize="sm"
             color={useColorModeValue("gray.600", "gray.400")}
           >
-            Written {convertDate(comment.createdAt)}
+            Written {convertDate(props.comment.createdAt)}
           </chakra.span>
-          {user && (
+          {props.user && (
             <>
-              {user._id === comment.author.id && (
+              {props.user._id === props.comment.author.id && (
                 <HStack>
                   <Box onClick={onOpen}>
                     <ConfigureCommentButton label="Edit" color="blue.600" />
@@ -99,30 +101,30 @@ const CommentCard = ({ post, comment, user, id }: CommentCardProps) => {
 
         <Box my={2}>
           <chakra.p mt={2} color={useColorModeValue("gray.600", "gray.300")}>
-            {comment.body}
+            {props.comment.body}
           </chakra.p>
         </Box>
 
         <Flex justifyContent="space-between" alignItems="center">
           <HStack spacing={0.5}>
             <chakra.p>Posted by: </chakra.p>
-            <NextLink href={`/user/${comment.author.id}`}>
+            <NextLink href={`/user/${props.comment.author.id}`}>
               <Link
                 as="div"
                 color={useColorModeValue("gray.700", "gray.200")}
                 fontWeight="700"
                 cursor="pointer"
               >
-                @{comment.author.username}
+                @{props.comment.author.username}
               </Link>
             </NextLink>
           </HStack>
           <Flex alignItems="center">
-            {user ? (
+            {props.user ? (
               <HStack spacing={1} gap={1}>
                 <ThumbIcon
                   handleClick={likeComment}
-                  value={comment.likes.length}
+                  value={props.comment.likes.length}
                 />
               </HStack>
             ) : (

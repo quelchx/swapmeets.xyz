@@ -8,22 +8,27 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import NavLink from "./navlink";
-import NavbarRoutes from "../../routes/navbar.routes";
 import { MdSwapHorizontalCircle } from "react-icons/md";
 import React from "react";
 
+interface RouteProps {
+  href: string;
+  name: string;
+}
+export const NavbarRoutes: Array<RouteProps> = [
+  { href: "/about", name: "About" },
+  { href: "/contact", name: "Contact" },
+];
+
 const NavList = () => {
-  const router = useRouter();
   return (
     <Flex alignItems={"flex-start"}>
       <Menu>
         <MenuButton
           ml={2}
-          mt={{ base: 2, md: 0 }}
           rounded={"full"}
           cursor={"pointer"}
           minW={0}
@@ -38,11 +43,7 @@ const NavList = () => {
             <MenuItem key={`desktop-${route.name}`}>
               <NavLink href={route.href}>
                 <Link
-                  color={
-                    router.asPath === route.href
-                      ? useColorModeValue("blue.600", "blue.200")
-                      : "inherit"
-                  }
+                  as="div"
                   _hover={{ textDecoration: "none" }}
                 >
                   {route?.name}

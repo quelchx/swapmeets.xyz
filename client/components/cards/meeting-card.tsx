@@ -1,6 +1,5 @@
 import { useAuthState } from "../../context/auth";
 import { useRouter } from "next/router";
-import { PostProps } from "../../@types";
 import {
   chakra,
   Box,
@@ -19,10 +18,48 @@ import AttendingIcon from "../icons/attending-icon";
 import convertDate from "../../helpers/convert-date";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
 
-const MeetingCard = ({ post }: PostProps) => {
+interface PostProps {
+  post: {
+    _id?: string;
+    title: string;
+    body: string;
+    author: {
+      id: string;
+      username: string;
+    };
+    likes?: [];
+    meeting: {
+      date: string;
+      time: string;
+      attending?: [];
+      location: {
+        city: string;
+        country: string;
+        place: string;
+        address: string;
+      };
+    };
+    comments?: [
+      {
+        _id: string;
+        body: string;
+        author: {
+          id: string;
+          username: string;
+        };
+        likes?: [];
+        createdAt: Date;
+      }
+    ];
+    slug: string;
+    createdAt?: Date;
+  };
+}
+
+const MeetingCard: React.FC<PostProps> = (props) => {
   const router = useRouter();
   const { user } = useAuthState();
-  const { location, date, time, attending } = post.meeting;
+  const { location, date, time, attending } = props.post.meeting;
 
   return (
     <Flex w="full" my={2} alignItems="center" justifyContent="center">
@@ -66,13 +103,13 @@ const MeetingCard = ({ post }: PostProps) => {
               textDecor: "underline",
             }}
           >
-            {post.title}
+            {props.post.title}
           </Box>
           <chakra.p mt={2} color={useColorModeValue("gray.600", "gray.300")}>
-            {post.body}
+            {props.post.body}
           </chakra.p>
           <chakra.p fontSize={12} my={1}>
-            Posted {convertDate(post.createdAt)}
+            Posted {convertDate(props.post.createdAt)}
           </chakra.p>
           <HStack mt={2}>
             <small>
@@ -84,7 +121,7 @@ const MeetingCard = ({ post }: PostProps) => {
 
         <Flex justifyContent="space-between" alignItems="center" mt={4}>
           <HStack spacing={4}>
-            <NextLink href={`/meetup/${post.slug}`}>
+            <NextLink href={`/meetup/${props.post.slug}`}>
               <Button as={Button} colorScheme={"blue"}>
                 Details
               </Button>
@@ -93,18 +130,18 @@ const MeetingCard = ({ post }: PostProps) => {
               <HStack spacing={1} gap={1}>
                 <ThumbIcon
                   handleClick={() =>
-                    handleLikePost(post._id, user.username, router)
+                    handleLikePost(props.post._id, user.username, router)
                   }
-                  value={post.likes.length}
+                  value={props.post.likes.length}
                 />
                 <Box
                   onClick={() =>
-                    attendEventHandler(post._id, user.username, router)
+                    attendEventHandler(props.post._id, user.username, router)
                   }
                 >
                   <AttendingIcon attending={attending.length} />
                 </Box>
-                <CommentsIcon comments={post.comments.length} />
+                <CommentsIcon comments={props.post.comments.length} />
               </HStack>
             ) : (
               <NextLink href="/login">
@@ -120,16 +157,16 @@ const MeetingCard = ({ post }: PostProps) => {
               size="sm"
               rounded="full"
               display={{ base: "none", sm: "block" }}
-              name={post.author.username}
+              name={props.post.author.username}
             />
-            <NextLink href={`/user/${post.author.id}`}>
+            <NextLink href={`/user/${props.post.author.id}`}>
               <Link
                 as="div"
                 color={useColorModeValue("gray.700", "gray.200")}
                 fontWeight="700"
                 cursor="pointer"
               >
-                {post.author.username}
+                {props.post.author.username}
               </Link>
             </NextLink>
           </Flex>

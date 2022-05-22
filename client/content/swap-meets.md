@@ -7,7 +7,7 @@ author: Eric Quelch
 tag: Welcome
 ---
 
-# Welcome to Swap Meets!
+Welcome to Swap Meets!
 
 Thank you for popping by everybody -- I hope everyone is doing well. 
 

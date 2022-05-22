@@ -1,6 +1,7 @@
-import { HStack, Box, Link } from "@chakra-ui/react";
+import { HStack, Box } from "@chakra-ui/react";
+import Link from "next/link";
+import { memo } from "react";
 import { MdLogin, MdAccountCircle } from "react-icons/md";
-import NavLink from "../navbar/navlink";
 
 const AuthRoutes = () => {
   return (
@@ -9,18 +10,16 @@ const AuthRoutes = () => {
         <Box pl={2}>
           <MdAccountCircle size={24} />
         </Box>
-        {/* register has to be a regular link because the page needs a refresh to register google recaptcha */}
         <Link href="/register">Sign Up</Link>
       </HStack>
       <HStack>
         <Box pl={1}>
           <MdLogin size={24} />
         </Box>
-
-        <NavLink href="/login">Login</NavLink>
+        <Link href="/login">Login</Link>
       </HStack>
     </>
   );
 };
 
-export default AuthRoutes;
+export default memo(AuthRoutes);

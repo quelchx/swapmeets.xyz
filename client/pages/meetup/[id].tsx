@@ -1,4 +1,4 @@
-import type { PostModel, Data, IconComponent } from "../../@types";
+import type { PostModel } from "../../@types";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React, { FormEvent, useRef } from "react";
 import { useRouter } from "next/router";
@@ -32,7 +32,16 @@ import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
 import NextLink from "next/link";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
-import Head from "../../components/head/head";
+
+type IconComponent = {
+  icon: JSX.Element;
+  text: string;
+};
+
+interface DataProps {
+  data: PostModel;
+  slug: string;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await Axios.get("/posts");
@@ -68,7 +77,7 @@ export const MeetingHeadlineItem = ({ icon, text }: IconComponent) => {
   );
 };
 
-const MeetupPostPage: NextPage<Data> = ({ data }) => {
+const MeetupPostPage: NextPage<DataProps> = (props) => {
   const message = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const { user } = useAuthState();
 
@@ -77,7 +86,7 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
   const commentOnPost = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await Axios.put(`/posts/${data._id}/comment`, {
+      await Axios.put(`/posts/${props.data._id}/comment`, {
         body: message.current.value,
         author: {
           id: user._id,
@@ -92,9 +101,8 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
 
   return (
     <>
-      <Head title={data.title} description={data.body} />
       <Flex w="100%" direction="column" p={6}>
-        <Heading pb={3}>{data.title}</Heading>
+        <Heading pb={3}>{props.data.title}</Heading>
         <Flex
           gap={{ base: 1, md: 4 }}
           direction={{ base: "column", md: "row" }}
@@ -102,46 +110,49 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
         >
           <MeetingHeadlineItem
             icon={<FaCity />}
-            text={data.meeting.location.city}
+            text={props.data.meeting.location.city}
           />
           <MeetingHeadlineItem
             icon={<BiLocationPlus />}
-            text={data.meeting.location.country}
+            text={props.data.meeting.location.country}
           />
           <MeetingHeadlineItem
             icon={<BiStreetView />}
-            text={data.meeting.location.address}
+            text={props.data.meeting.location.address}
           />
           <MeetingHeadlineItem
             icon={<BiBuildingHouse />}
-            text={data.meeting.location.place}
+            text={props.data.meeting.location.place}
           />
-          <MeetingHeadlineItem icon={<BiTimeFive />} text={data.meeting.time} />
+          <MeetingHeadlineItem
+            icon={<BiTimeFive />}
+            text={props.data.meeting.time}
+          />
         </Flex>
         <Box mt={5}>
           <Heading pb={3} size={"lg"}>
             Details
           </Heading>
           <chakra.p as={Heading} size={"sm"}>
-            {data.body}
+            {props.data.body}
           </chakra.p>
         </Box>
         {user ? (
           <HStack pt={5}>
             <ThumbIcon
               handleClick={() =>
-                handleLikePost(data._id, user.username, router)
+                handleLikePost(props.data._id, user.username, router)
               }
-              value={data.likes.length}
+              value={props.data.likes.length}
             />
             <Box
               onClick={() =>
-                attendEventHandler(data._id, user.username, router)
+                attendEventHandler(props.data._id, user.username, router)
               }
             >
-              <AttendingIcon attending={data.meeting.attending.length} />
+              <AttendingIcon attending={props.data.meeting.attending.length} />
             </Box>
-            <CommentsIcon comments={data.comments.length} />
+            <CommentsIcon comments={props.data.comments.length} />
           </HStack>
         ) : (
           <NextLink href="/login">
@@ -152,12 +163,12 @@ const MeetupPostPage: NextPage<Data> = ({ data }) => {
         )}
         <VStack align={"flex-start"} gap={2} mt={4}>
           <Heading size={"md"}>Comments</Heading>
-          {data.comments.map((comment: any) => (
+          {props.data.comments.map((comment: any) => (
             <Box w="100%" key={comment._id}>
               <CommentCard
-                post={data}
+                post={props.data}
                 user={user}
-                id={data._id}
+                id={props.data._id}
                 comment={comment}
               />
             </Box>

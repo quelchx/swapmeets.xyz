@@ -1,5 +1,4 @@
 import {
-  useColorModeValue,
   chakra,
   Box,
   Flex,
@@ -8,8 +7,6 @@ import {
 } from "@chakra-ui/react";
 
 const BlogHero = () => {
-  const bg = useColorModeValue("white", "gray.800");
-
   return (
     <chakra.header>
       <Box

@@ -1,4 +1,3 @@
-import { PostModel } from "../../@types";
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -11,6 +10,7 @@ import {
 
 import Axios from "axios";
 import MeetingCard from "../cards/meeting-card";
+import { PostModel } from "../../@types";
 
 const Feed = () => {
   const [posts, setPosts] = useState<PostModel[]>([]);
@@ -21,7 +21,7 @@ const Feed = () => {
     const getPosts = async () => {
       const { data } = await Axios.get("/posts");
       setPosts(data);
-      setLoading(false)
+      setLoading(false);
     };
     getPosts();
   }, []);

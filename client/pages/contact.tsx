@@ -9,7 +9,6 @@ import {
   Heading,
   HStack,
   Input,
-  SimpleGrid,
   Stack,
   Textarea,
   VStack,
@@ -18,7 +17,6 @@ import type { NextPage } from "next";
 import React, { useRef, useState } from "react";
 
 import emailjs from "@emailjs/browser";
-import Head from "../components/head/head";
 
 type Reference<E> = React.MutableRefObject<E>;
 
@@ -49,10 +47,6 @@ const ContactPage: NextPage = () => {
 
   return (
     <>
-      <Head
-        title="Contact Swap Meets"
-        description="Have a question or concern? Maybe you just want to say hello. You can contact Swap Meets here"
-      />
       <form ref={form} onSubmit={sendEmail}>
         <Box p={6}>
           <Box my={2}>
@@ -89,7 +83,7 @@ const ContactPage: NextPage = () => {
               <Stack spacing={1}>
                 <Heading size={"md"}>Request Features?</Heading>
                 <chakra.p>
-                  I'm always open to requests for new features. If you have
+                  I&apos;m always open to requests for new features. If you have
                   something in mind that could possibly benefit Swap Meets,
                   please feel free to contact me here. If your a developer and
                   want to contribute or make a request, you can visit this link

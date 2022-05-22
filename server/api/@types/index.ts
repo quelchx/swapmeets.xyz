@@ -2,46 +2,19 @@ type DocumentResult<T> = {
   _doc: T;
 };
 
-export type Author = {
-  id: string;
-  username: string;
-};
-
-export type Location = {
-  city: string;
-  country: string;
-  place: string;
-  address: string;
-};
-
-export type Meeting = {
-  date: string;
-  time: string;
-  attending?: [];
-  location: Location;
-};
-
-export type Comment = {
-  body: string;
-  author: Author;
-  likes?: number;
-};
-
-export type Socials = {
-  facebook: string;
-  instagram: string;
-  twitter: string;
-  snapchat: string;
-  tiktok: string;
-};
-
 export interface UserModel extends DocumentResult<UserModel> {
   _id?: string;
   username: string;
   email: string;
   password: string;
   bio?: string;
-  socials?: Socials;
+  socials?: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    snapchat: string;
+    tiktok: string;
+  };
   city?: string;
   country?: string;
   isAdmin?: boolean;
@@ -51,9 +24,31 @@ export interface UserModel extends DocumentResult<UserModel> {
 export interface PostModel extends DocumentResult<PostModel> {
   title: string;
   body: string;
-  author: Author;
+  author: {
+    id: string;
+    username: string;
+  };
   likes?: number;
-  meeting: Meeting;
-  comments?: Array<Comment>;
+  meeting: {
+    date: string;
+    time: string;
+    attending?: [];
+    location: {
+      city: string;
+      country: string;
+      place: string;
+      address: string;
+    };
+  };
+  comments?: [
+    {
+      body: string;
+      author: {
+        id: string;
+        username: string;
+      };
+      likes?: number;
+    }
+  ];
   slug: string;
 }

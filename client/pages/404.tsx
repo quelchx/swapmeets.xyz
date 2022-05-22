@@ -1,14 +1,11 @@
 import type { NextPage } from "next";
-import { Box, Heading, Text, Button, chakra } from "@chakra-ui/react";
 
-import NextLink from "next/link";
-import Head from "../components/head/head";
+import Link from "next/link";
+import { Box, Heading, Text, Button, chakra } from "@chakra-ui/react";
 
 const PageNotFound: NextPage = () => {
   return (
     <>
-      <Head title="Page Not Found" description="Couldn't find page" />
-
       <chakra.div display="grid" placeItems="center" height="80vh">
         <Box textAlign="center" py={10} px={6}>
           <Heading
@@ -24,7 +21,7 @@ const PageNotFound: NextPage = () => {
             Page Not Found
           </Text>
           <Text color={"gray.500"} mb={6}>
-            Looks like this page doesn't exist
+            Looks like this page does not exist
           </Text>
 
           <Button
@@ -33,7 +30,7 @@ const PageNotFound: NextPage = () => {
             color="white"
             variant="solid"
           >
-            <NextLink href="/">Go To Home</NextLink>
+            <Link href="/">Go To Home</Link>
           </Button>
         </Box>
       </chakra.div>

@@ -1,6 +1,9 @@
-import { useColorModeValue, Flex, IconButton } from "@chakra-ui/react";
+import { useColorModeValue, Flex, IconButton, FlexProps } from "@chakra-ui/react";
 import { BsArrowBarLeft } from "react-icons/bs";
-import { MobileProps } from "../../@types";
+
+interface MobileProps extends FlexProps {
+  onOpen: () => void;
+}
 
 const MobileMenu = ({ onOpen, ...rest }: MobileProps) => {
   return (
