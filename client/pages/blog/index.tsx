@@ -14,6 +14,8 @@ import {
 import BlogCard from "../../components/cards/blog-card";
 import BlogHero from "../../components/hero/blog-hero";
 import matter from "gray-matter";
+import Page from "../../components/page/page";
+import { BlogPost } from "../../@types";
 
 export const getStaticProps: GetStaticProps = async () => {
   const files = fs.readdirSync(path.join("content"));
@@ -32,9 +34,15 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
-const BlogPage: NextPage = ({ posts }: any) => {
+
+export interface BlogPageProps {
+  posts: [{ data: BlogPost }];
+}
+
+const BlogPage: NextPage<BlogPageProps> = ({ posts }) => {
   return (
     <>
+      <Page title="Blog" description="Swap Meets Blog" />
       <Box p={6}>
         <Heading>Stories by Swap Meets</Heading>
         <chakra.p py={3} fontSize={22}>

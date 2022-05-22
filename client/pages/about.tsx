@@ -13,10 +13,12 @@ import {
 import type { NextPage } from "next";
 
 import NextLink from "next/link";
+import Page from "../components/page/page";
 
 const AboutPage: NextPage = () => {
   return (
     <>
+      <Page title="About" description="About Swap Meets" />
       <Box pos="relative" overflow="hidden">
         <Box maxW="7xl" mx="auto">
           <Box pos="relative" pb={4} w="full" border="solid 1px transparent">
@@ -127,11 +129,11 @@ const AboutPage: NextPage = () => {
           interests and swap and sell things I have laying around.
         </Text>
         <Text fontSize={26}>
-          Swap Meets is evolving and it would not be what it is without you. Help
-          Swap Meets grow by using this application. It&apos;s free and open source,
-          maintained by one person for the people. Over time this website will
-          improve as the user basis grow! Help me out by using this website.
-          Thank you in advance everyone.
+          Swap Meets is evolving and it would not be what it is without you.
+          Help Swap Meets grow by using this application. It&apos;s free and
+          open source, maintained by one person for the people. Over time this
+          website will improve as the user basis grow! Help me out by using this
+          website. Thank you in advance everyone.
         </Text>
       </VStack>
     </>

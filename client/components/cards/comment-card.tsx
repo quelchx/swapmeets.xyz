@@ -14,23 +14,14 @@ import convertDate from "../../helpers/convert-date";
 import ThumbIcon from "../icons/thumb-icon";
 import ConfigureCommentButton from "../buttons/configure-comment";
 import EditCommentModal from "../modal/edit-comment-modal";
-import { UserModel } from "../../@types";
+import { CommentProps, PostModel, UserModel } from "../../@types";
 
 /** will assign better typing in the future */
 type CommentCardProps = {
   user: UserModel;
   id: string;
-  post: any;
-  comment: {
-    _id: string;
-    body: string;
-    author: {
-      id: string;
-      username: string;
-    };
-    likes?: [];
-    createdAt?: Date;
-  };
+  post: PostModel;
+  comment: CommentProps;
 };
 
 const CommentCard: React.FC<CommentCardProps> = (props) => {
@@ -51,7 +42,9 @@ const CommentCard: React.FC<CommentCardProps> = (props) => {
 
   const deleteComment = async () => {
     try {
-      await Axios.delete(`/posts/comment/delete/${props.id}?comment=${props.comment._id}`);
+      await Axios.delete(
+        `/posts/comment/delete/${props.id}?comment=${props.comment._id}`
+      );
       router.reload();
     } catch (err) {
       router.push("/error");

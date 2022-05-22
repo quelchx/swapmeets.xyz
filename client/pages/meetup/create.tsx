@@ -20,6 +20,7 @@ import Axios from "axios";
 import InputSection from "../../components/form/input-section";
 import DatePicker from "react-datepicker";
 import slugify from "slugify";
+import Page from "../../components/page/page";
 
 type InputRef = React.MutableRefObject<HTMLInputElement>;
 
@@ -81,6 +82,10 @@ const CreateMeetupPage: NextPage = () => {
     <>
       {user && (
         <>
+          <Page
+            title="Create Meetup"
+            description="Create a new Swap Meet in your area"
+          />
           <Box p={4}>
             <Heading>Create A Meetup</Heading>
             <Text py={2}>Please fill out these fields to create a meetup</Text>

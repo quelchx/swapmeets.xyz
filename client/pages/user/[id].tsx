@@ -1,7 +1,4 @@
-import type {
-  GetServerSideProps,
-  NextPage,
-} from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Axios from "axios";
 import {
   Avatar,
@@ -21,10 +18,12 @@ import { useAuthState } from "../../context/auth";
 import MeetingCard from "../../components/cards/meeting-card";
 import { FaCity, FaLocationArrow } from "react-icons/fa";
 import GenericIcon from "../../components/icons/generic-icon";
-import { MdEvent} from "react-icons/md";
+import { MdEvent } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { useRouter } from "next/router";
 import capitalize from "../../helpers/captitalize";
+import Page from "../../components/page/page";
+import { MeetingProps, UserModel } from "../../@types";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
@@ -39,12 +38,19 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   };
 };
 
-const UserPage: NextPage<any> = ({ data, meetings }) => {
+interface UserPageProps {
+  data: UserModel;
+  meetings: [MeetingProps];
+}
+
+const UserPage: NextPage<UserPageProps> = ({ data, meetings }) => {
   const { user } = useAuthState();
   const { twitter, instagram, snapchat, facebook } = data.socials;
   const router = useRouter();
+
   return (
     <>
+      <Page title={data.username} description={"About" + data.username} />
       <Flex direction={"column"}>
         {/* user heading */}
         <Flex
@@ -123,15 +129,24 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
                   />
                 </Box>
                 <Box>
-                  <GenericIcon icon={<MdEvent />} text={meetings.length} />
+                  <GenericIcon
+                    icon={<MdEvent />}
+                    text={meetings.length.toLocaleString()}
+                  />
                 </Box>
-                {user?.username === data.username && (
-                  <Box
-                    onClick={() => router.push(`/user/${user._id}/edit`)}
-                    cursor="pointer"
-                  >
-                    <GenericIcon icon={<FiEdit />} text="Edit Profile" />
-                  </Box>
+                {user ? (
+                  <>
+                    {user.username === data.username && (
+                      <Box
+                        onClick={() => router.push(`/user/${user._id}/edit`)}
+                        cursor="pointer"
+                      >
+                        <GenericIcon icon={<FiEdit />} text="Edit Profile" />
+                      </Box>
+                    )}
+                  </>
+                ) : (
+                  <></>
                 )}
               </Flex>
               <Box py={3}>
@@ -139,7 +154,7 @@ const UserPage: NextPage<any> = ({ data, meetings }) => {
               </Box>
             </Flex>
             <VStack px="6" py={2} spacing={4} alignItems={"flex-start"}>
-              <Heading>{capitalize(user.username)} Posts</Heading>
+              <Heading>{capitalize(data.username)} Posts</Heading>
               {meetings.map((post: any) => (
                 <MeetingCard key={post._id} post={post} />
               ))}

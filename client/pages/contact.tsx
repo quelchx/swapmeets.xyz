@@ -17,6 +17,7 @@ import type { NextPage } from "next";
 import React, { useRef, useState } from "react";
 
 import emailjs from "@emailjs/browser";
+import Page from "../components/page/page";
 
 type Reference<E> = React.MutableRefObject<E>;
 
@@ -47,6 +48,7 @@ const ContactPage: NextPage = () => {
 
   return (
     <>
+      <Page title="Contact" description="Contact Swap Meets" />
       <form ref={form} onSubmit={sendEmail}>
         <Box p={6}>
           <Box my={2}>

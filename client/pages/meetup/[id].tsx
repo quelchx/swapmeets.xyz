@@ -1,8 +1,5 @@
 import type { PostModel } from "../../@types";
-import type {
-  GetServerSideProps,
-  NextPage,
-} from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import React, { FormEvent, useRef } from "react";
 import { useRouter } from "next/router";
 import {
@@ -35,6 +32,7 @@ import CommentsIcon from "../../components/icons/comments-icon";
 import CommentCard from "../../components/cards/comment-card";
 import NextLink from "next/link";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
+import Page from "../../components/page/page";
 
 type IconComponent = {
   icon: JSX.Element;
@@ -91,6 +89,7 @@ const MeetupPostPage: NextPage<DataProps> = (props) => {
 
   return (
     <>
+      <Page title={props.data.title} description={props.data.body} />
       <Flex w="100%" direction="column" p={6}>
         <Heading pb={3}>{props.data.title}</Heading>
         <Flex

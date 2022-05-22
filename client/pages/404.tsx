@@ -2,10 +2,12 @@ import type { NextPage } from "next";
 
 import Link from "next/link";
 import { Box, Heading, Text, Button, chakra } from "@chakra-ui/react";
+import Page from "../components/page/page";
 
 const PageNotFound: NextPage = () => {
   return (
     <>
+      <Page title="404" description="Page not found" />
       <chakra.div display="grid" placeItems="center" height="80vh">
         <Box textAlign="center" py={10} px={6}>
           <Heading

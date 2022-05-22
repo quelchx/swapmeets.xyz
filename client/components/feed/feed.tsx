@@ -3,7 +3,6 @@ import {
   Box,
   chakra,
   Heading,
-  HStack,
   Spinner,
   VStack,
 } from "@chakra-ui/react";

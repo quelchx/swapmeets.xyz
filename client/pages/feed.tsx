@@ -3,10 +3,12 @@ import type { NextPage } from "next";
 import Link from "next/link";
 
 import Feed from "../components/feed/feed";
+import Page from "../components/page/page";
 
 const FeedPage: NextPage = () => {
   return (
     <>
+    <Page title='Feed' description='Latest Swap Meet posts'/>
       <Box p={6}>
         <Heading>Latest Meetups</Heading>
         <chakra.p fontSize={20}>

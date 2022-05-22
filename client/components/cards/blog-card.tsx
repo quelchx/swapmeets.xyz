@@ -8,14 +8,10 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ReactNode } from "react";
+import { BlogPost } from "../../@types";
 
-interface BlogArticleProps {
-  title: string;
-  date: any;
-  excerpt: string;
-  image: string;
+interface BlogArticleProps extends BlogPost {
   slug: string;
-  tag: string;
 }
 
 const BlogCard: React.FC<BlogArticleProps> = (props) => {

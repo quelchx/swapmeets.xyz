@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import MeetingCard from "../components/cards/meeting-card";
 import type { NextPage } from "next";
 import { BsLightningFill } from "react-icons/bs";
+import Page from "../components/page/page";
 
 const Explore: NextPage = () => {
   const [value, setValue] = React.useState("All");
@@ -59,6 +60,10 @@ const Explore: NextPage = () => {
 
   return (
     <>
+      <Page
+        title="Explore"
+        description="Browse the latest or previous Swap Meet posts"
+      />
       <Box p={2}>
         <Heading>Search Meetups</Heading>
         <chakra.p pt={3}>

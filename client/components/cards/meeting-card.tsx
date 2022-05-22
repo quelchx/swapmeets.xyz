@@ -17,43 +17,10 @@ import CommentsIcon from "../icons/comments-icon";
 import AttendingIcon from "../icons/attending-icon";
 import convertDate from "../../helpers/convert-date";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
+import { PostModel } from "../../@types";
 
 interface PostProps {
-  post: {
-    _id?: string;
-    title: string;
-    body: string;
-    author: {
-      id: string;
-      username: string;
-    };
-    likes?: [];
-    meeting: {
-      date: string;
-      time: string;
-      attending?: [];
-      location: {
-        city: string;
-        country: string;
-        place: string;
-        address: string;
-      };
-    };
-    comments?: [
-      {
-        _id: string;
-        body: string;
-        author: {
-          id: string;
-          username: string;
-        };
-        likes?: [];
-        createdAt: Date;
-      }
-    ];
-    slug: string;
-    createdAt?: Date;
-  };
+  post: PostModel
 }
 
 const MeetingCard: React.FC<PostProps> = (props) => {

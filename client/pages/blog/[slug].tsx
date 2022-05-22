@@ -7,6 +7,9 @@ import convertDate from "../../helpers/convert-date";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import Page from "../../components/page/page";
+import { BlogPageProps } from ".";
+import { BlogPost } from "../../@types";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = fs.readdirSync(path.join("content"));
@@ -31,10 +34,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return { props: { data, slug, content } };
 };
 
-// not worrying about types for this page
-const BlogPostPage: NextPage = ({ data, content }: any) => {
+interface BlogPostProps {
+  content: string;
+  data: BlogPost;
+}
+
+const BlogPostPage: NextPage<BlogPostProps> = ({ data, content }) => {
   return (
     <>
+      <Page />
       <Box p={6}>
         <Heading>{data.title}</Heading>
         <chakra.p fontSize={18}>
@@ -53,7 +61,10 @@ const BlogPostPage: NextPage = ({ data, content }: any) => {
         </Stack>
         <Divider py={4} />
         <Stack py={5}>
-          <div className="md" dangerouslySetInnerHTML={{__html: content}}></div>
+          <div
+            className="md"
+            dangerouslySetInnerHTML={{ __html: content }}
+          ></div>
         </Stack>
       </Box>
     </>

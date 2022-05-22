@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "../context/auth";
 import NextLink from "next/link";
+import Page from "../components/page/page";
 
 const HomePage: NextPage = () => {
   const { authenticated } = useAuthState();
@@ -27,6 +28,7 @@ const HomePage: NextPage = () => {
 
   return (
     <>
+      <Page />
       <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
         <Flex p={8} flex={1} align={"center"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"lg"}>

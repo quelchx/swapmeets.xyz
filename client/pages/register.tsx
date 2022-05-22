@@ -28,6 +28,7 @@ import type { NextPage } from "next";
 import { credentials, passwordCheck } from "../utils/password-check";
 import Link from "next/link";
 import ToggleTheme from "../components/toggle/theme";
+import Page from "../components/page/page";
 
 const Register: NextPage = () => {
   const router = useRouter();
@@ -70,6 +71,10 @@ const Register: NextPage = () => {
 
   return (
     <Box display="flex">
+      <Page
+        title="Register"
+        description="Register your Swap Meets account today it is quick and simple"
+      />
       <Image
         objectFit={"cover"}
         src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29vbCUyMGFydHxlbnwwfHwwfHw%3D&w=1000&q=80"
