@@ -1,5 +1,8 @@
 import type { PostModel } from "../../@types";
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  NextPage,
+} from "next";
 import React, { FormEvent, useRef } from "react";
 import { useRouter } from "next/router";
 import {
@@ -43,23 +46,10 @@ interface DataProps {
   slug: string;
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await Axios.get("/posts");
-  const data = await res.data;
-  const paths = data.map((post: PostModel) => {
-    return { params: { id: post.slug } };
-  });
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const id = context.params.id;
-  const res = await Axios.get(`/posts/post/${id}`);
-  const data = await res.data;
+  const { data } = await Axios.get(`/posts/post/${id}`);
+
   return {
     props: {
       data,
