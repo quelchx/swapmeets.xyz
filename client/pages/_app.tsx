@@ -1,12 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, Divider } from "@chakra-ui/react";
 
 import axios from "axios";
 import { AuthProvider } from "../context/auth";
 import Navbar from "../components/navbar/navbar";
 import Sidebar from "../components/sidebar/sidebar";
 import { useRouter } from "next/router";
+import Footer from "../components/footer/footer";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -24,6 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Sidebar>
               <Component {...pageProps} />
             </Sidebar>
+            <Divider />
+            <Footer />
           </>
         ) : (
           <Component {...pageProps} />

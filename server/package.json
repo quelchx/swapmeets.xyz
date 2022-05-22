@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prod": "nodemon build/index.js",
-    "server": "nodemon --exec ts-node index.ts",
-    "client": "cd ../client && yarn dev",
-    "redis": "redis-server",
-    "start": "concurrently \"yarn server\" \"yarn client\" \"yarn redis\"  --names server,client,redis"
+    "start": "nodemon build/index.js",
+    "server:dev": "nodemon --exec ts-node index.ts",
+    "client:dev": "cd ../client && yarn dev",
+    "start:dev": "concurrently \"yarn server:dev\" \"yarn client:dev\" --names server,client"
   },
   "keywords": [],
   "author": "",

@@ -67,7 +67,7 @@ const Login: NextPage = () => {
           <ToggleTheme />
         </Box>
         <chakra.form onSubmit={handleLogin} mx={3} pl={{ sm: 8, md: 0 }}>
-          <VStack alignItems={"flex-start"} spacing={3}>
+          <VStack w={'80%'} alignItems={"flex-start"} spacing={3}>
             <Box pb={1} gap={2}>
               <Heading>Login to your account</Heading>
               <chakra.p py={2} w={"80%"}>

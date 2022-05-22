@@ -67,9 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   }
 
   useEffect(() => {
-    return () => {
-      loadUser();
-    };
+    loadUser();
   }, []);
 
   return (
