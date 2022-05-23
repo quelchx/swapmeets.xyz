@@ -11,7 +11,7 @@ import userRoutes from "./api/routes/user.routes";
 import postRoutes from "./api/routes/post.routes";
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 const { connect, connection } = mongoose;
 
 app.use(express.json());
@@ -28,7 +28,7 @@ app.use(
 );
 app.use(express.static("public"));
 
-app.get("/", (_: Request, res: Response) => {
+app.get("/api", (_: Request, res: Response) => {
   return res.send(`Server is running`);
 });
 
