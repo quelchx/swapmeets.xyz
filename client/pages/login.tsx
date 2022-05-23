@@ -44,7 +44,7 @@ const Login: NextPage = () => {
         password: password.current.value,
       });
       dispatch("LOGIN", data);
-      router.push("/");
+      router.push("/feed");
     } catch (err: any) {
       setError("Please try again");
     }
@@ -52,7 +52,7 @@ const Login: NextPage = () => {
 
   const { authenticated } = useAuthState();
 
-  if (authenticated) router.push("/");
+  if (authenticated) router.push("/feed");
 
   return (
     <>

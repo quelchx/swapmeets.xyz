@@ -66,7 +66,7 @@ const Register: NextPage = () => {
   };
 
   if (authenticated) {
-    router.push("/");
+    router.push("/feed");
   }
 
   return (
