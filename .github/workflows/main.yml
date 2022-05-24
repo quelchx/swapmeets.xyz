@@ -13,7 +13,7 @@ jobs:
         with:
           command: |
             cd /var/www/swapmeets.xyz
-            sudo git pull
+            git pull
             cd server
             yarn
             npx tsc
