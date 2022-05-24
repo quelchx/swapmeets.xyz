@@ -50,7 +50,7 @@ var auth_routes_1 = __importDefault(require("./api/routes/auth.routes"));
 var user_routes_1 = __importDefault(require("./api/routes/user.routes"));
 var post_routes_1 = __importDefault(require("./api/routes/post.routes"));
 var app = (0, express_1.default)();
-var PORT = process.env.PORT || 4000;
+var PORT = process.env.PORT || 5000;
 var connect = mongoose_1.default.connect, connection = mongoose_1.default.connection;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
@@ -63,7 +63,7 @@ app.use((0, cors_1.default)({
     optionsSuccessStatus: 200,
 }));
 app.use(express_1.default.static("public"));
-app.get("/", function (_, res) {
+app.get("/api", function (_, res) {
     return res.send("Server is running");
 });
 app.use("/api/auth", auth_routes_1.default);
