@@ -9,7 +9,7 @@ import Sidebar from "../components/sidebar/sidebar";
 import { useRouter } from "next/router";
 // import Footer from "../components/footer/footer";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL + '/api';
 axios.defaults.withCredentials = true;
 
 function MyApp({ Component, pageProps }: AppProps) {
