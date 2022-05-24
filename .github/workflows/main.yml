@@ -15,13 +15,13 @@ jobs:
             cd /var/www/swapmeets.xyz
             sudo git pull
             cd server
-            sudo yarn
-            sudo npx tsc
+            yarn
+            npx tsc
             pm2 restart server
             cd ..
             cd client
-            sudo yarn
-            sudo yarn build
+            yarn
+            yarn build
             pm2 restart client
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
