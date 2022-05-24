@@ -18,9 +18,9 @@ import AttendingIcon from "../icons/attending-icon";
 import convertDate from "../../helpers/convert-date";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
 import { PostModel } from "../../@types";
-
+import dayjs from "dayjs";
 interface PostProps {
-  post: PostModel
+  post: PostModel;
 }
 
 const MeetingCard: React.FC<PostProps> = (props) => {
@@ -80,7 +80,7 @@ const MeetingCard: React.FC<PostProps> = (props) => {
           </chakra.p>
           <HStack mt={2}>
             <small>
-              <strong>Event {convertDate(date)}</strong>
+              <strong>Event {dayjs(date).format('MMM DD YYYY')}</strong>
             </small>
             <small>@{time}</small>
           </HStack>

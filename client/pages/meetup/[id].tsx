@@ -33,6 +33,7 @@ import CommentCard from "../../components/cards/comment-card";
 import NextLink from "next/link";
 import { attendEventHandler, handleLikePost } from "../../lib/event-handlers";
 import Page from "../../components/page/page";
+import { BsTrash } from "react-icons/bs";
 
 type IconComponent = {
   icon: JSX.Element;
@@ -87,6 +88,15 @@ const MeetupPostPage: NextPage<DataProps> = (props) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await Axios.delete(`/posts/${props.data._id}`);
+      router.push("/feed");
+    } catch (err) {
+      router.push("/error");
+    }
+  };
+
   return (
     <>
       <Page title={props.data.title} description={props.data.body} />
@@ -117,6 +127,17 @@ const MeetupPostPage: NextPage<DataProps> = (props) => {
             icon={<BiTimeFive />}
             text={props.data.meeting.time}
           />
+          {user && (
+            <>
+              {user._id === props.data.author.id && (
+                <>
+                  <Box onClick={handleDelete} pt="0.5px" cursor="pointer">
+                    <BsTrash />
+                  </Box>
+                </>
+              )}
+            </>
+          )}
         </Flex>
         <Box mt={5}>
           <Heading pb={3} size={"lg"}>

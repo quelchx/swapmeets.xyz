@@ -42,7 +42,7 @@ interface BlogPostProps {
 const BlogPostPage: NextPage<BlogPostProps> = ({ data, content }) => {
   return (
     <>
-      <Page />
+      <Page title={data.title} description={data.excerpt} />
       <Box p={6}>
         <Heading>{data.title}</Heading>
         <chakra.p fontSize={18}>
