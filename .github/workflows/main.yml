@@ -11,7 +11,18 @@ jobs:
       - name: Rebuild app
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: ls -la
+          command: |
+            cd /var/www/swapmeets.xyz
+            sudo git pull
+            cd server
+            sudo yarn
+            sudo npx tsc
+            pm2 restart server
+            cd ..
+            cd client
+            sudo yarn
+            sudo yarn build
+            pm2 restart client
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
