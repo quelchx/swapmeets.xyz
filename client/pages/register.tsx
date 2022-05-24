@@ -120,17 +120,17 @@ const Register: NextPage = () => {
               <Divider my={2} w="80%" />
               <chakra.p pt={2}>
                 If you already have an account click{" "}
-                <chakra.span _hover={{ color: "blue.500" }}>
+                <chakra.span fontWeight="bold" _hover={{ color: "blue.500" }}>
                   <Link href="/login">here to login</Link>
                 </chakra.span>{" "}
                 or navigate back to the{" "}
-                <chakra.span _hover={{ color: "blue.500" }}>
+                <chakra.span fontWeight="bold" _hover={{ color: "blue.500" }}>
                   <Link href={"/feed"}>home page</Link>
                 </chakra.span>
               </chakra.p>
             </Box>
             <Box mx="auto">
-              <chakra.details pt={2} pb={0.5} open={false}>
+              <chakra.details pt={2} pb={0.5} open={true}>
                 <chakra.summary
                   fontSize="sm"
                   fontWeight="semibold"

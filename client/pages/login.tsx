@@ -77,7 +77,7 @@ const Login: NextPage = () => {
                 <chakra.p py={2} w={"80%"}>
                   Sign in to get started. If your have forgot your username or
                   password please{" "}
-                  <chakra.span _hover={{ color: "blue.500" }}>
+                  <chakra.span fontWeight="bold" _hover={{ color: "blue.500" }}>
                     <Link href="/contact">click here</Link>
                   </chakra.span>{" "}
                   to contact us to reset your password or username
@@ -85,11 +85,17 @@ const Login: NextPage = () => {
                 <Divider my={2} />
                 <chakra.p pt={2}>
                   If you do not have an account click{" "}
-                  <chakra.span _hover={{ color: "blue.500" }}>
+                  <chakra.span
+                    fontWeight={"semibold"}
+                    _hover={{ color: "blue.500" }}
+                  >
                     <Link href="/register">here to register</Link>
                   </chakra.span>{" "}
                   now or navigate back to the{" "}
-                  <chakra.span _hover={{ color: "blue.500" }}>
+                  <chakra.span
+                    fontWeight={"semibold"}
+                    _hover={{ color: "blue.500" }}
+                  >
                     <Link href="/feed">home page</Link>
                   </chakra.span>
                 </chakra.p>

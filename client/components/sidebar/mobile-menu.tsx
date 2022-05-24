@@ -1,4 +1,9 @@
-import { useColorModeValue, Flex, IconButton, FlexProps } from "@chakra-ui/react";
+import {
+  useColorModeValue,
+  Flex,
+  IconButton,
+  FlexProps,
+} from "@chakra-ui/react";
 import { BsArrowBarLeft } from "react-icons/bs";
 
 interface MobileProps extends FlexProps {
@@ -6,6 +11,7 @@ interface MobileProps extends FlexProps {
 }
 
 const MobileMenu = ({ onOpen, ...rest }: MobileProps) => {
+  const btn = useColorModeValue("gray.600", "gray.400");
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -22,6 +28,8 @@ const MobileMenu = ({ onOpen, ...rest }: MobileProps) => {
       </Text> */}
       <IconButton
         variant="outline"
+        borderColor={btn}
+        colorScheme={"gray"}
         onClick={onOpen}
         aria-label="open menu"
         icon={<BsArrowBarLeft />}

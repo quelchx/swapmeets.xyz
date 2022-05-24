@@ -53,7 +53,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {SidebarRoutes.map((link) => (
-        <SidebarItem href={link.href} key={link.name} icon={link.icon}>
+        <SidebarItem
+          onClick={onClose}
+          href={link.href}
+          key={link.name}
+          icon={link.icon}
+        >
           {link.name}
         </SidebarItem>
       ))}
